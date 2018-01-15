@@ -1,24 +1,35 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   get_next_line.h                                    :+:      :+:    :+:   */
+/*   ft_lstmap.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: vlikhotk <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2017/12/22 13:15:59 by vlikhotk          #+#    #+#             */
-/*   Updated: 2018/01/12 18:02:47 by vlikhotk         ###   ########.fr       */
+/*   Created: 2017/11/16 16:00:51 by vlikhotk          #+#    #+#             */
+/*   Updated: 2017/11/16 16:00:54 by vlikhotk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef FT_PRINTF_H
-# define FT_PRINTF_H
+#include "includes/libft.h"
 
-# include <unistd.h>
-# include <stdlib.h>
-# include <stdarg.h>
+t_list	*ft_lstmap(t_list *lst, t_list *(*f)(t_list *elem))
+{
+	t_list *new;
+	t_list *first;
 
-int ft_printf(const char *format, ...);
-size_t		ft_strlen(const char *s);
-void			ft_putnbr(int n);
-
-#endif
+	if (!lst || !f)
+		return (NULL);
+	if (!(new = (t_list *)malloc(sizeof(t_list))))
+		return (NULL);
+	new = f(lst);
+	first = new;
+	lst = lst->next;
+	while (lst)
+	{
+		new->next = f(lst);
+		new = new->next;
+		lst = lst->next;
+	}
+	new = NULL;
+	return (first);
+}

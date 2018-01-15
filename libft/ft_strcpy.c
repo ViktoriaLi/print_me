@@ -1,24 +1,25 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   get_next_line.h                                    :+:      :+:    :+:   */
+/*   ft_strcpy.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: vlikhotk <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2017/12/22 13:15:59 by vlikhotk          #+#    #+#             */
-/*   Updated: 2018/01/12 18:02:47 by vlikhotk         ###   ########.fr       */
+/*   Created: 2017/11/02 19:43:58 by vlikhotk          #+#    #+#             */
+/*   Updated: 2017/11/02 20:07:08 by vlikhotk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef FT_PRINTF_H
-# define FT_PRINTF_H
+char	*ft_strcpy(char *dst, const char *src)
+{
+	int i;
 
-# include <unistd.h>
-# include <stdlib.h>
-# include <stdarg.h>
-
-int ft_printf(const char *format, ...);
-size_t		ft_strlen(const char *s);
-void			ft_putnbr(int n);
-
-#endif
+	i = 0;
+	while (src[i] != 0)
+	{
+		dst[i] = (char)src[i];
+		i++;
+	}
+	dst[i] = (char)src[i];
+	return (dst);
+}

@@ -1,24 +1,34 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   get_next_line.h                                    :+:      :+:    :+:   */
+/*   ft_memcpy.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: vlikhotk <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2017/12/22 13:15:59 by vlikhotk          #+#    #+#             */
-/*   Updated: 2018/01/12 18:02:47 by vlikhotk         ###   ########.fr       */
+/*   Created: 2017/10/31 18:05:06 by vlikhotk          #+#    #+#             */
+/*   Updated: 2017/11/04 14:21:18 by vlikhotk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef FT_PRINTF_H
-# define FT_PRINTF_H
+#include "includes/libft.h"
 
-# include <unistd.h>
-# include <stdlib.h>
-# include <stdarg.h>
+void	*ft_memcpy(void *dst, const void *src, size_t n)
+{
+	size_t			i;
+	unsigned char	*d_temp;
+	unsigned char	*s_temp;
 
-int ft_printf(const char *format, ...);
-size_t		ft_strlen(const char *s);
-void			ft_putnbr(int n);
-
-#endif
+	i = 0;
+	if (n != 0)
+	{
+		d_temp = (unsigned char *)dst;
+		s_temp = (unsigned char *)src;
+		while (i < n)
+		{
+			d_temp[i] = s_temp[i];
+			i++;
+		}
+		dst = (void *)d_temp;
+	}
+	return (dst);
+}

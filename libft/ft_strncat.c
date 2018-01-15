@@ -1,24 +1,32 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   get_next_line.h                                    :+:      :+:    :+:   */
+/*   ft_strncat.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: vlikhotk <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2017/12/22 13:15:59 by vlikhotk          #+#    #+#             */
-/*   Updated: 2018/01/12 18:02:47 by vlikhotk         ###   ########.fr       */
+/*   Created: 2017/11/02 21:35:30 by vlikhotk          #+#    #+#             */
+/*   Updated: 2017/11/02 21:56:58 by vlikhotk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef FT_PRINTF_H
-# define FT_PRINTF_H
+#include "includes/libft.h"
 
-# include <unistd.h>
-# include <stdlib.h>
-# include <stdarg.h>
+char	*ft_strncat(char *s1, const char *s2, size_t n)
+{
+	int		i;
+	size_t	j;
 
-int ft_printf(const char *format, ...);
-size_t		ft_strlen(const char *s);
-void			ft_putnbr(int n);
-
-#endif
+	i = 0;
+	j = 0;
+	while (s1[i] != 0)
+		i++;
+	while (j < n && s2[j] != 0)
+	{
+		s1[i] = s2[j];
+		i++;
+		j++;
+	}
+	s1[i] = 0;
+	return (s1);
+}

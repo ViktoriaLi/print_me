@@ -1,24 +1,36 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   get_next_line.h                                    :+:      :+:    :+:   */
+/*   ft_strstr.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: vlikhotk <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2017/12/22 13:15:59 by vlikhotk          #+#    #+#             */
-/*   Updated: 2018/01/12 18:02:47 by vlikhotk         ###   ########.fr       */
+/*   Created: 2017/11/04 13:00:37 by vlikhotk          #+#    #+#             */
+/*   Updated: 2017/11/04 13:01:05 by vlikhotk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef FT_PRINTF_H
-# define FT_PRINTF_H
+#include "includes/libft.h"
 
-# include <unistd.h>
-# include <stdlib.h>
-# include <stdarg.h>
+char	*ft_strstr(const char *big, const char *little)
+{
+	int i;
+	int j;
+	int res;
 
-int ft_printf(const char *format, ...);
-size_t		ft_strlen(const char *s);
-void			ft_putnbr(int n);
-
-#endif
+	i = 0;
+	if (little[i] == 0)
+		return (char *)(big);
+	while (big[i] != 0)
+	{
+		res = i;
+		j = 0;
+		while (big[i + j] == little[j] && little[j] != 0 && big[i + j] != 0)
+			j++;
+		if (little[j] == 0)
+			return (char *)(&big[res]);
+		else
+			i++;
+	}
+	return (NULL);
+}

@@ -1,24 +1,39 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   get_next_line.h                                    :+:      :+:    :+:   */
+/*   two_dim_arr_mem.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: vlikhotk <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2017/12/22 13:15:59 by vlikhotk          #+#    #+#             */
-/*   Updated: 2018/01/12 18:02:47 by vlikhotk         ###   ########.fr       */
+/*   Created: 2017/12/12 16:23:14 by vlikhotk          #+#    #+#             */
+/*   Updated: 2017/12/12 16:23:41 by vlikhotk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef FT_PRINTF_H
-# define FT_PRINTF_H
+#include "includes/libft.h"
 
-# include <unistd.h>
-# include <stdlib.h>
-# include <stdarg.h>
+char	**two_dim_arr_mem(char **field, int numb, char c)
+{
+	int i;
+	int j;
 
-int ft_printf(const char *format, ...);
-size_t		ft_strlen(const char *s);
-void			ft_putnbr(int n);
-
-#endif
+	i = 0;
+	field = (char **)malloc(sizeof(char *) * numb);
+	while (i < numb)
+	{
+		field[i] = (char *)malloc(numb);
+		i++;
+	}
+	i = 0;
+	while (i < numb)
+	{
+		j = 0;
+		while (j < numb)
+		{
+			field[i][j] = c;
+			j++;
+		}
+		i++;
+	}
+	return (field);
+}

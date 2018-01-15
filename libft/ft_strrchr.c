@@ -1,24 +1,37 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   get_next_line.h                                    :+:      :+:    :+:   */
+/*   ft_strrchr.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: vlikhotk <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2017/12/22 13:15:59 by vlikhotk          #+#    #+#             */
-/*   Updated: 2018/01/12 18:02:47 by vlikhotk         ###   ########.fr       */
+/*   Created: 2017/11/04 12:59:36 by vlikhotk          #+#    #+#             */
+/*   Updated: 2017/11/04 12:59:51 by vlikhotk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef FT_PRINTF_H
-# define FT_PRINTF_H
+#include "includes/libft.h"
 
-# include <unistd.h>
-# include <stdlib.h>
-# include <stdarg.h>
+char	*ft_strrchr(const char *s, int c)
+{
+	int j;
+	int len;
+	int res;
 
-int ft_printf(const char *format, ...);
-size_t		ft_strlen(const char *s);
-void			ft_putnbr(int n);
-
-#endif
+	j = 0;
+	len = 0;
+	while (s[len] != 0)
+		len++;
+	res = -1;
+	if (c == 0)
+		return (char*)(&s[len]);
+	while (j < len)
+	{
+		if (s[j] == c)
+			res = j;
+		j++;
+	}
+	if (res != -1)
+		return (char*)(&s[res]);
+	return (NULL);
+}

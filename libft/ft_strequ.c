@@ -1,24 +1,38 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   get_next_line.h                                    :+:      :+:    :+:   */
+/*   ft_strequ.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: vlikhotk <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2017/12/22 13:15:59 by vlikhotk          #+#    #+#             */
-/*   Updated: 2018/01/12 18:02:47 by vlikhotk         ###   ########.fr       */
+/*   Created: 2017/11/01 16:11:29 by vlikhotk          #+#    #+#             */
+/*   Updated: 2017/11/01 16:20:01 by vlikhotk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef FT_PRINTF_H
-# define FT_PRINTF_H
+int		ft_strequ(char const *s1, char const *s2)
+{
+	int i;
+	int j;
 
-# include <unistd.h>
-# include <stdlib.h>
-# include <stdarg.h>
-
-int ft_printf(const char *format, ...);
-size_t		ft_strlen(const char *s);
-void			ft_putnbr(int n);
-
-#endif
+	i = 0;
+	j = 0;
+	if (s1 && s2)
+	{
+		while (s1[i] != 0)
+			i++;
+		while (s2[j] != 0)
+			j++;
+		if (i != j)
+			return (0);
+		i = 0;
+		while (s1[i] != 0)
+		{
+			if (s1[i] != s2[i])
+				return (0);
+			i++;
+		}
+		return (1);
+	}
+	return (0);
+}

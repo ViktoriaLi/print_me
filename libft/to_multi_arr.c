@@ -1,24 +1,40 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   get_next_line.h                                    :+:      :+:    :+:   */
+/*   to_multi_arr.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: vlikhotk <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2017/12/22 13:15:59 by vlikhotk          #+#    #+#             */
-/*   Updated: 2018/01/12 18:02:47 by vlikhotk         ###   ########.fr       */
+/*   Created: 2017/12/11 18:05:35 by vlikhotk          #+#    #+#             */
+/*   Updated: 2017/12/11 18:10:04 by vlikhotk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef FT_PRINTF_H
-# define FT_PRINTF_H
+int	to_multi_arr(char *buf, char ****mult_ar, int strs, int symbs)
+{
+	int i;
+	int j;
+	int k;
+	int l;
 
-# include <unistd.h>
-# include <stdlib.h>
-# include <stdarg.h>
-
-int ft_printf(const char *format, ...);
-size_t		ft_strlen(const char *s);
-void			ft_putnbr(int n);
-
-#endif
+	i = 0;
+	l = 0;
+	while (buf[l] != 0)
+	{
+		j = 0;
+		while (j < strs)
+		{
+			k = 0;
+			while (k < symbs)
+			{
+				(*mult_ar)[i][j][k] = buf[l++];
+				k++;
+			}
+			l++;
+			j++;
+		}
+		l++;
+		i++;
+	}
+	return (i);
+}
