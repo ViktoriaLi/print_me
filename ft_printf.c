@@ -7,8 +7,14 @@
 	//the precision
 	// flags hh, h, l, ll, j, et z.
 
-void check_type(char flag)
+void check_type(char type)
 {
+	int (type == 's' || type == 'S' || type == 'p' || type == 'D' ||
+	 type == 'i' || type == 'o' || type == 'O' || type == 'u' ||
+ 	type == 'U' || type == 'x' || type == 'X' || type == 'c' || type == 'C')
+		return (type);
+	else
+		return (0);
 }
 
 void check_size(char size)
@@ -24,10 +30,18 @@ void check_width(char width)
 
 }
 
-void check_flags(char flag)
+int check_flags(char flag)
 {
 	if (flag == '+')
+	{
 		write(1, "+", 1);
+		return (flag);
+	}
+	if (flag == '#' || flag == '0' || flag == '-' || flag == ' ')
+	{
+		return (flag);
+	}
+	return (0)
 }
 
 
@@ -108,12 +122,7 @@ int main(void)
 	ft_printf("custom test \"my\"\n");
 	printf("etalon %d %05d\n", 10, 10);
 	printf("real   %d %5d\n", 10, 10);
-	printf ("%6d\n%6d\n%6d\n",123,42,1523);
-	printf ("%-6d\n%-6d\n%-6d\n",123,42,1523);
-	printf ("%6d\n", 123);
-	printf ("%o\n",123);
-	short int d1 = 123;
-	printf ("%+10.6hderetr%d\n", d1);
+
 
 	//ft_printf("custom test \"my\"\n");
 	return (0);
