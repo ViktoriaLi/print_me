@@ -18,6 +18,15 @@
 # include <stdarg.h>
 # include "libft/libft.h"
 
+typedef struct	s_list
+{
+	char flag;
+  int width;
+  int precision;
+  char *length;
+  char specifier;
+}				       t_list;
+
 int ft_printf(const char *format, ...);
 size_t		ft_strlen(const char *s);
 void			ft_putnbr(int n);

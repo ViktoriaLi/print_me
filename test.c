@@ -23,13 +23,13 @@ int main()
 	printf("[%24.5s]\n", BLURB);
 	printf("[%-24.5s]\n", BLURB);*/
 
-	printf ("%6d\n%6d\n%6d\n",123,42,1523);
+	/*printf ("%6d\n%6d\n%6d\n",123,42,1523);
 	printf ("%-6d\n%-6d\n%-6d\n",123,42,1523);
 	printf ("%6d\n", 123);
 	printf ("%o\n",123);
 	short int d1 = 123;
 	printf ("%+10.6hderetr%d\n", d1);
-	printf ("%lggfhfhfgh\n",123);
-
+	printf ("%lggfhfhfgh\n",123);*/
+	printf ("%d\n", 123);
 	return 0;
 }

@@ -17,8 +17,12 @@ void check_type(char type)
 		return (0);
 }
 
-void check_size(char size)
+void check_size(char *size)
 {
+	if (size == "hh" || size == "h" || size == "l" || size == "ll" ||
+		size == "j" || size == "z" || )
+		return (1);
+	return (0)
 }
 
 void check_precision(char precision)
@@ -39,7 +43,7 @@ int check_flags(char flag)
 	}
 	if (flag == '#' || flag == '0' || flag == '-' || flag == ' ')
 	{
-		return (flag);
+		return (1);
 	}
 	return (0)
 }
@@ -47,12 +51,13 @@ int check_flags(char flag)
 
 int ft_printf(const char *format, ...)
 {
-
+	t_list params;
 	int i = 0;
 	va_list ap;
 	char *p;
 	int j = 0;
 	p = (char *)format;
+	params = NULL;
 	va_start(ap, format);
 	int d;
   	char a, c, *s;
@@ -67,6 +72,9 @@ int ft_printf(const char *format, ...)
 		if (p[i] == '%')
 		{
 			i++;
+			if (check_flags(p[i]))
+				params.p = p[i];
+			if ()
 			if (p[i] == '+')
 			{
 				if (p[i + 1] == 'd' || p[i + 1] == 'i')
