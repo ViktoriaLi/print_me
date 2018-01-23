@@ -180,7 +180,7 @@ int ft_printf(const char *format, ...)
 	struct_init(&params);
 	va_start(ap, format);
 	int d;
-  char a, c, *s;
+  	char a, c, *s;
 	wchar_t v, *w;
 	while (p[i] && p[i] != '%')
 	{
@@ -245,8 +245,8 @@ int main(void)
 	printf("real %d %5d\n", 10, 10);
 	printf ("real %+10.6d eretr\n", 123);
 	ft_printf ("custom %+10.6d eretr\n", 123);
-	printf ("real%-*.*d eretr\n", 10, 6, 123);
-	ft_printf ("custom%-*.*d eretr\n", 10, 6, 123);
+	printf ("real %-*.*d eretr\n", 10, 6, 123);
+	ft_printf ("custom %-*.*d eretr\n", 10, 6, 123);
 	//ft_printf("custom %%%s dsfdsfdsf %c %+lld %+i %u %S\n", "string", 'c', 156, 651, 54646, L"abcdef");
 
 	//ft_printf("custom test \"my\"\n");

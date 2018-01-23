@@ -43,7 +43,7 @@ void p_analizator(t_argc params, va_list ap)
   check_stars(&params, ap);
 }
 
-void d_analizator(t_argc params, va_list ap)
+/*void d_analizator(t_argc params, va_list ap)
 {
   int d;
   int len;
@@ -53,7 +53,7 @@ void d_analizator(t_argc params, va_list ap)
   len = params.width - ft_strlen(ft_itoa(d));
   if (params.flag == '+')
     len = len - 1;
-  printf("LEN1 %d\n", len);
+  //printf("LEN1 %d\n", len);
   if (len > 0 && params.flag != '-')
   {
       write(1, " ", len);
@@ -67,8 +67,57 @@ void d_analizator(t_argc params, va_list ap)
   }
   if (params.left)
     ft_putstr(params.left);
-  printf("WIDTH %d\n", params.width);
-  printf("PRECISION %d\n", params.precision);
+  //printf("WIDTH %d\n", params.width);
+  //printf("PRECISION %d\n", params.precision);
+}*/
+
+void d_analizator(t_argc params, va_list ap)
+{
+  int d;
+  int len;
+  int spaces;
+  int zeros;
+  check_stars(&params, ap);
+  d = va_arg(ap, int);
+  len = 0;
+  len = ft_strlen(ft_itoa(d));
+  if (params.flag == '+')
+  {
+    zeros = params.precision - len;
+    if (zeros > 0)
+      spaces = params.width - len - 1 - zeros;
+    else
+      spaces = params.width - len - 1;
+    if (spaces > 0)
+      write(1, " ", spaces);
+    write(1, &params.flag, 1);
+    if (zeros > 0)
+      write(1, "0", zeros);
+    /*if ((params.width - len - 1 - (params.precision - len)) > 0)
+      write(1, " ", (params.width - len - 1 - (params.precision - len)));
+    write(1, &params.flag, 1);
+    if (params.precision > len)
+      write(1, "0", (params.precision - len));*/
+    ft_putnbr(d);
+  }
+  /*if (params.flag == '-')
+  {
+     zeros = params.precision - len;
+    if (zeros > 0)
+      spaces = params.width - len - zeros;
+    else
+      spaces = params.width - len;
+    if (zeros > 0)
+      write(1, "0", zeros);
+    ft_putnbr(d);
+    if (spaces > 0)
+      write(1, " ", spaces);
+  }*/
+  if (params.left)
+    ft_putstr(params.left);
+  //printf("Prec %d\n", params.precision);
+  //printf("Width %d\n", params.width);
+  //printf("LEN %d\n", len);
 }
 
 void D_analizator(t_argc params, va_list ap)
