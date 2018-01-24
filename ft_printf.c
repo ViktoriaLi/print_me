@@ -42,11 +42,6 @@ int check_width(char *width)
 
 int check_flags(char flag)
 {
-	if (flag == '+')
-	/*{
-		write(1, "+", 1);
-		return (flag);
-	}*/
 	if (flag == '+' || flag == '#' || flag == '0' || flag == '-' || flag == ' ')
 	{
 		return (flag);
@@ -99,7 +94,7 @@ void argument_save(char *argv, t_argc *params, va_list ap)
 		(*params).flag = argv[i];
 		i++;
 	}
-	if ((argv[i] >= '0' && argv[i] <= '9') || argv[i] == '*')
+	if (argv[i] == '*' || (argv[i] >= '0' && argv[i] <= '9'))
 	{
 		if (argv[i] == '*')
 			(*params).width = '*';
@@ -119,6 +114,8 @@ void argument_save(char *argv, t_argc *params, va_list ap)
 		while (argv[i] == '*' || (argv[i] >= '0' && argv[i] <= '9'))
 			i++;
 	}
+	else if (argv[i] == '.')
+		i++;
 	check_length(argv[i], argv[i + 1], (*params).length);
 	if ((*params).length[0] != 0)
 	{
@@ -220,12 +217,12 @@ int ft_printf(const char *format, ...)
 		}
 		if (params.one_arg)
 			argument_save(params.one_arg, &params, ap);
-		printf("FLAG %c\n", params.flag);
+		/*printf("FLAG %c\n", params.flag);
 		printf("WIDTH %d\n", params.width);
 		printf("PRECISION %d\n", params.precision);
 		printf("LENGTH %s\n", params.length);
 		printf("SPECIFIER %c\n", params.specifier);
-		printf("LEFT %s\n", params.left);
+		printf("LEFT %s\n", params.left);*/
 		struct_init(&params);
 		i = len;
 	}
@@ -235,18 +232,18 @@ int ft_printf(const char *format, ...)
 
 int main(void)
 {
-	printf("real %%%s dsfdsfdsf %c %+d %+i %u %S\n", "string", 'c', 156, 651, 54646, L"abcdef");
+	printf("real   %%%s dsfdsfdsf %c %+d %+i %u %S\n", "string", 'c', 156, 651, 54646, L"abcdef");
 	ft_printf("custom %%%s dsfdsfdsf %c %+d %+i %u %S\n", "string", 'c', 156, 651, 54646, L"abcdef");
-	printf("real %C\n", 't');
+	printf("real   %C\n", 't');
 	ft_printf("custom %C\n", 't');
-	printf("real test \"my\"\n");
+	printf("real   test \"my\"\n");
 	ft_printf("custom test \"my\"\n");
 	printf("etalon %d %05d\n", 10, 10);
-	printf("real %d %5d\n", 10, 10);
-	printf ("real %+10.6d eretr\n", 123);
+	printf("real   %d %5d\n", 10, 10);
+	printf ("real   %+10.6d eretr\n", 123);
 	ft_printf ("custom %+10.6d eretr\n", 123);
-	printf ("real %-*.*d eretr\n", 10, 6, 123);
-	ft_printf ("custom %-*.*d eretr\n", 10, 6, 123);
+	printf ("real   %-*.*d eretr \n", 10, 6, 123);
+	ft_printf ("custom %-*.*d eretr \n", 10, 6, 123);
 	//ft_printf("custom %%%s dsfdsfdsf %c %+lld %+i %u %S\n", "string", 'c', 156, 651, 54646, L"abcdef");
 
 	//ft_printf("custom test \"my\"\n");
