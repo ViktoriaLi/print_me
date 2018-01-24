@@ -57,12 +57,12 @@ void argument_analize(t_argc params, va_list ap)
 		S_analizator(params, ap);
 	else if (params.specifier == 'p')
 		p_analizator(params, ap);
-	else if (params.specifier == 'd')
+	else if (params.specifier == 'd' || params.specifier == 'i')
 		d_analizator(params, ap);
 	else if (params.specifier == 'D')
 		D_analizator(params, ap);
-	else if (params.specifier == 'i')
-		i_analizator(params, ap);
+	//else if (params.specifier == 'i')
+		//i_analizator(params, ap);
 	else if (params.specifier == 'o')
 		o_analizator(params, ap);
 	else if (params.specifier == 'O')
@@ -232,18 +232,24 @@ int ft_printf(const char *format, ...)
 
 int main(void)
 {
-	printf("real   %%%s dsfdsfdsf %c %+d %+i %u %S\n", "string", 'c', 156, 651, 54646, L"abcdef");
-	ft_printf("custom %%%s dsfdsfdsf %c %+d %+i %u %S\n", "string", 'c', 156, 651, 54646, L"abcdef");
+	printf("real   %%%s dsfdsfdsf %c %+d %+i %u %S|\n", "string", 'c', 156, 651, 54646, L"abcdef");
+	ft_printf("custom %%%s dsfdsfdsf %c %+d %+i %u %S|\n", "string", 'c', 156, 651, 54646, L"abcdef");
 	printf("real   %C\n", 't');
 	ft_printf("custom %C\n", 't');
 	printf("real   test \"my\"\n");
 	ft_printf("custom test \"my\"\n");
-	printf("etalon %d %05d\n", 10, 10);
-	printf("real   %d %5d\n", 10, 10);
-	printf ("real   %+10.6d eretr\n", 123);
-	ft_printf ("custom %+10.6d eretr\n", 123);
-	printf ("real   %-*.*d eretr \n", 10, 6, 123);
-	ft_printf ("custom %-*.*d eretr \n", 10, 6, 123);
+	printf("real   %d %1d\n", 10, 10);
+	ft_printf("custom %d %1d\n", 10, 10);
+	printf("real   %d %.1d\n", 10, 10);
+	ft_printf("custom %d %.1d\n", 10, 10);
+	printf("real string   |%1.5s| |%-5.1s| left \n", "test string", "test string");
+	ft_printf("custom string |%1.5s| |%-5.1s| left\n", "test string", "test string");
+	//printf("real   |%10c|\n", 't');
+	//ft_printf("custom |%10c|\n", 't');
+	printf ("real   %+1.1i eretr\n", 10);
+	ft_printf ("custom %+1.1i eretr\n", 10);
+	//printf ("real   %-*.*i eretr \n", 10, 6, 123);
+	//ft_printf ("custom %-*.*i eretr \n", 10, 6, 123);
 	//ft_printf("custom %%%s dsfdsfdsf %c %+lld %+i %u %S\n", "string", 'c', 156, 651, 54646, L"abcdef");
 
 	//ft_printf("custom test \"my\"\n");

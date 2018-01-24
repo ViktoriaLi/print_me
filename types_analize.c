@@ -12,11 +12,35 @@ void check_stars(t_argc *params, va_list ap)
 void s_analizator(t_argc params, va_list ap)
 {
   char *s;
+  int len;
+  int spaces;
+  int prec;
 
   check_stars(&params, ap);
   s = va_arg(ap, char *);
-
-  write(1, s, ft_strlen(s));
+  len = ft_strlen(s);
+  if (params.precision && params.precision < len)
+    len = params.precision;
+  if (params.flag == '-')
+  {
+    write(1, s, len);
+    if (params.width > len)
+    {
+      spaces = params.width - len;
+      while (spaces--)
+        write(1, " ", 1);
+    }
+  }
+  else
+  {
+    if (params.width > len)
+    {
+      spaces =  params.width - len;
+      while (spaces--)
+        write(1, " ", 1);
+    }
+    write(1, s, len);
+  }
   if (params.left)
     ft_putstr(params.left);
 }
@@ -24,15 +48,44 @@ void s_analizator(t_argc params, va_list ap)
 void S_analizator(t_argc params, va_list ap)
 {
   int j;
+  int len;
+  int spaces;
+  int zeros;
   wchar_t *S;
 
+  j = 0;
+  len = 0;
   check_stars(&params, ap);
   S = va_arg(ap, wchar_t *);
-  j = 0;
-  while (S[j])
+  while(S[len])
+    len++;
+  if (params.flag == '-')
   {
-    write(1, &S[j], 1);
-    j += 1;
+    while(S[j])
+    {
+      write(1, &S[j], 1);
+      j += 1;
+    }
+    if (params.width > len)
+    {
+      spaces = params.width - len;
+      while (spaces--)
+        write(1, " ", 1);
+    }
+  }
+  else
+  {
+    if (params.width > len)
+    {
+      spaces = params.width - len;
+      while (spaces--)
+        write(1, " ", 1);
+    }
+    while(S[j])
+    {
+      write(1, &S[j], 1);
+      j += 1;
+    }
   }
   if (params.left)
     ft_putstr(params.left);
@@ -40,36 +93,11 @@ void S_analizator(t_argc params, va_list ap)
 
 void p_analizator(t_argc params, va_list ap)
 {
+  int len;
+  int spaces;
+  int zeros;
   check_stars(&params, ap);
 }
-
-/*void d_analizator(t_argc params, va_list ap)
-{
-  int d;
-  int len;
-  check_stars(&params, ap);
-  d = va_arg(ap, int);
-  len = 0;
-  len = params.width - ft_strlen(ft_itoa(d));
-  if (params.flag == '+')
-    len = len - 1;
-  //printf("LEN1 %d\n", len);
-  if (len > 0 && params.flag != '-')
-  {
-      write(1, " ", len);
-  }
-  if (params.flag == '+')
-    write(1, &params.flag, 1);
-  ft_putnbr(d);
-  if (len > 0 && params.flag == '-')
-  {
-      write(1, " ", len);
-  }
-  if (params.left)
-    ft_putstr(params.left);
-  //printf("WIDTH %d\n", params.width);
-  //printf("PRECISION %d\n", params.precision);
-}*/
 
 void d_analizator(t_argc params, va_list ap)
 {
@@ -77,6 +105,7 @@ void d_analizator(t_argc params, va_list ap)
   int len;
   int spaces;
   int zeros;
+  zeros = 0;
   check_stars(&params, ap);
   /*printf("FLAG %c\n", params.flag);
   printf("WIDTH %d\n", params.width);
@@ -86,12 +115,27 @@ void d_analizator(t_argc params, va_list ap)
   printf("LEFT %s\n", params.left);*/
   d = va_arg(ap, int);
   len = ft_strlen(ft_itoa(d));
+  if (params.precision > 1)
+    zeros = params.precision - len;
+  if (params.flag == '1')
+  {
+    if (zeros > 0 && params.width > 1)
+      spaces = params.width - len  - zeros;
+    if (zeros <= 0 && params.width > 1)
+      spaces = params.width - len;
+    if (spaces > 0)
+      while (spaces--)
+      write(1, " ", 1);
+    if (zeros > 0)
+      while (zeros--)
+        write(1, "0", 1);
+    ft_putnbr(d);
+  }
   if (params.flag == '+')
   {
-    zeros = params.precision - len;
-    if (zeros > 0)
+    if (zeros > 0 && params.width > 1)
       spaces = params.width - len - 1 - zeros;
-    else
+    if (zeros <= 0 && params.width > 1)
       spaces = params.width - len - 1;
     if (spaces > 0)
       while (spaces--)
@@ -104,10 +148,9 @@ void d_analizator(t_argc params, va_list ap)
   }
   if (params.flag == '-')
   {
-     zeros = params.precision - len;
-    if (zeros > 0)
+    if (zeros > 0 && params.width > 1)
       spaces = params.width - len - zeros;
-    else
+    if (zeros <= 0 && params.width > 1)
       spaces = params.width - len;
     if (zeros > 0)
       while (zeros--)
@@ -127,12 +170,19 @@ void d_analizator(t_argc params, va_list ap)
 
 void D_analizator(t_argc params, va_list ap)
 {
+  int len;
+  int spaces;
+  int zeros;
+
   check_stars(&params, ap);
 }
 
-void i_analizator(t_argc params, va_list ap)
+/*void i_analizator(t_argc params, va_list ap)
 {
   int d;
+  int len;
+  int spaces;
+  int zeros;
 
   check_stars(&params, ap);
   d = va_arg(ap, int);
@@ -141,21 +191,31 @@ void i_analizator(t_argc params, va_list ap)
   ft_putnbr(d);
   if (params.left)
     ft_putstr(params.left);
-}
+}*/
 
 void o_analizator(t_argc params, va_list ap)
 {
+  int len;
+  int spaces;
+  int zeros;
+
   check_stars(&params, ap);
 }
 
 void O_analizator(t_argc params, va_list ap)
 {
+  int len;
+  int spaces;
+  int zeros;
   check_stars(&params, ap);
 }
 
 void u_analizator(t_argc params, va_list ap)
 {
   int d;
+  int len;
+  int spaces;
+  int zeros;
 
   check_stars(&params, ap);
   d = va_arg(ap, int);
@@ -166,37 +226,91 @@ void u_analizator(t_argc params, va_list ap)
 
 void U_analizator(t_argc params, va_list ap)
 {
+  int len;
+  int spaces;
+  int zeros;
+
   check_stars(&params, ap);
 }
 
 void x_analizator(t_argc params, va_list ap)
 {
+  int len;
+  int spaces;
+  int zeros;
+
   check_stars(&params, ap);
 }
 
 void X_analizator(t_argc params, va_list ap)
 {
+  int len;
+  int spaces;
+  int zeros;
+
   check_stars(&params, ap);
 }
 
 void c_analizator(t_argc params, va_list ap)
 {
   char c;
+  int spaces;
 
   check_stars(&params, ap);
   c = va_arg(ap, int);
-  write(1, &c, 1);
+  if (params.flag == '-')
+  {
+    write(1, &c, 1);
+    if (params.width > 1)
+    {
+      spaces = params.width - 1;
+      while (spaces--)
+        write(1, " ", 1);
+    }
+  }
+  else
+  {
+    if (params.width > 1)
+    {
+      spaces = params.width - 1;
+      while (spaces--)
+        write(1, " ", 1);
+    }
+    write(1, &c, 1);
+  }
   if (params.left)
     ft_putstr(params.left);
 }
 
 void C_analizator(t_argc params, va_list ap)
 {
+  int len;
+  int spaces;
+  int zeros;
   wchar_t C;
 
   check_stars(&params, ap);
   C = va_arg(ap, wchar_t);
-  write(1, &C, 1);
+  if (params.flag == '-')
+  {
+    write(1, &C, 1);
+    if (params.width > 1)
+    {
+      spaces = params.width - 1;
+      while (spaces--)
+        write(1, " ", 1);
+    }
+  }
+  else
+  {
+    if (params.width > 1)
+    {
+      spaces = params.width - 1;
+      while (spaces--)
+        write(1, " ", 1);
+    }
+    write(1, &C, 1);
+  }
   if (params.left)
     ft_putstr(params.left);
 }
