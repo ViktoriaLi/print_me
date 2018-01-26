@@ -6,6 +6,8 @@
 	//minimum field-width
 	//the precision
 	// flags hh, h, l, ll, j, et z.
+//flag ' ' is ignored when flag '+' is present
+//flag '0' is ignored when flag '-' is present
 
 int check_specifier(char type)
 {
@@ -40,13 +42,17 @@ int check_width(char *width)
 	return (ft_atoi(width));
 }
 
-int check_flags(char flag)
+void check_flags(char *str, int *i, int *flag)
 {
-	if (flag == '+' || flag == '#' || flag == '0' || flag == '-' || flag == ' ')
+	int j;
+
+	j = 0;
+	while ((str[*i] == '+' || str[*i] == '#' || str[*i] == '0' || str[*i] == '-' || str[*i] == ' ') && j < 5)
 	{
-		return (flag);
+			flag[j] = (int)str[*i];
+			(*i)++;
+			j++;
 	}
-	return (1);
 }
 
 void argument_analize(t_argc params, va_list ap)
@@ -89,11 +95,9 @@ void argument_save(char *argv, t_argc *params, va_list ap)
 	int j = 0;
 	int len = 0;
 
-	if (check_flags(argv[i]) != 1)
-	{
-		(*params).flag = argv[i];
-		i++;
-	}
+	check_flags(argv, &i, (*params).flag);
+	/*printf("int flag %d %d %d %d %d ", params->flag[0], params->flag[1],
+		params->flag[2], params->flag[3], params->flag[4]);*/
 	if (argv[i] == '*' || (argv[i] >= '0' && argv[i] <= '9'))
 	{
 		if (argv[i] == '*')
@@ -152,8 +156,15 @@ void struct_init(t_argc *params)
 {
 	//if ((*params).one_arg != NULL)
 		//free((*params).one_arg);
+	int i;
+
+	i = 0;
 	(*params).one_arg = NULL;
-	(*params).flag = '1';
+	while (i < 6)
+	{
+		(*params).flag[i] = 0;
+		i++;
+	}
   (*params).width = 0;
   (*params).precision = 0;
   (*params).length[0] = 0;
@@ -232,7 +243,7 @@ int ft_printf(const char *format, ...)
 
 int main(void)
 {
-	printf("real   %%%s dsfdsfdsf %c %+d %+i %u %S|\n", "string", 'c', 156, 651, 54646, L"abcdef");
+	/*printf("real   %%%s dsfdsfdsf %c %+d %+i %u %S|\n", "string", 'c', 156, 651, 54646, L"abcdef");
 	ft_printf("custom %%%s dsfdsfdsf %c %+d %+i %u %S|\n", "string", 'c', 156, 651, 54646, L"abcdef");
 	printf("real   %C\n", 't');
 	ft_printf("custom %C\n", 't');
@@ -243,15 +254,20 @@ int main(void)
 	printf("real   %d %.1d\n", 10, 10);
 	ft_printf("custom %d %.1d\n", 10, 10);
 	printf("real string   |%1.5s| |%-5.1s| left \n", "test string", "test string");
-	ft_printf("custom string |%1.5s| |%-5.1s| left\n", "test string", "test string");
+	ft_printf("custom string |%1.5s| |%-5.1s| left\n", "test string", "test string");*/
 	//printf("real   |%10c|\n", 't');
 	//ft_printf("custom |%10c|\n", 't');
-	printf ("real   %+1.1i eretr\n", 10);
-	ft_printf ("custom %+1.1i eretr\n", 10);
+	/*printf ("real   %+10.6i eretr\n", 123);
+	ft_printf ("custom %+10.6i eretr\n", 123);*/
 	//printf ("real   %-*.*i eretr \n", 10, 6, 123);
 	//ft_printf ("custom %-*.*i eretr \n", 10, 6, 123);
 	//ft_printf("custom %%%s dsfdsfdsf %c %+lld %+i %u %S\n", "string", 'c', 156, 651, 54646, L"abcdef");
-
+	/*printf ("real   %+-# 0i eretr\n", 123);
+	ft_printf ("custom %+-# 0i eretr\n", 123);*/
+	printf ("real   %D eretr\n", 123);
+	ft_printf ("custom %D eretr\n", 123);
+	printf ("real   %U eretr\n", 123);
+	ft_printf ("custom %U eretr\n", 123);
 	//ft_printf("custom test \"my\"\n");
 	return (0);
 }

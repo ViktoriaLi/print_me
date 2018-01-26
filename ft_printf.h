@@ -21,7 +21,7 @@
 typedef struct	s_argc
 {
 	char *one_arg;
-	char flag;
+	int flag[6];
   int width;
   int precision;
   char length[3];
@@ -38,7 +38,7 @@ void S_analizator(t_argc params, va_list ap);
 void p_analizator(t_argc params, va_list ap);
 void d_analizator(t_argc params, va_list ap);
 void D_analizator(t_argc params, va_list ap);
-void i_analizator(t_argc params, va_list ap);
+//void i_analizator(t_argc params, va_list ap);
 void o_analizator(t_argc params, va_list ap);
 void O_analizator(t_argc params, va_list ap);
 void u_analizator(t_argc params, va_list ap);

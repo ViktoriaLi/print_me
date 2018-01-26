@@ -1,6 +1,20 @@
 #include "ft_printf.h"
 #include <stdio.h>
 
+int if_flag(int *all_flags, int flag)
+{
+    int i;
+
+    i = 0;
+    while (i < 5)
+    {
+      if (all_flags[i] == flag)
+        return (1);
+      i++;
+    }
+    return (0);
+}
+
 void check_stars(t_argc *params, va_list ap)
 {
   if ((*params).width == '*')
@@ -21,7 +35,7 @@ void s_analizator(t_argc params, va_list ap)
   len = ft_strlen(s);
   if (params.precision && params.precision < len)
     len = params.precision;
-  if (params.flag == '-')
+  if (if_flag(params.flag, '-'))
   {
     write(1, s, len);
     if (params.width > len)
@@ -59,7 +73,7 @@ void S_analizator(t_argc params, va_list ap)
   S = va_arg(ap, wchar_t *);
   while(S[len])
     len++;
-  if (params.flag == '-')
+  if (if_flag(params.flag, '-'))
   {
     while(S[j])
     {
@@ -117,7 +131,7 @@ void d_analizator(t_argc params, va_list ap)
   len = ft_strlen(ft_itoa(d));
   if (params.precision > 1)
     zeros = params.precision - len;
-  if (params.flag == '1')
+  if (params.flag[0] == 0)
   {
     if (zeros > 0 && params.width > 1)
       spaces = params.width - len  - zeros;
@@ -131,7 +145,7 @@ void d_analizator(t_argc params, va_list ap)
         write(1, "0", 1);
     ft_putnbr(d);
   }
-  if (params.flag == '+')
+  if (if_flag(params.flag, '+') && !if_flag(params.flag, '-'))
   {
     if (zeros > 0 && params.width > 1)
       spaces = params.width - len - 1 - zeros;
@@ -140,18 +154,33 @@ void d_analizator(t_argc params, va_list ap)
     if (spaces > 0)
       while (spaces--)
         write(1, " ", 1);
-    write(1, &params.flag, 1);
+    write(1, "+", 1);
     if (zeros > 0)
       while (zeros--)
         write(1, "0", 1);
     ft_putnbr(d);
   }
-  if (params.flag == '-')
+  if (if_flag(params.flag, '-') && !if_flag(params.flag, '-'))
   {
     if (zeros > 0 && params.width > 1)
       spaces = params.width - len - zeros;
     if (zeros <= 0 && params.width > 1)
       spaces = params.width - len;
+    if (zeros > 0)
+      while (zeros--)
+        write(1, "0", 1);
+    ft_putnbr(d);
+    if (spaces > 0)
+      while (spaces--)
+        write(1, " ", 1);
+  }
+  if (if_flag(params.flag, '-') && if_flag(params.flag, '+'))
+  {
+    if (zeros > 0 && params.width > 1)
+      spaces = params.width - len - zeros - 1;
+    if (zeros <= 0 && params.width > 1)
+      spaces = params.width - len - 1;
+    write(1, "+", 1);
     if (zeros > 0)
       while (zeros--)
         write(1, "0", 1);
@@ -170,28 +199,39 @@ void d_analizator(t_argc params, va_list ap)
 
 void D_analizator(t_argc params, va_list ap)
 {
+  long int d;
   int len;
   int spaces;
   int zeros;
 
+  zeros = 0;
   check_stars(&params, ap);
-}
-
-/*void i_analizator(t_argc params, va_list ap)
-{
-  int d;
-  int len;
-  int spaces;
-  int zeros;
-
-  check_stars(&params, ap);
-  d = va_arg(ap, int);
-  if (params.flag == '+')
-    write(1, &params.flag, 1);
+  /*printf("FLAG %c\n", params.flag);
+  printf("WIDTH %d\n", params.width);
+  printf("PRECISION %d\n", params.precision);
+  printf("LENGTH %s\n", params.length);
+  printf("SPECIFIER %c\n", params.specifier);
+  printf("LEFT %s\n", params.left);*/
+  d = va_arg(ap, long int);
+  /*len = ft_strlen(ft_itoa(d));
+  if (params.precision > 1)
+    zeros = params.precision - len;
+  if (params.flag[0] == 0)
+  {
+    if (zeros > 0 && params.width > 1)
+      spaces = params.width - len  - zeros;
+    if (zeros <= 0 && params.width > 1)
+      spaces = params.width - len;
+    if (spaces > 0)
+      while (spaces--)
+      write(1, " ", 1);
+    if (zeros > 0)
+      while (zeros--)
+        write(1, "0", 1);*/
   ft_putnbr(d);
   if (params.left)
     ft_putstr(params.left);
-}*/
+}
 
 void o_analizator(t_argc params, va_list ap)
 {
@@ -226,11 +266,16 @@ void u_analizator(t_argc params, va_list ap)
 
 void U_analizator(t_argc params, va_list ap)
 {
+  unsigned long d;
   int len;
   int spaces;
   int zeros;
 
   check_stars(&params, ap);
+  d = va_arg(ap, unsigned long);
+  ft_putnbr(d);
+  if (params.left)
+    ft_putstr(params.left);
 }
 
 void x_analizator(t_argc params, va_list ap)
@@ -258,7 +303,7 @@ void c_analizator(t_argc params, va_list ap)
 
   check_stars(&params, ap);
   c = va_arg(ap, int);
-  if (params.flag == '-')
+  if (if_flag(params.flag, '-'))
   {
     write(1, &c, 1);
     if (params.width > 1)
@@ -291,7 +336,7 @@ void C_analizator(t_argc params, va_list ap)
 
   check_stars(&params, ap);
   C = va_arg(ap, wchar_t);
-  if (params.flag == '-')
+  if (if_flag(params.flag, '-'))
   {
     write(1, &C, 1);
     if (params.width > 1)
