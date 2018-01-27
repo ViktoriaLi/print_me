@@ -293,10 +293,15 @@ int main(void)
 	//ft_printf("custom %%%s dsfdsfdsf %c %+lld %+i %u %S\n", "string", 'c', 156, 651, 54646, L"abcdef");
 	/*printf ("real   %+-# 0i eretr\n", 123);
 	ft_printf ("custom %+-# 0i eretr\n", 123);*/
-	printf ("real   %+++000  ---###   00050.17hhD eretr\n", 123);
+	/*printf ("real   %+++000  ---###   00050.17hhD eretr\n", 123);
 	ft_printf ("custom %+++000  ---###   00050.17hhD eretr\n", 123);
 	printf ("real   %U eretr\n", 123);
-	ft_printf ("custom %U eretr\n", 123);
-	//ft_printf("custom test \"my\"\n");
+	ft_printf ("custom %U eretr\n", 123);*/
+	/*printf ("real   %X eretr\n", 898549345);
+	ft_printf ("custom %X eretr\n", 898549345);*/
+	/*printf ("real   %o eretr\n", 123);
+	ft_printf ("custom %o eretr\n", 123);
+	printf ("real   %p eretr\n", 123);
+	ft_printf ("custom %p eretr\n", 123);*/
 	return (0);
 }

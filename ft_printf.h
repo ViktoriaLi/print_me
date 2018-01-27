@@ -51,5 +51,8 @@ void c_analizator(t_argc params, va_list ap);
 void C_analizator(t_argc params, va_list ap);
 
 int if_flag(int *all_flags, int flag, int j);
+void print_hex_x(unsigned int nbr);
+void print_hex_X(unsigned int nbr);
+void print_hex_o(unsigned int nbr);
 
 #endif

@@ -206,28 +206,7 @@ void D_analizator(t_argc params, va_list ap)
 
   zeros = 0;
   check_stars(&params, ap);
-  /*printf("FLAG %c\n", params.flag);
-  printf("WIDTH %d\n", params.width);
-  printf("PRECISION %d\n", params.precision);
-  printf("LENGTH %s\n", params.length);
-  printf("SPECIFIER %c\n", params.specifier);
-  printf("LEFT %s\n", params.left);*/
   d = va_arg(ap, long int);
-  /*len = ft_strlen(ft_itoa(d));
-  if (params.precision > 1)
-    zeros = params.precision - len;
-  if (params.flag[0] == 0)
-  {
-    if (zeros > 0 && params.width > 1)
-      spaces = params.width - len  - zeros;
-    if (zeros <= 0 && params.width > 1)
-      spaces = params.width - len;
-    if (spaces > 0)
-      while (spaces--)
-      write(1, " ", 1);
-    if (zeros > 0)
-      while (zeros--)
-        write(1, "0", 1);*/
   ft_putnbr(d);
   if (params.left)
     ft_putstr(params.left);
@@ -235,11 +214,16 @@ void D_analizator(t_argc params, va_list ap)
 
 void o_analizator(t_argc params, va_list ap)
 {
+  unsigned int d;
   int len;
   int spaces;
   int zeros;
 
   check_stars(&params, ap);
+  d = va_arg(ap, unsigned int);
+  print_hex_o(d);
+  if (params.left)
+    ft_putstr(params.left);
 }
 
 void O_analizator(t_argc params, va_list ap)
@@ -280,20 +264,30 @@ void U_analizator(t_argc params, va_list ap)
 
 void x_analizator(t_argc params, va_list ap)
 {
+  unsigned int d;
   int len;
   int spaces;
   int zeros;
 
   check_stars(&params, ap);
+  d = va_arg(ap, unsigned int);
+  print_hex_x(d);
+  if (params.left)
+    ft_putstr(params.left);
 }
 
 void X_analizator(t_argc params, va_list ap)
 {
+  unsigned int d;
   int len;
   int spaces;
   int zeros;
 
   check_stars(&params, ap);
+  d = va_arg(ap, unsigned int);
+  print_hex_X(d);
+  if (params.left)
+    ft_putstr(params.left);
 }
 
 void c_analizator(t_argc params, va_list ap)
