@@ -45,13 +45,41 @@ int check_width(char *width)
 void check_flags(char *str, int *i, int *flag)
 {
 	int j;
+	int k;
+	int *tmp;
 
 	j = 0;
-	while ((str[*i] == '+' || str[*i] == '#' || str[*i] == '0' || str[*i] == '-' || str[*i] == ' ') && j < 5)
+	k = 0;
+	while ((str[*i] == '+' || str[*i] == '#' || str[*i] == '0' || str[*i] == '-' || str[*i] == ' '))
 	{
-			flag[j] = (int)str[*i];
-			(*i)++;
-			j++;
+		tmp[j] = str[*i];
+		j++;
+		(*i)++;
+	}
+	if (if_flag(tmp, '+', j))
+	{
+		flag[k] = '+';
+		k++;
+	}
+	if (if_flag(tmp, '#', j))
+	{
+		flag[k] = '#';
+		k++;
+	}
+	if (if_flag(tmp, '0', j))
+	{
+		flag[k] = '0';
+		k++;
+	}
+	if (if_flag(tmp, '-', j))
+	{
+		flag[k] = '-';
+		k++;
+	}
+	if (if_flag(tmp, ' ', j))
+	{
+		flag[k] = ' ';
+		k++;
 	}
 }
 
@@ -228,12 +256,13 @@ int ft_printf(const char *format, ...)
 		}
 		if (params.one_arg)
 			argument_save(params.one_arg, &params, ap);
-		/*printf("FLAG %c\n", params.flag);
+		printf("FLAG %c %c %c %c %c\n", (char)params.flag[0], (char)params.flag[1],
+		(char)params.flag[2], (char)params.flag[3], (char)params.flag[4]);
 		printf("WIDTH %d\n", params.width);
 		printf("PRECISION %d\n", params.precision);
 		printf("LENGTH %s\n", params.length);
 		printf("SPECIFIER %c\n", params.specifier);
-		printf("LEFT %s\n", params.left);*/
+		printf("LEFT %s\n", params.left);
 		struct_init(&params);
 		i = len;
 	}
@@ -264,8 +293,8 @@ int main(void)
 	//ft_printf("custom %%%s dsfdsfdsf %c %+lld %+i %u %S\n", "string", 'c', 156, 651, 54646, L"abcdef");
 	/*printf ("real   %+-# 0i eretr\n", 123);
 	ft_printf ("custom %+-# 0i eretr\n", 123);*/
-	printf ("real   %D eretr\n", 123);
-	ft_printf ("custom %D eretr\n", 123);
+	printf ("real   %+++000  ---###   00050.17hhD eretr\n", 123);
+	ft_printf ("custom %+++000  ---###   00050.17hhD eretr\n", 123);
 	printf ("real   %U eretr\n", 123);
 	ft_printf ("custom %U eretr\n", 123);
 	//ft_printf("custom test \"my\"\n");

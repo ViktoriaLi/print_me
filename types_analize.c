@@ -1,12 +1,12 @@
 #include "ft_printf.h"
 #include <stdio.h>
 
-int if_flag(int *all_flags, int flag)
+int if_flag(int *all_flags, int flag, int j)
 {
     int i;
 
     i = 0;
-    while (i < 5)
+    while (i < j)
     {
       if (all_flags[i] == flag)
         return (1);
@@ -35,7 +35,7 @@ void s_analizator(t_argc params, va_list ap)
   len = ft_strlen(s);
   if (params.precision && params.precision < len)
     len = params.precision;
-  if (if_flag(params.flag, '-'))
+  if (if_flag(params.flag, '-', FLAG_LIMIT))
   {
     write(1, s, len);
     if (params.width > len)
@@ -73,7 +73,7 @@ void S_analizator(t_argc params, va_list ap)
   S = va_arg(ap, wchar_t *);
   while(S[len])
     len++;
-  if (if_flag(params.flag, '-'))
+  if (if_flag(params.flag, '-', FLAG_LIMIT))
   {
     while(S[j])
     {
@@ -145,7 +145,7 @@ void d_analizator(t_argc params, va_list ap)
         write(1, "0", 1);
     ft_putnbr(d);
   }
-  if (if_flag(params.flag, '+') && !if_flag(params.flag, '-'))
+  if (if_flag(params.flag, '+', FLAG_LIMIT) && !if_flag(params.flag, '-', FLAG_LIMIT))
   {
     if (zeros > 0 && params.width > 1)
       spaces = params.width - len - 1 - zeros;
@@ -160,7 +160,7 @@ void d_analizator(t_argc params, va_list ap)
         write(1, "0", 1);
     ft_putnbr(d);
   }
-  if (if_flag(params.flag, '-') && !if_flag(params.flag, '-'))
+  if (if_flag(params.flag, '-', FLAG_LIMIT) && !if_flag(params.flag, '-', FLAG_LIMIT))
   {
     if (zeros > 0 && params.width > 1)
       spaces = params.width - len - zeros;
@@ -174,7 +174,7 @@ void d_analizator(t_argc params, va_list ap)
       while (spaces--)
         write(1, " ", 1);
   }
-  if (if_flag(params.flag, '-') && if_flag(params.flag, '+'))
+  if (if_flag(params.flag, '-', FLAG_LIMIT) && if_flag(params.flag, '+', FLAG_LIMIT))
   {
     if (zeros > 0 && params.width > 1)
       spaces = params.width - len - zeros - 1;
@@ -303,7 +303,7 @@ void c_analizator(t_argc params, va_list ap)
 
   check_stars(&params, ap);
   c = va_arg(ap, int);
-  if (if_flag(params.flag, '-'))
+  if (if_flag(params.flag, '-', FLAG_LIMIT))
   {
     write(1, &c, 1);
     if (params.width > 1)
@@ -336,7 +336,7 @@ void C_analizator(t_argc params, va_list ap)
 
   check_stars(&params, ap);
   C = va_arg(ap, wchar_t);
-  if (if_flag(params.flag, '-'))
+  if (if_flag(params.flag, '-', FLAG_LIMIT))
   {
     write(1, &C, 1);
     if (params.width > 1)

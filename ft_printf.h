@@ -18,6 +18,8 @@
 # include <stdarg.h>
 # include "libft/libft.h"
 
+# define FLAG_LIMIT 5
+
 typedef struct	s_argc
 {
 	char *one_arg;
@@ -47,5 +49,7 @@ void x_analizator(t_argc params, va_list ap);
 void X_analizator(t_argc params, va_list ap);
 void c_analizator(t_argc params, va_list ap);
 void C_analizator(t_argc params, va_list ap);
+
+int if_flag(int *all_flags, int flag, int j);
 
 #endif
