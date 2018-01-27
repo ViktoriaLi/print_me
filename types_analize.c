@@ -228,10 +228,15 @@ void o_analizator(t_argc params, va_list ap)
 
 void O_analizator(t_argc params, va_list ap)
 {
+  unsigned int d;
   int len;
   int spaces;
   int zeros;
   check_stars(&params, ap);
+  d = va_arg(ap, unsigned int);
+  print_hex_O(d);
+  if (params.left)
+    ft_putstr(params.left);
 }
 
 void u_analizator(t_argc params, va_list ap)

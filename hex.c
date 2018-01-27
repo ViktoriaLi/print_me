@@ -28,9 +28,15 @@ else
 void print_hex_o(unsigned int nbr)
 {
 if (nbr >= 8)
-  print_hex_x(nbr / 8);
+  print_hex_o(nbr / 8);
 if ((nbr % 8) < 10)
   ft_putchar((nbr % 8) + 48);
-else
-  ft_putchar((nbr % 8) - 48);
 }
+
+void print_hex_O(unsigned int nbr)
+{
+  if (nbr >= 8)
+    print_hex_O(nbr / 8);
+  if ((nbr % 8) < 10)
+    ft_putchar((nbr % 8) + 48);
+  }

@@ -297,11 +297,13 @@ int main(void)
 	ft_printf ("custom %+++000  ---###   00050.17hhD eretr\n", 123);
 	printf ("real   %U eretr\n", 123);
 	ft_printf ("custom %U eretr\n", 123);*/
-	/*printf ("real   %X eretr\n", 898549345);
-	ft_printf ("custom %X eretr\n", 898549345);*/
-	/*printf ("real   %o eretr\n", 123);
+	/*printf ("real   %X eretr\n", -42);
+	ft_printf ("custom %X eretr\n", -42);*/
+	printf ("real   %o eretr\n", 123);
 	ft_printf ("custom %o eretr\n", 123);
-	printf ("real   %p eretr\n", 123);
+	/*printf ("real   %p eretr\n", 123);
 	ft_printf ("custom %p eretr\n", 123);*/
+	/*printf ("real   %hd eretr\n", 65);
+	ft_printf ("custom %d eretr\n", 123);*/
 	return (0);
 }
