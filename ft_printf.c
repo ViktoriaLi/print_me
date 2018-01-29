@@ -50,6 +50,7 @@ void check_flags(char *str, int *i, int *flag)
 
 	j = 0;
 	k = 0;
+	tmp = NULL;
 	while ((str[*i] == '+' || str[*i] == '#' || str[*i] == '0' || str[*i] == '-' || str[*i] == ' '))
 	{
 		tmp[j] = str[*i];
@@ -85,9 +86,9 @@ void check_flags(char *str, int *i, int *flag)
 
 void argument_analize(t_argc params, va_list ap)
 {
-	if (params.specifier == 's')
+	if (params.specifier == 's' && params.length[0] != 'l')
 		s_analizator(params, ap);
-	else if (params.specifier == 'S')
+	else if (params.specifier == 'S' || (params.specifier == 's' && params.length[0] == 'l'))
 		S_analizator(params, ap);
 	else if (params.specifier == 'p')
 		p_analizator(params, ap);
@@ -100,7 +101,7 @@ void argument_analize(t_argc params, va_list ap)
 	else if (params.specifier == 'o')
 		o_analizator(params, ap);
 	else if (params.specifier == 'O')
-		O_analizator(params, ap);
+		o_analizator(params, ap);
 	else if (params.specifier == 'u')
 		d_analizator(params, ap);
 	else if (params.specifier == 'U')
@@ -108,7 +109,7 @@ void argument_analize(t_argc params, va_list ap)
 	else if (params.specifier == 'x')
 		x_analizator(params, ap);
 	else if (params.specifier == 'X')
-		X_analizator(params, ap);
+		x_analizator(params, ap);
 	else if (params.specifier == 'c')
 		c_analizator(params, ap);
 	else if (params.specifier == 'C')
@@ -215,9 +216,6 @@ int ft_printf(const char *format, ...)
 	p = (char *)format;
 	struct_init(&params);
 	va_start(ap, format);
-	int d;
-  	char a, c, *s;
-	wchar_t v, *w;
 	while (p[i] && p[i] != '%')
 	{
 		write(1, &p[i], 1);
@@ -256,13 +254,13 @@ int ft_printf(const char *format, ...)
 		}
 		if (params.one_arg)
 			argument_save(params.one_arg, &params, ap);
-		printf("FLAG %c %c %c %c %c\n", (char)params.flag[0], (char)params.flag[1],
+		/*printf("FLAG %c %c %c %c %c\n", (char)params.flag[0], (char)params.flag[1],
 		(char)params.flag[2], (char)params.flag[3], (char)params.flag[4]);
 		printf("WIDTH %d\n", params.width);
 		printf("PRECISION %d\n", params.precision);
 		printf("LENGTH %s\n", params.length);
 		printf("SPECIFIER %c\n", params.specifier);
-		printf("LEFT %s\n", params.left);
+		printf("LEFT %s\n", params.left);*/
 		//printf("RES %d\n", ft_strcmp(params.length, "hh"));
 		struct_init(&params);
 		i = len;
@@ -271,13 +269,13 @@ int ft_printf(const char *format, ...)
 	return (ft_strlen(p));
 }
 
-int main(void)
-{
-	/*printf("real   %%%s dsfdsfdsf %c %+d %+i %u %S|\n", "string", 'c', 156, 651, 54646, L"abcdef");
-	ft_printf("custom %%%s dsfdsfdsf %c %+d %+i %u %S|\n", "string", 'c', 156, 651, 54646, L"abcdef");
-	printf("real   %C\n", 't');
-	ft_printf("custom %C\n", 't');
-	printf("real   test \"my\"\n");
+//int main(void)
+//{
+	/*printf("real   %%%010.20ls dsfdsfdsf %c %+d %+i %u %S|\n", L"string", 'c', 156, 651, 54646, L"abcdef");
+	ft_printf("custom %%%010.20ls dsfdsfdsf %c %+d %+i %u %S|\n", L"string", 'c', 156, 651, 54646, L"abcdef");*/
+	/*printf("real   |%lc|\n", 't');
+	ft_printf("custom |%lc|\n", 't');*/
+	/*printf("real   test \"my\"\n");
 	ft_printf("custom test \"my\"\n");
 	printf("real   %d %1d\n", 10, 10);
 	ft_printf("custom %d %1d\n", 10, 10);
@@ -298,14 +296,12 @@ int main(void)
 	ft_printf ("custom %+++000  ---###   00050.17hhD eretr\n", 123);
 	printf ("real   %U eretr\n", 123);
 	ft_printf ("custom %U eretr\n", 123);*/
-	printf ("real   %O eretr\n", -42);
-	ft_printf ("custom %O eretr\n", -42);
-	/*char *str;
-	printf ("real   %p eretr\n", &str);
-	ft_printf ("custom %p eretr\n", &str);*/
-	/*printf ("real   %p eretr\n", 123);
-	ft_printf ("custom %p eretr\n", 123);*/
+	/*printf ("real   %10x eretr\n", 1422);
+	ft_printf ("custom %10x eretr\n", 1422);*/
+	//char *str;
+	//printf ("real   %p eretr\n", &str);
+	//ft_printf ("custom %p eretr\n", &str);
 	/*printf ("real   % -010.5hhi eretr\n", 65);
 	ft_printf ("custom % -010.5hhi eretr\n", 65);
 	return (0);*/
-}
+//}
