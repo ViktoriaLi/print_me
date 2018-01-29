@@ -25,11 +25,11 @@ void check_length(char length1, char length2, char *dest)
 	length[0] = length1;
 	length[1] = length2;
 	length[2] = 0;
-	if (ft_strcmp(length, "hh") == 0 || ft_strcmp(length, "h") == 0 || ft_strcmp(length, "l") == 0
-	|| ft_strcmp(length, "ll") == 0 || ft_strcmp(length, "j") == 0 || ft_strcmp(length, "z") == 0)
-	{
+	if (ft_strcmp(length, "hh") == 0 || ft_strcmp(length, "ll") == 0)
 		dest = ft_strcpy(dest, length);
-	}
+	else if (length[0] == 'h' || length[0] == 'l' ||
+		length[0] == 'j' || length[0] == 'z')
+		dest[0] = length[0];
 }
 
 int check_precision(char *precision)
@@ -94,7 +94,7 @@ void argument_analize(t_argc params, va_list ap)
 	else if (params.specifier == 'd' || params.specifier == 'i')
 		d_analizator(params, ap);
 	else if (params.specifier == 'D')
-		D_analizator(params, ap);
+		d_analizator(params, ap);
 	//else if (params.specifier == 'i')
 		//i_analizator(params, ap);
 	else if (params.specifier == 'o')
@@ -102,9 +102,9 @@ void argument_analize(t_argc params, va_list ap)
 	else if (params.specifier == 'O')
 		O_analizator(params, ap);
 	else if (params.specifier == 'u')
-		u_analizator(params, ap);
+		d_analizator(params, ap);
 	else if (params.specifier == 'U')
-		U_analizator(params, ap);
+		d_analizator(params, ap);
 	else if (params.specifier == 'x')
 		x_analizator(params, ap);
 	else if (params.specifier == 'X')
@@ -263,6 +263,7 @@ int ft_printf(const char *format, ...)
 		printf("LENGTH %s\n", params.length);
 		printf("SPECIFIER %c\n", params.specifier);
 		printf("LEFT %s\n", params.left);
+		//printf("RES %d\n", ft_strcmp(params.length, "hh"));
 		struct_init(&params);
 		i = len;
 	}
@@ -297,13 +298,14 @@ int main(void)
 	ft_printf ("custom %+++000  ---###   00050.17hhD eretr\n", 123);
 	printf ("real   %U eretr\n", 123);
 	ft_printf ("custom %U eretr\n", 123);*/
-	/*printf ("real   %X eretr\n", -42);
-	ft_printf ("custom %X eretr\n", -42);*/
-	printf ("real   %o eretr\n", 123);
-	ft_printf ("custom %o eretr\n", 123);
+	printf ("real   %O eretr\n", -42);
+	ft_printf ("custom %O eretr\n", -42);
+	/*char *str;
+	printf ("real   %p eretr\n", &str);
+	ft_printf ("custom %p eretr\n", &str);*/
 	/*printf ("real   %p eretr\n", 123);
 	ft_printf ("custom %p eretr\n", 123);*/
-	/*printf ("real   %hd eretr\n", 65);
-	ft_printf ("custom %d eretr\n", 123);*/
-	return (0);
+	/*printf ("real   % -010.5hhi eretr\n", 65);
+	ft_printf ("custom % -010.5hhi eretr\n", 65);
+	return (0);*/
 }
