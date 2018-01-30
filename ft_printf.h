@@ -16,7 +16,7 @@
 # include <unistd.h>
 # include <stdlib.h>
 # include <stdarg.h>
-# include "libft.h"
+//# include "libft.h"
 
 # define FLAG_LIMIT 5
 
@@ -55,5 +55,15 @@ void print_hex_and_oct(unsigned int nbr, t_argc params, unsigned int base);
 void print_hex_X(unsigned int nbr);
 void print_hex_o(unsigned int nbr);
 void print_hex_O(unsigned int nbr);
+
+
+int		ft_strcmp(const char *s1, const char *s2);
+char	*ft_strcpy(char *dst, const char *src);
+int			ft_atoi(const char *str);
+size_t		ft_strlen(const char *s);
+void			ft_putnbr(int n);
+void	ft_putstr(char const *s);
+char			*ft_itoa(int n);
+void	ft_putchar(char c);
 
 #endif

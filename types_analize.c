@@ -207,12 +207,12 @@ void d_analizator(t_argc params, va_list ap)
   int zeros;
   zeros = 0;
   check_stars(&params, ap);
-  /*printf("FLAG %c\n", params.flag);
-  printf("WIDTH %d\n", params.width);
-  printf("PRECISION %d\n", params.precision);
-  printf("LENGTH %s\n", params.length);
-  printf("SPECIFIER %c\n", params.specifier);
-  printf("LEFT %s\n", params.left);*/
+  //printf("FLAG %c\n", params.flag);
+  //printf("WIDTH %d\n", params.width);
+  //printf("PRECISION %d\n", params.precision);
+  //printf("LENGTH %s\n", params.length);
+  //printf("SPECIFIER %c\n", params.specifier);
+  //printf("LEFT %s\n", params.left);
   d = va_arg(ap, intmax_t);
   len = ft_strlen(ft_itoa(d));
   if (params.precision > 1)

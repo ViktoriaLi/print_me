@@ -8,6 +8,8 @@
 	// flags hh, h, l, ll, j, et z.
 //flag ' ' is ignored when flag '+' is present
 //flag '0' is ignored when flag '-' is present
+//если спецсимволы типа перевод строки передан как аргукмент в строку, он должен быть напечатан
+
 
 int check_specifier(char type)
 {
@@ -269,8 +271,8 @@ int ft_printf(const char *format, ...)
 	return (ft_strlen(p));
 }
 
-//int main(void)
-//{
+int main(void)
+{
 	/*printf("real   %%%010.20ls dsfdsfdsf %c %+d %+i %u %S|\n", L"string", 'c', 156, 651, 54646, L"abcdef");
 	ft_printf("custom %%%010.20ls dsfdsfdsf %c %+d %+i %u %S|\n", L"string", 'c', 156, 651, 54646, L"abcdef");*/
 	/*printf("real   |%lc|\n", 't');
@@ -304,4 +306,48 @@ int ft_printf(const char *format, ...)
 	/*printf ("real   % -010.5hhi eretr\n", 65);
 	ft_printf ("custom % -010.5hhi eretr\n", 65);
 	return (0);*/
-//}
+
+	//Тесты не проходят;
+	//ft_printf("%%");
+	//ft_printf("%5%");
+	//ft_printf("Line Feed %s\n", "\n");
+
+	/*ft_printf("%x\n", 0);
+	ft_printf("%X\n", 0);
+	ft_printf("%x\n", -42);
+	ft_printf("%X\n", -42);
+	ft_printf("%x\n", 4294967296);
+	ft_printf("%X\n", 4294967296);
+	ft_printf("%s\n", "abc");
+	ft_printf("%s\n", "this is a string");
+	ft_printf("%s \n", "this is a string");
+	ft_printf("%s  \n", "this is a string");
+	ft_printf("this is a %s\n", "string");
+	ft_printf("%s is a string\n", "this");
+	ft_printf("Line Feed %s\n", "\n");
+	ft_printf("%10s is a string\n", "this");
+	ft_printf("%.2s is a string\n", "this");*/
+	ft_printf("%10s is a string\n", "");
+	ft_printf("%.2s is a string\n", "");
+	/*ft_printf("%u", 0);
+	ft_printf("%u", 1);
+	ft_printf("%u", -1);
+	ft_printf("%u", 4294967295);
+	ft_printf("%u", 4294967296);
+	ft_printf("%5u", 4294967295);
+	ft_printf("%15u", 4294967295);
+	ft_printf("%-15u", 4294967295);
+	ft_printf("%015u", 4294967295);
+	ft_printf("% u", 4294967295);
+	ft_printf("%+u", 4294967295);
+	ft_printf("%lu", 4294967295);
+	ft_printf("%lu", 4294967296);
+	ft_printf("%lu", -42);
+	ft_printf("%llu", 4999999999);
+	ft_printf("%ju", 4999999999);
+	ft_printf("%ju", 4294967296);
+	ft_printf("%U", 4294967295);
+	ft_printf("%hU", 4294967296);
+	ft_printf("%U", 4294967296);
+	ft_printf("@moulitest: %.5u", 42);*/
+}
