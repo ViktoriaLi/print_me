@@ -272,10 +272,12 @@ int ft_printf(const char *format, ...)
 	return (ft_strlen(p));
 }
 
-//int main(void)
-//{
-	/*printf("real   %%%010.20ls dsfdsfdsf %c %+d %+i %u %S|\n", L"string", 'c', 156, 651, 54646, L"abcdef");
-	ft_printf("custom %%%010.20ls dsfdsfdsf %c %+d %+i %u %S|\n", L"string", 'c', 156, 651, 54646, L"abcdef");*/
+int main(void)
+{
+	//printf("NUMBER %d\n", printf("real   %%%010.20ls dsfdsfdsf %c %+d %+i %u %S|\n", L"string", 'c', 156, 651, 54646, L"abcdef"));
+	//printf("NUMBER %d\n", ft_printf("custom %%%010.20ls dsfdsfdsf %c %+d %+i %u %S|\n", L"string", 'c', 156, 651, 54646, L"abcdef"));
+	printf("real   %%%010.20ls dsfdsfdsf %c %+d %+i %u %S|\n", L"string", 'c', 156, 651, 54646, L"abcdef");
+	ft_printf("custom %%%s dsfdsfdsf %c %-d %S|\n", L"string", 'c', 156, L"abcdef");
 	/*printf("real   |%lc|\n", 't');
 	ft_printf("custom |%lc|\n", 't');*/
 	/*printf("real   test \"my\"\n");
@@ -351,4 +353,4 @@ int ft_printf(const char *format, ...)
 	ft_printf("%hU", 4294967296);
 	ft_printf("%U", 4294967296);
 	ft_printf("@moulitest: %.5u", 42);*/
-//}
+}

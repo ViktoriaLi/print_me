@@ -214,6 +214,8 @@ void d_analizator(t_argc params, va_list ap)
   //printf("SPECIFIER %c\n", params.specifier);
   //printf("LEFT %s\n", params.left);
   d = va_arg(ap, intmax_t);
+  printf("FLAG %d% d\n", 12345, if_flag(params.flag, '-', FLAG_LIMIT));
+  return (0);
   len = ft_strlen(ft_itoa(d));
   if (params.precision > 1)
     zeros = params.precision - len;
@@ -221,6 +223,7 @@ void d_analizator(t_argc params, va_list ap)
     spaces = params.width - len - zeros;
   if (zeros <= 0 && params.width > 1)
     spaces = params.width - len;
+  printf("FLAG %d% d\n", 12345, if_flag(params.flag, '-', FLAG_LIMIT));
   if (if_flag(params.flag, '-', FLAG_LIMIT))
     print_int_params_left(d, params, zeros, spaces);
   else

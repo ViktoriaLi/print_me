@@ -10,7 +10,7 @@
 #                                                                              #
 #******************************************************************************#
 
-NAME = ft_printf.a
+NAME = libftprintf.a
 
 SFILES = libft_funcs.c ft_printf.c types_analize.c hex.c
 
@@ -19,11 +19,10 @@ OFILES = libft_funcs.o ft_printf.o types_analize.o hex.o
 all: $(NAME)
 
 $(NAME): $(OFILES)
-	ar rcs $(NAME) $(OFILES)
-	ranlib $(NAME)
+	ar rc $(NAME) $(OFILES)
 
 clean:
-	rm -f $(OFILES) *.gch
+	rm -f $(OFILES)
 
 fclean: clean
 	rm -f $(NAME)
@@ -31,4 +30,4 @@ fclean: clean
 re: fclean all
 
 $(OFILES): %.o:%.c
-	gcc -c -Wall -Wextra -Werror $(SFILES) ft_printf.h
+	gcc -c -Wall -Wextra -Werror $(SFILES)
