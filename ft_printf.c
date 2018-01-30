@@ -271,8 +271,8 @@ int ft_printf(const char *format, ...)
 	return (ft_strlen(p));
 }
 
-int main(void)
-{
+//int main(void)
+//{
 	/*printf("real   %%%010.20ls dsfdsfdsf %c %+d %+i %u %S|\n", L"string", 'c', 156, 651, 54646, L"abcdef");
 	ft_printf("custom %%%010.20ls dsfdsfdsf %c %+d %+i %u %S|\n", L"string", 'c', 156, 651, 54646, L"abcdef");*/
 	/*printf("real   |%lc|\n", 't');
@@ -327,8 +327,8 @@ int main(void)
 	ft_printf("Line Feed %s\n", "\n");
 	ft_printf("%10s is a string\n", "this");
 	ft_printf("%.2s is a string\n", "this");*/
-	ft_printf("%10s is a string\n", "");
-	ft_printf("%.2s is a string\n", "");
+	//ft_printf("%10s is a string\n", "");
+	//ft_printf("%.2s is a string\n", "");
 	/*ft_printf("%u", 0);
 	ft_printf("%u", 1);
 	ft_printf("%u", -1);
@@ -350,4 +350,4 @@ int main(void)
 	ft_printf("%hU", 4294967296);
 	ft_printf("%U", 4294967296);
 	ft_printf("@moulitest: %.5u", 42);*/
-}
+//}
