@@ -10,7 +10,7 @@
 #                                                                              #
 #******************************************************************************#
 
-NAME = ft_printf
+NAME = ft_printf.a
 
 SFILES = libft_funcs.c ft_printf.c types_analize.c hex.c
 

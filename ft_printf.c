@@ -9,7 +9,8 @@
 //flag ' ' is ignored when flag '+' is present
 //flag '0' is ignored when flag '-' is present
 //если спецсимволы типа перевод строки передан как аргукмент в строку, он должен быть напечатан
-
+//z > j > ll > l > h > hh
+//л для с - винт т приводится к вчар
 
 int check_specifier(char type)
 {
