@@ -32,8 +32,15 @@ typedef struct	s_argc
 }				       t_argc;
 
 int ft_printf(const char *format, ...);
-size_t		ft_strlen(const char *s);
-void			ft_putnbr(int n);
+int check_specifier(char type);
+void check_length(char length1, char length2, char *dest);
+int check_precision(char *precision);
+int check_width(char *width);
+void check_flags(char *str, int *i, int *flag);
+void argument_analize(t_argc params, va_list ap);
+void argument_save(char *argv, t_argc *params, va_list ap);
+void struct_init(t_argc *params);
+
 
 void s_analizator(t_argc params, va_list ap);
 void S_analizator(t_argc params, va_list ap);
@@ -55,6 +62,10 @@ void print_hex_and_oct(unsigned int nbr, t_argc params, unsigned int base);
 void print_hex_X(unsigned int nbr);
 void print_hex_o(unsigned int nbr);
 void print_hex_O(unsigned int nbr);
+void check_stars(t_argc *params, va_list ap);
+void print_int_depend_length(intmax_t d, char *length, t_argc params);
+void print_int_params_left(intmax_t d, t_argc params, int zeros, int spaces);
+void print_int_params_right(intmax_t d, t_argc params, int zeros, int spaces);
 
 
 int		ft_strcmp(const char *s1, const char *s2);
