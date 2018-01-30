@@ -19,7 +19,7 @@ OFILES = libft_funcs.o ft_printf.o types_analize.o hex.o
 all: $(NAME)
 
 $(NAME): $(OFILES)
-	ar -s -r $(NAME) $(OFILES)
+	ar r $(NAME) $(OFILES)
 
 clean:
 	rm -f $(OFILES) *.gch
