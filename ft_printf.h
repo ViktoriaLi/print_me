@@ -24,7 +24,7 @@
 typedef struct	s_argc
 {
 	char *one_arg;
-	int flag[6];
+	int flag[5];
   int width;
   int precision;
   char length[3];
@@ -64,9 +64,9 @@ void print_hex_X(unsigned int nbr);
 void print_hex_o(unsigned int nbr);
 void print_hex_O(unsigned int nbr);
 void check_stars(t_argc *params, va_list ap);
-void print_int_depend_length(long long d, char *length, t_argc params);
-void print_int_params_left(long long d, t_argc params, int zeros, int spaces);
-void print_int_params_right(long long d, t_argc params, int zeros, int spaces);
+void print_int_depend_length(intmax_t d, char *length, t_argc params);
+void print_int_params_left(intmax_t d, t_argc params, int zeros, int spaces);
+void print_int_params_right(intmax_t d, t_argc params, int zeros, int spaces);
 
 
 int		ft_strcmp(const char *s1, const char *s2);

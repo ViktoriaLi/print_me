@@ -54,12 +54,21 @@ void check_flags(char *str, int *i, int *flag)
 	j = 0;
 	k = 0;
 	tmp = NULL;
-	while ((str[*i] == '+' || str[*i] == '#' || str[*i] == '0' || str[*i] == '-' || str[*i] == ' '))
+	while (str[*i] && (str[*i] == '+' || str[*i] == '#' || str[*i] == '0' || str[*i] == '-' || str[*i] == ' '))
 	{
-		tmp[j] = str[*i];
 		j++;
 		(*i)++;
 	}
+	tmp = (int *)malloc(sizeof(int) * (j + 1));
+	tmp[j] = 0;
+	*i = 0;
+	while (k < j)
+	{
+		tmp[k] = str[*i];
+		k++;
+		(*i)++;
+	}
+	k = 0;
 	if (if_flag(tmp, '+', j))
 	{
 		flag[k] = '+';
@@ -126,10 +135,7 @@ void argument_save(char *argv, t_argc *params, va_list ap)
 	int i = 0;
 	int j = 0;
 	int len = 0;
-
 	check_flags(argv, &i, (*params).flag);
-	/*printf("int flag %d %d %d %d %d ", params->flag[0], params->flag[1],
-		params->flag[2], params->flag[3], params->flag[4]);*/
 	if (argv[i] == '*' || (argv[i] >= '0' && argv[i] <= '9'))
 	{
 		if (argv[i] == '*')
@@ -192,7 +198,7 @@ void struct_init(t_argc *params)
 
 	i = 0;
 	(*params).one_arg = NULL;
-	while (i < 6)
+	while (i < FLAG_LIMIT)
 	{
 		(*params).flag[i] = 0;
 		i++;
@@ -215,30 +221,27 @@ int ft_printf(const char *format, ...)
 	int j = 0;
 	int len = 0;
 	va_list ap;
-	char *p;
-	p = (char *)format;
 	struct_init(&params);
 	va_start(ap, format);
-	while (p[i] && p[i] != '%')
+	while (format[i] && format[i] != '%')
 	{
-		write(1, &p[i], 1);
+		write(1, &format[i], 1);
 		i++;
 	}
-	while (p[i])
+	while (format[i])
 	{
-		if (p[i] == '%')
+		if (format[i] == '%')
 		{
 			i++;
-			if (p[i] == '%')
+			if (format[i] == '%')
 			{
-				write(1, &p[i], 1);
+				write(1, &format[i], 1);
 				i++;
 				continue;
 			}
 			j = 0;
-			while (p[i] && p[i] != '%')
+			while (format[i] && format[i] != '%')
 			{
-				//write(1, &p[i], 1);
 				i++;
 				j++;
 			}
@@ -249,7 +252,7 @@ int ft_printf(const char *format, ...)
 			i--;
 			while (j >= 0)
 			{
-				params.one_arg[j] = p[i];
+				params.one_arg[j] = format[i];
 				j--;
 				i--;
 			}
@@ -264,12 +267,11 @@ int ft_printf(const char *format, ...)
 		printf("LENGTH %s\n", params.length);
 		printf("SPECIFIER %c\n", params.specifier);
 		printf("LEFT %s\n", params.left);*/
-		//printf("RES %d\n", ft_strcmp(params.length, "hh"));
 		struct_init(&params);
 		i = len;
 	}
 	va_end(ap);
-	return (ft_strlen(p));
+	return (ft_strlen(format));
 }
 
 int main(void)
@@ -277,10 +279,10 @@ int main(void)
 	// ошибка на %-5.1s
 	//printf("NUMBER %d\n", printf("real   %%%010.20ls dsfdsfdsf %c %+d %+i %u %S|\n", L"string", 'c', 156, 651, 54646, L"abcdef"));
 	//printf("NUMBER %d\n", ft_printf("custom %%%010.20ls dsfdsfdsf %c %+d %+i %u %S|\n", L"string", 'c', 156, 651, 54646, L"abcdef"));
-	printf("real   %%%s dsfdsfdsf %c %+d %+i %u %S|\n", "string", 'c', 156, 651, 54646, L"abcdef");
-	ft_printf("custom %%%s dsfdsfdsf %c %-d %S|\n", "string", 'c', 156,  L"abcdef");
-	//printf("real   |%lc|\n", 't');
-	//ft_printf("custom |%lc|\n", 't');
+	printf("real   %%%+- 0#10.20s dsfdsfdsf %c %d %i %u %S|\n", "string", 'c', 156, 651, 54646, L"abcdef");
+	ft_printf("custom %%%+- 0#10.20hs dsfdsfdsf %c %d %i %u %S|\n", "string", 'c', 156, 651, 54646, L"abcdef");
+	printf("real   |%lc|\n", 't');
+	ft_printf("custom |%lc|\n", 't');
 	//printf("real   test \"my\"\n");
 	//ft_printf("custom test \"my\"\n");
 	//printf("real   %d %1d\n", 10, 10);
@@ -309,7 +311,7 @@ int main(void)
 	//ft_printf ("custom %p eretr\n", &str);
 	/*printf ("real   % -010.5hhi eretr\n", 65);
 	ft_printf ("custom % -010.5hhi eretr\n", 65);
-	return (0);*/
+*/
 
 	//Тесты не проходят;
 	//ft_printf("%%");
@@ -354,5 +356,5 @@ int main(void)
 	ft_printf("%hU", 4294967296);
 	ft_printf("%U", 4294967296);
 	ft_printf("@moulitest: %.5u", 42);*/
-	//printf("TEST INTS %-d\n", 156);
+	//ft_printf("TEST INTS %d\n", 156);
 }
