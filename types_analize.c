@@ -23,33 +23,34 @@ void check_stars(t_argc *params, va_list ap)
     (*params).precision = va_arg(ap, int);
 }
 
-void print_int_depend_length(intmax_t d, char *length, t_argc params)
+void print_int_depend_length(long long d, char *length, t_argc params)
 {
   if ((ft_strcmp(length, "hh") == 0) && (params.specifier == 'd' || params.specifier == 'i' || params.specifier == 'D'))
     ft_putnbr((signed char)d);
   else if ((ft_strcmp(length, "hh") == 0)  && (params.specifier == 'u' || params.specifier == 'U'))
     ft_putnbr((unsigned char)d);
-  else if ((ft_strcmp(length, "h") == 0) && (params.specifier == 'd' || params.specifier == 'i' || params.specifier == 'D'))
-    ft_putnbr((short)d);
-  else if ((ft_strcmp(length, "h") == 0) && (params.specifier == 'u' || params.specifier == 'U'))
-    ft_putnbr((unsigned short)d);
-  else if ((ft_strcmp(length, "l") == 0) && (params.specifier == 'd' || params.specifier == 'i' || params.specifier == 'D'))
-    ft_putnbr((long)d);
-  else if ((ft_strcmp(length, "l") == 0) && (params.specifier == 'u' || params.specifier == 'U'))
-    ft_putnbr((unsigned long)d);
   else if ((ft_strcmp(length, "ll") == 0) && (params.specifier == 'd' || params.specifier == 'i' || params.specifier == 'D'))
-    ft_putnbr((long	long)d);
+    ft_putnbr((long long)d);
   else if ((ft_strcmp(length, "ll") == 0) && (params.specifier == 'u' || params.specifier == 'U'))
-    ft_putnbr((unsigned long	long)d);
-  else if (ft_strcmp(length, "z") == 0)
+    ft_putnbr((unsigned long  long)d);
+  else if ((length[0] == 'h') && (params.specifier == 'd' || params.specifier == 'i' || params.specifier == 'D'))
+    ft_putnbr((short)d);
+  else if ((length[0] == 'h') && (params.specifier == 'u' || params.specifier == 'U'))
+    ft_putnbr((unsigned short)d);
+  else if ((length[0] == 'l') && (params.specifier == 'd' || params.specifier == 'i' || params.specifier == 'D'))
+    ft_putnbr((long)d);
+  else if ((length[0] == 'l') && (params.specifier == 'u' || params.specifier == 'U'))
+    ft_putnbr((unsigned long)d);
+  else if (length[0] == 'z')
     ft_putnbr((size_t)d);
   else
     ft_putnbr(d);
 }
 
-void print_int_params_left(intmax_t d, t_argc params, int zeros, int spaces)
+void print_int_params_left(long long d, t_argc params, int zeros, int spaces)
 {
-  if (if_flag(params.flag, ' ', FLAG_LIMIT) && d > 0 && params.specifier != 'u' && params.specifier != 'U')
+  if (if_flag(params.flag, ' ', FLAG_LIMIT) && d > 0 && params.specifier 
+    != 'u' && params.specifier != 'U')
   {
     write(1, " ", 1);
     spaces -= 1;
@@ -68,9 +69,10 @@ void print_int_params_left(intmax_t d, t_argc params, int zeros, int spaces)
       write(1, " ", 1);
 }
 
-void print_int_params_right(intmax_t d, t_argc params, int zeros, int spaces)
+void print_int_params_right(long long d, t_argc params, int zeros, int spaces)
 {
-  if (if_flag(params.flag, ' ', FLAG_LIMIT) && d > 0 && !if_flag(params.flag, '0', FLAG_LIMIT)
+  if (if_flag(params.flag, ' ', FLAG_LIMIT) && d > 0 && 
+    !if_flag(params.flag, '0', FLAG_LIMIT)
   && params.specifier != 'u' && params.specifier != 'U')
   {
     write(1, " ", 1);
@@ -199,23 +201,23 @@ void p_analizator(t_argc params, va_list ap)
     ft_putstr(params.left);
 }
 
-void d_analizator(t_argc params, va_list ap)
+/*void d_analizator(t_argc params, va_list ap)
 {
-  intmax_t d;
+  long long d;
   int len;
   int spaces;
   int zeros;
   zeros = 0;
-  check_stars(&params, ap);
-  //printf("FLAG %c\n", params.flag);
+  //printf("FLAG %c %c %c %c %c\n", (char)params.flag[0], (char)params.flag[1],
+   // (char)params.flag[2], (char)params.flag[3], (char)params.flag[4]);
   //printf("WIDTH %d\n", params.width);
   //printf("PRECISION %d\n", params.precision);
-  //printf("LENGTH %s\n", params.length);
-  //printf("SPECIFIER %c\n", params.specifier);
-  //printf("LEFT %s\n", params.left);
-  d = va_arg(ap, intmax_t);
-  printf("FLAG %d% d\n", 12345, if_flag(params.flag, '-', FLAG_LIMIT));
-  return (0);
+ // printf("LENGTH %s\n", params.length);
+ // printf("SPECIFIER %c\n", params.specifier);
+ // printf("LEFT %s\n", params.left);
+  check_stars(&params, ap);
+  d = va_arg(ap, long long);
+  //printf("FLAG %d% d\n", 12345, if_flag(params.flag, '-', FLAG_LIMIT));
   len = ft_strlen(ft_itoa(d));
   if (params.precision > 1)
     zeros = params.precision - len;
@@ -223,11 +225,80 @@ void d_analizator(t_argc params, va_list ap)
     spaces = params.width - len - zeros;
   if (zeros <= 0 && params.width > 1)
     spaces = params.width - len;
-  printf("FLAG %d% d\n", 12345, if_flag(params.flag, '-', FLAG_LIMIT));
+  //printf("FLAG %d% d\n", 12345, if_flag(params.flag, '-', FLAG_LIMIT));
   if (if_flag(params.flag, '-', FLAG_LIMIT))
     print_int_params_left(d, params, zeros, spaces);
   else
     print_int_params_left(d, params, zeros, spaces);
+  if (params.left)
+    ft_putstr(params.left);
+  //printf("Prec %d\n", params.precision);
+  //printf("Width %d\n", params.width);
+  //printf("LEN %d\n", len);
+
+}*/
+
+void d_analizator(t_argc params, va_list ap)
+{
+  int d;
+  int len;
+  int spaces;
+  int zeros;
+  zeros = 0;
+  check_stars(&params, ap);
+  /*printf("FLAG %c\n", params.flag);
+  printf("WIDTH %d\n", params.width);
+  printf("PRECISION %d\n", params.precision);
+  printf("LENGTH %s\n", params.length);
+  printf("SPECIFIER %c\n", params.specifier);
+  printf("LEFT %s\n", params.left);*/
+  d = va_arg(ap, int);
+  len = ft_strlen(ft_itoa(d));
+  if (params.precision > 1)
+    zeros = params.precision - len;
+  if (if_flag(params.flag, '+', FLAG_LIMIT))
+  {
+    if (zeros > 0 && params.width > 1)
+      spaces = params.width - len - 1 - zeros;
+    if (zeros <= 0 && params.width > 1)
+      spaces = params.width - len - 1;
+    if (spaces > 0)
+      while (spaces--)
+        write(1, " ", 1);
+    write(1, &params.flag, 1);
+    if (zeros > 0)
+      while (zeros--)
+        write(1, "0", 1);
+    ft_putnbr(d);
+  }
+  if (if_flag(params.flag, '-', FLAG_LIMIT))
+  {
+    if (zeros > 0 && params.width > 1)
+      spaces = params.width - len - zeros;
+    if (zeros <= 0 && params.width > 1)
+      spaces = params.width - len;
+    if (zeros > 0)
+      while (zeros--)
+        write(1, "0", 1);
+    ft_putnbr(d);
+    if (spaces > 0)
+      while (spaces--)
+        write(1, " ", 1);
+  }
+  else
+    {
+      if (zeros > 0 && params.width > 1)
+          spaces = params.width - len  - zeros;
+        if (zeros <= 0 && params.width > 1)
+          spaces = params.width - len;
+        if (spaces > 0)
+          while (spaces--)
+          write(1, " ", 1);
+        if (zeros > 0)
+          while (zeros--)
+            write(1, "0", 1);
+        ft_putnbr(d);
+      }
   if (params.left)
     ft_putstr(params.left);
   //printf("Prec %d\n", params.precision);

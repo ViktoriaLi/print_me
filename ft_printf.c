@@ -274,20 +274,21 @@ int ft_printf(const char *format, ...)
 
 int main(void)
 {
+	// ошибка на %-5.1s
 	//printf("NUMBER %d\n", printf("real   %%%010.20ls dsfdsfdsf %c %+d %+i %u %S|\n", L"string", 'c', 156, 651, 54646, L"abcdef"));
 	//printf("NUMBER %d\n", ft_printf("custom %%%010.20ls dsfdsfdsf %c %+d %+i %u %S|\n", L"string", 'c', 156, 651, 54646, L"abcdef"));
-	printf("real   %%%010.20ls dsfdsfdsf %c %+d %+i %u %S|\n", L"string", 'c', 156, 651, 54646, L"abcdef");
-	ft_printf("custom %%%s dsfdsfdsf %c %-d %S|\n", L"string", 'c', 156, L"abcdef");
-	/*printf("real   |%lc|\n", 't');
-	ft_printf("custom |%lc|\n", 't');*/
-	/*printf("real   test \"my\"\n");
-	ft_printf("custom test \"my\"\n");
-	printf("real   %d %1d\n", 10, 10);
-	ft_printf("custom %d %1d\n", 10, 10);
-	printf("real   %d %.1d\n", 10, 10);
-	ft_printf("custom %d %.1d\n", 10, 10);
-	printf("real string   |%1.5s| |%-5.1s| left \n", "test string", "test string");
-	ft_printf("custom string |%1.5s| |%-5.1s| left\n", "test string", "test string");*/
+	printf("real   %%%s dsfdsfdsf %c %+d %+i %u %S|\n", "string", 'c', 156, 651, 54646, L"abcdef");
+	ft_printf("custom %%%s dsfdsfdsf %c %-d %S|\n", "string", 'c', 156,  L"abcdef");
+	//printf("real   |%lc|\n", 't');
+	//ft_printf("custom |%lc|\n", 't');
+	//printf("real   test \"my\"\n");
+	//ft_printf("custom test \"my\"\n");
+	//printf("real   %d %1d\n", 10, 10);
+	//ft_printf("custom %d %1d\n", 10, 10);
+	//printf("real   %d %.1d\n", 10, 10);
+	//ft_printf("custom %d %.1d\n", 10, 10);
+	//printf("real string   |%1.5s| |%-5.1s| left \n", "test string", "test string");
+	//ft_printf("custom string |%1.5s| |%-5.1s| left\n", "test string", "test string");
 	//printf("real   |%10c|\n", 't');
 	//ft_printf("custom |%10c|\n", 't');
 	/*printf ("real   %+10.6i eretr\n", 123);
@@ -298,10 +299,10 @@ int main(void)
 	/*printf ("real   %+-# 0i eretr\n", 123);
 	ft_printf ("custom %+-# 0i eretr\n", 123);*/
 	/*printf ("real   %+++000  ---###   00050.17hhD eretr\n", 123);
-	ft_printf ("custom %+++000  ---###   00050.17hhD eretr\n", 123);
-	printf ("real   %U eretr\n", 123);
-	ft_printf ("custom %U eretr\n", 123);*/
-	/*printf ("real   %10x eretr\n", 1422);
+	ft_printf ("custom %+++000  ---###   00050.17hhD eretr\n", 123);*/
+	//printf ("real   %U eretr\n", 123);
+	/*ft_printf ("custom %U eretr\n", 123);
+	printf ("real   %10x eretr\n", 1422);
 	ft_printf ("custom %10x eretr\n", 1422);*/
 	//char *str;
 	//printf ("real   %p eretr\n", &str);
@@ -329,9 +330,9 @@ int main(void)
 	ft_printf("%s is a string\n", "this");
 	ft_printf("Line Feed %s\n", "\n");
 	ft_printf("%10s is a string\n", "this");
-	ft_printf("%.2s is a string\n", "this");*/
-	//ft_printf("%10s is a string\n", "");
-	//ft_printf("%.2s is a string\n", "");
+	ft_printf("%.2s is a string\n", "this");
+	ft_printf("%10s is a string\n", "");
+	ft_printf("%.2s is a string\n", "");*/
 	/*ft_printf("%u", 0);
 	ft_printf("%u", 1);
 	ft_printf("%u", -1);
@@ -353,4 +354,5 @@ int main(void)
 	ft_printf("%hU", 4294967296);
 	ft_printf("%U", 4294967296);
 	ft_printf("@moulitest: %.5u", 42);*/
+	//printf("TEST INTS %-d\n", 156);
 }
