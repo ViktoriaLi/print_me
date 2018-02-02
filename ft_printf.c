@@ -11,6 +11,7 @@
 //если спецсимволы типа перевод строки передан как аргукмент в строку, он должен быть напечатан
 //z > j > ll > l > h > hh
 //л для с - винт т приводится к вчар
+//для интов учитывать длину изначальную или после модификаторов?
 
 int check_specifier(char type)
 {
@@ -96,38 +97,42 @@ void check_flags(char *str, int *i, int *flag)
 	}
 }
 
-void argument_analize(t_argc params, va_list ap)
+void argument_analize(t_argc *params, va_list ap)
 {
-	if (params.specifier == 's' && params.length[0] != 'l')
+	char c;
+	if ((*params).specifier == 's' && (*params).length[0] != 'l')
 		s_analizator(params, ap);
-	else if (params.specifier == 'S' || (params.specifier == 's' && params.length[0] == 'l'))
+	else if ((*params).specifier == 'S' || ((*params).specifier == 's' && (*params).length[0] == 'l'))
 		S_analizator(params, ap);
-	else if (params.specifier == 'p')
+	else if ((*params).specifier == 'p')
 		p_analizator(params, ap);
-	else if (params.specifier == 'd' || params.specifier == 'i')
+	else if ((*params).specifier == 'd' || (*params).specifier == 'i')
 		d_analizator(params, ap);
-	else if (params.specifier == 'D')
+	else if ((*params).specifier == 'D')
 		d_analizator(params, ap);
 	//else if (params.specifier == 'i')
 		//i_analizator(params, ap);
-	else if (params.specifier == 'o')
+	else if ((*params).specifier == 'o')
 		o_analizator(params, ap);
-	else if (params.specifier == 'O')
+	else if ((*params).specifier == 'O')
 		o_analizator(params, ap);
-	else if (params.specifier == 'u')
+	else if ((*params).specifier == 'u')
 		d_analizator(params, ap);
-	else if (params.specifier == 'U')
+	else if ((*params).specifier == 'U')
 		d_analizator(params, ap);
-	else if (params.specifier == 'x')
+	else if ((*params).specifier == 'x')
 		x_analizator(params, ap);
-	else if (params.specifier == 'X')
+	else if ((*params).specifier == 'X')
 		x_analizator(params, ap);
-	else if (params.specifier == 'c')
+	else if ((*params).specifier == 'c')
 		c_analizator(params, ap);
-	else if (params.specifier == 'C')
+	else if ((*params).specifier == 'C')
 		C_analizator(params, ap);
 	else
-		write(1, &params.specifier, 1);
+	{
+		c = (*params).specifier;
+		write(1, &c, 1);
+	}
 }
 
 void argument_save(char *argv, t_argc *params, va_list ap)
@@ -184,7 +189,7 @@ void argument_save(char *argv, t_argc *params, va_list ap)
 			j--;
 			i--;
 		}
-		argument_analize((*params), ap);
+		argument_analize(params, ap);
 	}
 	else
 		write(1, &argv[i], 1);
@@ -222,6 +227,7 @@ int ft_printf(const char *format, ...)
 	int len = 0;
 	va_list ap;
 	struct_init(&params);
+	params.res = 0;
 	va_start(ap, format);
 	while (format[i] && format[i] != '%')
 	{
@@ -267,94 +273,137 @@ int ft_printf(const char *format, ...)
 		printf("LENGTH %s\n", params.length);
 		printf("SPECIFIER %c\n", params.specifier);
 		printf("LEFT %s\n", params.left);*/
+		//printf("RETURN %d\n", params.res);
 		struct_init(&params);
 		i = len;
 	}
 	va_end(ap);
-	return (ft_strlen(format));
+	return (params.res);
 }
 
-int main(void)
+/*int main(void)
 {
 	// ошибка на %-5.1s
+	//printf("NUMBER %-d\n", printf("%d", 123));
+	//printf("NUMBER %-d\n", ft_printf("%d", 123));
 	//printf("NUMBER %d\n", printf("real   %%%010.20ls dsfdsfdsf %c %+d %+i %u %S|\n", L"string", 'c', 156, 651, 54646, L"abcdef"));
 	//printf("NUMBER %d\n", ft_printf("custom %%%010.20ls dsfdsfdsf %c %+d %+i %u %S|\n", L"string", 'c', 156, 651, 54646, L"abcdef"));
+	printf("real   %%%010.20ls dsfdsfdsf %c %+d %+i %u %S|\n", L"string", 'c', 156, 651, 54646, L"abcdef");
+	ft_printf("real   %%%010.20ls dsfdsfdsf %c %+d %+i %u %S|\n", L"string", 'c', 156, 651, 54646, L"abcdef");
 	printf("real   %%%+- 0#10.20s dsfdsfdsf %c %d %i %u %S|\n", "string", 'c', 156, 651, 54646, L"abcdef");
 	ft_printf("custom %%%+- 0#10.20hs dsfdsfdsf %c %d %i %u %S|\n", "string", 'c', 156, 651, 54646, L"abcdef");
 	printf("real   |%lc|\n", 't');
 	ft_printf("custom |%lc|\n", 't');
-	//printf("real   test \"my\"\n");
-	//ft_printf("custom test \"my\"\n");
-	//printf("real   %d %1d\n", 10, 10);
-	//ft_printf("custom %d %1d\n", 10, 10);
-	//printf("real   %d %.1d\n", 10, 10);
-	//ft_printf("custom %d %.1d\n", 10, 10);
-	//printf("real string   |%1.5s| |%-5.1s| left \n", "test string", "test string");
-	//ft_printf("custom string |%1.5s| |%-5.1s| left\n", "test string", "test string");
-	//printf("real   |%10c|\n", 't');
-	//ft_printf("custom |%10c|\n", 't');
-	/*printf ("real   %+10.6i eretr\n", 123);
-	ft_printf ("custom %+10.6i eretr\n", 123);*/
-	//printf ("real   %-*.*i eretr \n", 10, 6, 123);
-	//ft_printf ("custom %-*.*i eretr \n", 10, 6, 123);
-	//ft_printf("custom %%%s dsfdsfdsf %c %+lld %+i %u %S\n", "string", 'c', 156, 651, 54646, L"abcdef");
-	/*printf ("real   %+-# 0i eretr\n", 123);
-	ft_printf ("custom %+-# 0i eretr\n", 123);*/
-	/*printf ("real   %+++000  ---###   00050.17hhD eretr\n", 123);
-	ft_printf ("custom %+++000  ---###   00050.17hhD eretr\n", 123);*/
-	//printf ("real   %U eretr\n", 123);
-	/*ft_printf ("custom %U eretr\n", 123);
+	printf("real   test \"my\"\n");
+	ft_printf("custom test \"my\"\n");
+	printf("real   %d %1d\n", 10, 10);
+	ft_printf("custom %d %1d\n", 10, 10);
+	printf("real   %d %.1d\n", 10, 10);
+	ft_printf("custom %d %.1d\n", 10, 10);
+	printf("real string   |%1.5s| |%-5.1s| left \n", "test string", "test string");
+	ft_printf("custom string |%1.5s| |%-5.1s| left\n", "test string", "test string");
+	printf("real   |%10c|\n", 't');
+	ft_printf("custom |%10c|\n", 't');
+	printf ("real   %+10.6i eretr\n", 123);
+	ft_printf ("custom %+10.6i eretr\n", 123);
+	printf ("real   %-*.*i eretr \n", 10, 6, 123);
+	ft_printf ("custom %-*.*i eretr \n", 10, 6, 123);
+	ft_printf("custom %%%s dsfdsfdsf %c %+lld %+i %u %S\n", "string", 'c', 156, 651, 54646, L"abcdef");
+	printf ("real   %+-# 0i eretr\n", 123);
+	ft_printf ("custom %+-# 0i eretr\n", 123);
+	printf ("real   %+++000  ---###   00050.17hhD eretr\n", 123);
+	ft_printf ("custom %+++000  ---###   00050.17hhD eretr\n", 123);
+	printf ("real   %U eretr\n", 123);
+	ft_printf ("custom %U eretr\n", 123);
 	printf ("real   %10x eretr\n", 1422);
-	ft_printf ("custom %10x eretr\n", 1422);*/
+	ft_printf ("custom %10x eretr\n", 1422);
 	//char *str;
 	//printf ("real   %p eretr\n", &str);
 	//ft_printf ("custom %p eretr\n", &str);
-	/*printf ("real   % -010.5hhi eretr\n", 65);
+	printf ("real   % -010.5hhi eretr\n", 65);
 	ft_printf ("custom % -010.5hhi eretr\n", 65);
-*/
+
 
 	//Тесты не проходят;
 	//ft_printf("%%");
 	//ft_printf("%5%");
 	//ft_printf("Line Feed %s\n", "\n");
 
-	/*ft_printf("%x\n", 0);
+	printf("%x\n", 0);
+	ft_printf("%x\n", 0);
+	printf("%X\n", 0);
 	ft_printf("%X\n", 0);
+	printf("%x\n", -42);
 	ft_printf("%x\n", -42);
+	printf("%X\n", -42);
 	ft_printf("%X\n", -42);
+	printf("%x\n", 4294967296);
 	ft_printf("%x\n", 4294967296);
+	printf("%X\n", 4294967296);
 	ft_printf("%X\n", 4294967296);
+	printf("%s\n", "abc");
 	ft_printf("%s\n", "abc");
+	printf("%s\n", "this is a string");
 	ft_printf("%s\n", "this is a string");
+	printf("%s \n", "this is a string");
 	ft_printf("%s \n", "this is a string");
+	printf("%s  \n", "this is a string");
 	ft_printf("%s  \n", "this is a string");
+	printf("this is a %s\n", "string");
 	ft_printf("this is a %s\n", "string");
+	printf("%s is a string\n", "this");
 	ft_printf("%s is a string\n", "this");
+	printf("Line Feed %s\n", "\n");
 	ft_printf("Line Feed %s\n", "\n");
+	printf("%10s is a string\n", "this");
 	ft_printf("%10s is a string\n", "this");
+	printf("%.2s is a string\n", "this");
 	ft_printf("%.2s is a string\n", "this");
+	printf("%10s is a string\n", "");
 	ft_printf("%10s is a string\n", "");
-	ft_printf("%.2s is a string\n", "");*/
-	/*ft_printf("%u", 0);
+	printf("%.2s is a string\n", "");
+	ft_printf("%.2s is a string\n", "");
+	printf("%u", 0);
+	ft_printf("%u", 0);
+	printf("%u", 1);
 	ft_printf("%u", 1);
+	printf("%u", -1);
 	ft_printf("%u", -1);
+	printf("%u", 4294967295);
 	ft_printf("%u", 4294967295);
+	printf("%u", 4294967296);
 	ft_printf("%u", 4294967296);
+	printf("%5u", 4294967295);
 	ft_printf("%5u", 4294967295);
+	printf("%15u", 4294967295);
 	ft_printf("%15u", 4294967295);
+	printf("%-15u", 4294967295);
 	ft_printf("%-15u", 4294967295);
+	printf("%015u", 4294967295);
 	ft_printf("%015u", 4294967295);
+	printf("% u", 4294967295);
 	ft_printf("% u", 4294967295);
+	printf("%+u", 4294967295);
 	ft_printf("%+u", 4294967295);
+	printf("%lu", 4294967295);
 	ft_printf("%lu", 4294967295);
+	printf("%lu", 4294967296);
 	ft_printf("%lu", 4294967296);
+	printf("%lu", -42);
 	ft_printf("%lu", -42);
+	printf("%llu", 4999999999);
 	ft_printf("%llu", 4999999999);
+	printf("%ju", 4999999999);
 	ft_printf("%ju", 4999999999);
+	printf("%ju", 4294967296);
 	ft_printf("%ju", 4294967296);
+	printf("%U", 4294967295);
 	ft_printf("%U", 4294967295);
+	printf("%hU", 4294967296);
 	ft_printf("%hU", 4294967296);
+	printf("%U", 4294967296);
 	ft_printf("%U", 4294967296);
-	ft_printf("@moulitest: %.5u", 42);*/
+	printf("1@moulitest: %.5u", 42);
+	ft_printf("2@moulitest: %.5u", 42);
 	//ft_printf("TEST INTS %d\n", 156);
-}
+}*/
