@@ -64,7 +64,7 @@ void print_hex_X(unsigned int nbr);
 void print_hex_o(unsigned int nbr);
 void print_hex_O(unsigned int nbr);
 void check_stars(t_argc *params, va_list ap);
-void print_int_depend_length(intmax_t d, char *length, t_argc *params);
+void print_int_depend_length(intmax_t *d, char *length, t_argc *params);
 void print_int_params_left(intmax_t d, t_argc *params, int zeros, int spaces);
 void print_int_params_right(intmax_t d, t_argc *params, int zeros, int spaces);
 

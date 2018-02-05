@@ -23,28 +23,26 @@ void check_stars(t_argc *params, va_list ap)
     (*params).precision = va_arg(ap, int);
 }
 
-void print_int_depend_length(intmax_t d, char *length, t_argc *params)
+void print_int_depend_length(intmax_t *d, char *length, t_argc *params)
 {
   if ((ft_strcmp(length, "hh") == 0) && ((*params).specifier == 'd' || (*params).specifier == 'i' || (*params).specifier == 'D'))
-    ft_putnbr((signed char)d);
+    *d = (signed char)d;
   else if ((ft_strcmp(length, "hh") == 0)  && ((*params).specifier == 'u' || (*params).specifier == 'U'))
-    ft_putnbr((unsigned char)d);
+    *d = (unsigned char)d;
   else if ((ft_strcmp(length, "ll") == 0) && ((*params).specifier == 'd' || (*params).specifier == 'i' || (*params).specifier == 'D'))
-    ft_putnbr((long long)d);
+    *d = (long long)d;
   else if ((ft_strcmp(length, "ll") == 0) && ((*params).specifier == 'u' || (*params).specifier == 'U'))
-    ft_putnbr((unsigned long  long)d);
+    *d = (unsigned long  long)d;
   else if ((length[0] == 'h') && ((*params).specifier == 'd' || (*params).specifier == 'i' || (*params).specifier == 'D'))
-    ft_putnbr((short)d);
+    *d = (short)d;
   else if ((length[0] == 'h') && ((*params).specifier == 'u' || (*params).specifier == 'U'))
-    ft_putnbr((unsigned short)d);
+    *d = (unsigned short)d;
   else if ((length[0] == 'l') && ((*params).specifier == 'd' || (*params).specifier == 'i' || (*params).specifier == 'D'))
-    ft_putnbr((long)d);
+    *d = (long)d;
   else if ((length[0] == 'l') && ((*params).specifier == 'u' || (*params).specifier == 'U'))
-    ft_putnbr((unsigned long)d);
+    *d = (unsigned long)d;
   else if (length[0] == 'z')
-    ft_putnbr((size_t)d);
-  else
-    ft_putnbr(d);
+    *d = (size_t)d;
 }
 
 void print_int_params_left(intmax_t d, t_argc *params, int zeros, int spaces)
@@ -58,6 +56,7 @@ void print_int_params_left(intmax_t d, t_argc *params, int zeros, int spaces)
   }
   if (if_flag((*params).flag, '+', FLAG_LIMIT))
   {
+    (*params).res += 1;
     spaces -= 1;
     write(1, "+", 1);
   }
@@ -67,12 +66,14 @@ void print_int_params_left(intmax_t d, t_argc *params, int zeros, int spaces)
     while (zeros--)
       write(1, "0", 1);
   }
-  print_int_depend_length(d, (*params).length, params);
+  ft_putnbr(d);
   if (spaces > 0)
   {
     (*params).res += spaces;
     while (spaces--)
+    {
       write(1, " ", 1);
+    }
   }
 }
 
@@ -111,7 +112,7 @@ void print_int_params_right(intmax_t d, t_argc *params, int zeros, int spaces)
     while (zeros--)
       write(1, "0", 1);
   }
-  print_int_depend_length(d, (*params).length, params);
+  ft_putnbr(d);
 }
 
 void s_analizator(t_argc *params, va_list ap)
@@ -120,6 +121,9 @@ void s_analizator(t_argc *params, va_list ap)
   int len;
   int spaces;
 
+  spaces = 0;
+  len = 0;
+  s = NULL;
   check_stars(params, ap);
   s = va_arg(ap, char *);
   len = ft_strlen(s);
@@ -170,7 +174,9 @@ void S_analizator(t_argc *params, va_list ap)
   wchar_t *S;
 
   j = 0;
+  spaces = 0;
   len = 0;
+  S = NULL;
   check_stars(params, ap);
   S = va_arg(ap, wchar_t *);
   while(S[len])
@@ -243,6 +249,8 @@ void d_analizator(t_argc *params, va_list ap)
   int spaces;
   int zeros;
   zeros = 0;
+  spaces = 0;
+  len = 0;
   //printf("FLAG %c %c %c %c %c\n", (char)params.flag[0], (char)params.flag[1],
    // (char)params.flag[2], (char)params.flag[3], (char)params.flag[4]);
   //printf("WIDTH %d\n", params.width);
@@ -252,6 +260,7 @@ void d_analizator(t_argc *params, va_list ap)
  // printf("LEFT %s\n", params.left);
   check_stars(params, ap);
   d = va_arg(ap, intmax_t);
+  print_int_depend_length(&d, (*params).length, params);
   //printf("FLAG %d% d\n", 12345, if_flag(params.flag, '-', FLAG_LIMIT));
   len = ft_strlen(ft_itoa(d));
   (*params).res += len;
@@ -267,6 +276,7 @@ void d_analizator(t_argc *params, va_list ap)
     print_int_params_left(d, params, zeros, spaces);
   else
     print_int_params_right(d, params, zeros, spaces);
+
   if ((*params).left)
   {
     (*params).res += ft_strlen((*params).left);
@@ -318,6 +328,7 @@ void c_analizator(t_argc *params, va_list ap)
   char c;
   int spaces;
 
+  spaces = 0;
   check_stars(params, ap);
   c = va_arg(ap, int);
   (*params).res += 1;
@@ -363,6 +374,7 @@ void C_analizator(t_argc *params, va_list ap)
   int spaces;
   //int zeros;
   wchar_t C;
+  spaces = 0;
 
   check_stars(params, ap);
   C = va_arg(ap, wchar_t);

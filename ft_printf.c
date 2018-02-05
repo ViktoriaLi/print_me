@@ -55,7 +55,7 @@ void check_flags(char *str, int *i, int *flag)
 	j = 0;
 	k = 0;
 	tmp = NULL;
-	while (str[*i] && (str[*i] == '+' || str[*i] == '#' || str[*i] == '0' || str[*i] == '-' || str[*i] == ' '))
+	while (str[*i] == '+' || str[*i] == '#' || str[*i] == '0' || str[*i] == '-' || str[*i] == ' ')
 	{
 		j++;
 		(*i)++;
@@ -281,14 +281,15 @@ int ft_printf(const char *format, ...)
 	return (params.res);
 }
 
-/*int main(void)
+int main(void)
 {
 	// ошибка на %-5.1s
-	//printf("NUMBER %-d\n", printf("%d", 123));
-	//printf("NUMBER %-d\n", ft_printf("%d", 123));
+	printf("NUMBER %d\n", printf("%-+03.10hd", -2147483648));
+	printf("NUMBER %d\n", ft_printf("%-+03.10hd", -2147483648));
+	//ft_printf("%s\n", "123");
 	//printf("NUMBER %d\n", printf("real   %%%010.20ls dsfdsfdsf %c %+d %+i %u %S|\n", L"string", 'c', 156, 651, 54646, L"abcdef"));
 	//printf("NUMBER %d\n", ft_printf("custom %%%010.20ls dsfdsfdsf %c %+d %+i %u %S|\n", L"string", 'c', 156, 651, 54646, L"abcdef"));
-	printf("real   %%%010.20ls dsfdsfdsf %c %+d %+i %u %S|\n", L"string", 'c', 156, 651, 54646, L"abcdef");
+	/*printf("real   %%%010.20ls dsfdsfdsf %c %+d %+i %u %S|\n", L"string", 'c', 156, 651, 54646, L"abcdef");
 	ft_printf("real   %%%010.20ls dsfdsfdsf %c %+d %+i %u %S|\n", L"string", 'c', 156, 651, 54646, L"abcdef");
 	printf("real   %%%+- 0#10.20s dsfdsfdsf %c %d %i %u %S|\n", "string", 'c', 156, 651, 54646, L"abcdef");
 	ft_printf("custom %%%+- 0#10.20hs dsfdsfdsf %c %d %i %u %S|\n", "string", 'c', 156, 651, 54646, L"abcdef");
@@ -404,6 +405,6 @@ int ft_printf(const char *format, ...)
 	printf("%U", 4294967296);
 	ft_printf("%U", 4294967296);
 	printf("1@moulitest: %.5u", 42);
-	ft_printf("2@moulitest: %.5u", 42);
+	ft_printf("2@moulitest: %.5u", 42);*/
 	//ft_printf("TEST INTS %d\n", 156);
-}*/
+}
