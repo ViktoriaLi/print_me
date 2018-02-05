@@ -47,18 +47,26 @@ void print_int_depend_length(intmax_t *d, char *length, t_argc *params)
 
 void print_int_params_left(intmax_t d, t_argc *params, int zeros, int spaces)
 {
-  if (if_flag((*params).flag, ' ', FLAG_LIMIT) && d > 0 && (*params).specifier
+  if (if_flag((*params).flag, ' ', FLAG_LIMIT) && d >= 0 && (*params).specifier
     != 'u' && (*params).specifier != 'U' && !if_flag((*params).flag, '+', FLAG_LIMIT))
   {
     (*params).res += 1;
     write(1, " ", 1);
     spaces -= 1;
   }
-  if (if_flag((*params).flag, '+', FLAG_LIMIT))
+  if (d >= 0 && if_flag((*params).flag, '+', FLAG_LIMIT))
   {
     (*params).res += 1;
     spaces -= 1;
     write(1, "+", 1);
+  }
+  if (d < 0 && zeros > 0)
+  {
+      spaces--;
+      write(1, "-", 1);
+      d = ~d + 1;
+      zeros += 1;
+      //(*params).res += 1;
   }
   if (zeros > 0)
   {
@@ -79,7 +87,7 @@ void print_int_params_left(intmax_t d, t_argc *params, int zeros, int spaces)
 
 void print_int_params_right(intmax_t d, t_argc *params, int zeros, int spaces)
 {
-  if (if_flag((*params).flag, ' ', FLAG_LIMIT) && d > 0 &&
+  if (if_flag((*params).flag, ' ', FLAG_LIMIT) && d >= 0 &&
     !if_flag((*params).flag, '0', FLAG_LIMIT) && !if_flag((*params).flag, '+', FLAG_LIMIT)
   && (*params).specifier != 'u' && (*params).specifier != 'U')
   {
@@ -87,24 +95,35 @@ void print_int_params_right(intmax_t d, t_argc *params, int zeros, int spaces)
     write(1, " ", 1);
     spaces -= 1;
   }
-  if (if_flag((*params).flag, '+', FLAG_LIMIT))
+  if (d > 0 && if_flag((*params).flag, '+', FLAG_LIMIT))
     spaces -= 1;
   if (spaces > 0 && zeros > 0)
   {
+    if (d < 0 && zeros > 0)
+      spaces--;
     (*params).res += spaces;
     while (spaces--)
       write(1, " ", 1);
   }
-  if (if_flag((*params).flag, '+', FLAG_LIMIT))
+  if (d >= 0 && if_flag((*params).flag, '+', FLAG_LIMIT))
   {
     (*params).res += 1;
     write(1, "+", 1);
   }
   if (spaces > 0 && zeros <= 0)
   {
+    if (d < 0 && zeros > 0)
+      spaces--;
     (*params).res += spaces;
     while (spaces--)
-      write(1, "0", 1);
+      write(1, " ", 1);
+  }
+  if (d < 0 && zeros > 0)
+  {
+      write(1, "-", 1);
+      d = ~d + 1;
+      //printf("%d\n", d);
+      zeros += 1;
   }
   if (zeros > 0)
   {
