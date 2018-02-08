@@ -13,6 +13,12 @@
 //types Must contain at least one type. Example: "diouxX"
 //length, you must mark it as "-|other_flags", otherwise it will be ignored. Example: "-|hh|ll"
 
+//More detailed conversions management: eE, fF, gG, aA, n.
+//More detailed flags management: *, $, L, ’.
+//Non-existing flags management: %b to print in binary, %r to print a string of nonprintable
+//characters, %k to print a date in any ordinary ISO format etc.
+//Management of alter tools for colors, fd or other fun stuff like that :)
+
 int check_specifier(char type)
 {
 	if (type == 's' || type == 'S' || type == 'p' || type == 'd' || type == 'D'
@@ -488,6 +494,11 @@ int main(void)
 	printf("NUMBER %d\n", printf("%U", 4294967296));
 	printf("NUMBER %d\n", ft_printf("%U", 4294967296));
 	*/
-	printf("NUMBER %d\n", printf("% -3.5o", 9876543));
-	printf("NUMBER %d\n", ft_printf("% -3.5o", 9876543));
+	//printf("NUMBER %d\n", printf("% -3.5o", 9876543));
+	//printf("NUMBER %d\n", ft_printf("% -3.5o", 9876543));
+	//char *str;
+	//printf ("real   %#x eretr\n", 1232456);
+	//ft_printf ("custom %#x eretr\n", 1232456);
+	//printf ("real   %d eretr\n", &str);
+	//ft_printf ("custom %d eretr\n", &str);
 }

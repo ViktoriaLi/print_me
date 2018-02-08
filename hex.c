@@ -10,7 +10,10 @@ int print_hex_and_oct(unsigned int nbr, t_argc params, unsigned int base)
   		print_hex_and_oct(nbr / base, params, base);
 	if ((nbr % base) < 10)
 	{
-		res = res * 10 + (nbr % base);
+		if (params.specifier == 'o' || params.specifier == 'O')
+			res = res * 10 + (nbr % base);
+		else
+			ft_putchar((nbr % base) + 48);
 	}
 	else if (params.specifier == 'x' || params.specifier == 'p')
   		ft_putchar((nbr % base) - 10 + 97);

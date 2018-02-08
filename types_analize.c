@@ -254,20 +254,6 @@ void S_analizator(t_argc *params, va_list ap)
   }
 }
 
-void p_analizator(t_argc *params, va_list ap)
-{
-  uintmax_t d;
-
-  check_stars(params, ap);
-  d = va_arg(ap, uintmax_t);
-  print_hex_and_oct(d, *params, 16);
-  if ((*params).left)
-  {
-    (*params).res += ft_strlen((*params).left);
-    ft_putstr((*params).left);
-  }
-}
-
 void d_analizator(t_argc *params, va_list ap)
 {
   intmax_t d;
@@ -365,6 +351,31 @@ void x_analizator(t_argc *params, va_list ap)
   //int len;
   //int spaces;
   //int zeros;
+
+  check_stars(params, ap);
+  d = va_arg(ap, uintmax_t);
+  if (if_flag((*params).flag, '#', FLAG_LIMIT))
+  {
+    //zeros--;
+    //spaces--;
+    (*params).res += 2;
+    write(1, "0", 1);
+    if ((*params).specifier == 'x')
+      write(1, "x", 1);
+    else
+      write(1, "X", 1);
+  }
+  print_hex_and_oct(d, *params, 16);
+  if ((*params).left)
+  {
+    (*params).res += ft_strlen((*params).left);
+    ft_putstr((*params).left);
+  }
+}
+
+void p_analizator(t_argc *params, va_list ap)
+{
+  uintmax_t d;
 
   check_stars(params, ap);
   d = va_arg(ap, uintmax_t);
