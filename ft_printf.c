@@ -8,10 +8,10 @@
 	// flags hh, h, l, ll, j, et z.
 //flag ' ' is ignored when flag '+' is present
 //flag '0' is ignored when flag '-' is present
-//если спецсимволы типа перевод строки передан как аргукмент в строку, он должен быть напечатан
 //z > j > ll > l > h > hh
-//л для с - винт т приводится к вчар
 //для интов учитывать длину изначальную или после модификаторов?
+//types Must contain at least one type. Example: "diouxX"
+//length, you must mark it as "-|other_flags", otherwise it will be ignored. Example: "-|hh|ll"
 
 int check_specifier(char type)
 {
@@ -55,7 +55,8 @@ void check_flags(char *str, int *i, int *flag)
 	j = 0;
 	k = 0;
 	tmp = NULL;
-	while (str[*i] == '+' || str[*i] == '#' || str[*i] == '0' || str[*i] == '-' || str[*i] == ' ')
+	while (str[*i] == '+' || str[*i] == '#' || str[*i] == '0' || str[*i] == '-' || str[*i] == ' '
+		|| str[*i] == '\'')
 	{
 		j++;
 		(*i)++;
@@ -95,6 +96,11 @@ void check_flags(char *str, int *i, int *flag)
 		flag[k] = ' ';
 		k++;
 	}
+	if (if_flag(tmp, '\'', j))
+	{
+		flag[k] = '\'';
+		k++;
+	}
 }
 
 void argument_analize(t_argc *params, va_list ap)
@@ -110,8 +116,6 @@ void argument_analize(t_argc *params, va_list ap)
 		d_analizator(params, ap);
 	else if ((*params).specifier == 'D')
 		d_analizator(params, ap);
-	//else if (params.specifier == 'i')
-		//i_analizator(params, ap);
 	else if ((*params).specifier == 'o')
 		o_analizator(params, ap);
 	else if ((*params).specifier == 'O')
@@ -126,7 +130,7 @@ void argument_analize(t_argc *params, va_list ap)
 		x_analizator(params, ap);
 	else if ((*params).specifier == 'c')
 		c_analizator(params, ap);
-	else if ((*params).specifier == 'C')
+	else if ((*params).specifier == 'C' || ((*params).specifier == 'c' && (*params).length[0] == 'l'))
 		C_analizator(params, ap);
 	else
 	{
@@ -300,14 +304,13 @@ int main(void)
 	printf("NUMBER %d\n", ft_printf("@moulitest: %c", 0));
 	*/
 
-	//printf("NUMBER %d\n", printf("% -20.d", 0));
-	//printf("NUMBER %d\n", ft_printf("% -20.d", 0));
-	//printf("NUMBER %d\n", printf("% +-0#10.5ls", "test"));
-	//printf("NUMBER %d\n", ft_printf("% +-0#10.5ls", "test"));
-	//ft_printf("%s\n", "123");
-	//printf("NUMBER %d\n", printf("real   %%%010.20ls dsfdsfdsf %c %+d %+i %u %S|\n", L"string", 'c', 156, 651, 54646, L"abcdef"));
-	//printf("NUMBER %d\n", ft_printf("custom %%%010.20ls dsfdsfdsf %c %+d %+i %u %S|\n", L"string", 'c', 156, 651, 54646, L"abcdef"));
-	/*printf("real   %%%010.20ls dsfdsfdsf %c %+d %+i %u %S|\n", L"string", 'c', 156, 651, 54646, L"abcdef");
+	/*printf("NUMBER %d\n", printf("% -20.d", 0));
+	printf("NUMBER %d\n", ft_printf("% -20.d", 0));
+	printf("NUMBER %d\n", printf("% +-0#10.5ls", "test"));
+	printf("NUMBER %d\n", ft_printf("% +-0#10.5ls", "test"));
+	printf("NUMBER %d\n", printf("real   %%%010.20ls dsfdsfdsf %c %+d %+i %u %S|\n", L"string", 'c', 156, 651, 54646, L"abcdef"));
+	printf("NUMBER %d\n", ft_printf("custom %%%010.20ls dsfdsfdsf %c %+d %+i %u %S|\n", L"string", 'c', 156, 651, 54646, L"abcdef"));
+	printf("real   %%%010.20ls dsfdsfdsf %c %+d %+i %u %S|\n", L"string", 'c', 156, 651, 54646, L"abcdef");
 	ft_printf("real   %%%010.20ls dsfdsfdsf %c %+d %+i %u %S|\n", L"string", 'c', 156, 651, 54646, L"abcdef");
 	printf("real   %%%+- 0#10.20s dsfdsfdsf %c %d %i %u %S|\n", "string", 'c', 156, 651, 54646, L"abcdef");
 	ft_printf("custom %%%+- 0#10.20hs dsfdsfdsf %c %d %i %u %S|\n", "string", 'c', 156, 651, 54646, L"abcdef");
@@ -336,9 +339,9 @@ int main(void)
 	ft_printf ("custom %U eretr\n", 123);
 	printf ("real   %10x eretr\n", 1422);
 	ft_printf ("custom %10x eretr\n", 1422);
-	//char *str;
-	//printf ("real   %p eretr\n", &str);
-	//ft_printf ("custom %p eretr\n", &str);
+	char *str;
+	printf ("real   %p eretr\n", &str);
+	ft_printf ("custom %p eretr\n", &str);
 	printf ("real   % -010.5hhi eretr\n", 65);
 	ft_printf ("custom % -010.5hhi eretr\n", 65);*/
 
@@ -361,7 +364,7 @@ int main(void)
 
 
 	//Тесты проходят
-	printf("NUMBER %d\n", printf("this is a %s", "string"));
+	/*printf("NUMBER %d\n", printf("this is a %s", "string"));
 	printf("NUMBER %d\n", ft_printf("this is a %s", "string"));
 	printf("NUMBER %d\n", printf("Line Feed %s", "\n"));
 	printf("NUMBER %d\n", ft_printf("Line Feed %s", "\n"));
@@ -396,15 +399,14 @@ int main(void)
 	printf("NUMBER %d\n", printf("%0+5d", 42));
 	printf("NUMBER %d\n", ft_printf("%0+5d", 42));
 	printf("NUMBER %d\n", printf("%zd", -0));
-	printf("NUMBER %d\n", ft_printf("%zd", -0));
+	printf("NUMBER %d\n", ft_printf("%zd", -0));*/
 	
 
 
-
 	//Тесты не проходят;
-	/*
+	
 
-	printf("NUMBER %d\n", printf("%+d", 4242424242424242424242));
+	/*printf("NUMBER %d\n", printf("%+d", 4242424242424242424242));
 	printf("NUMBER %d\n", ft_printf("%+d", 4242424242424242424242));
 	
 	
@@ -486,5 +488,6 @@ int main(void)
 	printf("NUMBER %d\n", printf("%U", 4294967296));
 	printf("NUMBER %d\n", ft_printf("%U", 4294967296));
 	*/
-
+	printf("NUMBER %d\n", printf("% -3.5o", 9876543));
+	printf("NUMBER %d\n", ft_printf("% -3.5o", 9876543));
 }

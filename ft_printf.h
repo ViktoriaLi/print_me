@@ -19,12 +19,12 @@
 # include <stdint.h>
 //# include "libft.h"
 
-# define FLAG_LIMIT 5
+# define FLAG_LIMIT 6
 
 typedef struct	s_argc
 {
 	char *one_arg;
-	int flag[5];
+	int flag[6];
   int width;
 	int res;
   int precision;
@@ -59,7 +59,7 @@ void c_analizator(t_argc *params, va_list ap);
 void C_analizator(t_argc *params, va_list ap);
 
 int if_flag(int *all_flags, int flag, int j);
-void print_hex_and_oct(unsigned int nbr, t_argc params, unsigned int base);
+int print_hex_and_oct(unsigned int nbr, t_argc params, unsigned int base);
 void print_hex_X(unsigned int nbr);
 void print_hex_o(unsigned int nbr);
 void print_hex_O(unsigned int nbr);

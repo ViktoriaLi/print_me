@@ -48,13 +48,14 @@ void print_int_depend_length(intmax_t *d, char *length, t_argc *params)
 void print_int_params_left(intmax_t d, t_argc *params, int zeros, int spaces)
 {
   if (if_flag((*params).flag, ' ', FLAG_LIMIT) && d >= 0 && (*params).specifier
-    != 'u' && (*params).specifier != 'U' && !if_flag((*params).flag, '+', FLAG_LIMIT))
+    != 'u' && (*params).specifier != 'U' && !if_flag((*params).flag, '+', FLAG_LIMIT)
+    && (*params).specifier != 'o' && (*params).specifier != 'O')
   {
     (*params).res += 1;
     write(1, " ", 1);
     spaces -= 1;
   }
-  if (d >= 0 && if_flag((*params).flag, '+', FLAG_LIMIT))
+  if (d >= 0 && if_flag((*params).flag, '+', FLAG_LIMIT) && (*params).specifier != 'o' && (*params).specifier != 'O')
   {
     (*params).res += 1;
     spaces -= 1;
@@ -90,13 +91,14 @@ void print_int_params_right(intmax_t d, t_argc *params, int zeros, int spaces)
 {
   if (if_flag((*params).flag, ' ', FLAG_LIMIT) && d >= 0 &&
     !if_flag((*params).flag, '0', FLAG_LIMIT) && !if_flag((*params).flag, '+', FLAG_LIMIT)
-  && (*params).specifier != 'u' && (*params).specifier != 'U')
+  && (*params).specifier != 'u' && (*params).specifier != 'U' && 
+  (*params).specifier != 'o' && (*params).specifier != 'O')
   {
     (*params).res += 1;
     write(1, " ", 1);
     spaces -= 1;
   }
-  if (d >= 0 && if_flag((*params).flag, '+', FLAG_LIMIT))
+  if (d >= 0 && if_flag((*params).flag, '+', FLAG_LIMIT) && (*params).specifier != 'o' && (*params).specifier != 'O')
   {
     spaces -= 1;
     zeros -= 1;
@@ -109,7 +111,8 @@ void print_int_params_right(intmax_t d, t_argc *params, int zeros, int spaces)
     while (spaces--)
       write(1, " ", 1);
   }
-  if (d >= 0 && if_flag((*params).flag, '+', FLAG_LIMIT))
+  if (d >= 0 && if_flag((*params).flag, '+', FLAG_LIMIT) 
+      && (*params).specifier != 'o' && (*params).specifier != 'O')
   {
     (*params).res += 1;
     write(1, "+", 1);
@@ -317,13 +320,38 @@ void d_analizator(t_argc *params, va_list ap)
 void o_analizator(t_argc *params, va_list ap)
 {
   uintmax_t d;
-  //int len;
-  //int spaces;
-  //int zeros;
+  int len;
+  int spaces;
+  int zeros;
+
+  len = 0;
+  spaces = 0;
+  zeros = 0;
 
   check_stars(params, ap);
   d = va_arg(ap, uintmax_t);
-  print_hex_and_oct(d, *params, 8);
+  d = print_hex_and_oct(d, *params, 8);
+  print_int_depend_length(&d, (*params).length, params);
+  len = ft_strlen(ft_itoa(d));
+  (*params).res += len;
+  if ((*params).precision > 1)
+    zeros = (*params).precision - len;
+  if (zeros > 0 && (*params).width > 1)
+    spaces = (*params).width - len - zeros;
+  if (zeros <= 0 && (*params).width > 1)
+    spaces = (*params).width - len;
+  if (if_flag((*params).flag, '#', FLAG_LIMIT))
+  {
+    zeros--;
+    spaces--;
+    (*params).res += 1;
+    write(1, "0", 1);
+  }
+  //printf("FLAG %d% d\n", 12345, if_flag(params.flag, '-', FLAG_LIMIT));
+  if (if_flag((*params).flag, '-', FLAG_LIMIT))
+    print_int_params_left(d, params, zeros, spaces);
+  else
+    print_int_params_right(d, params, zeros, spaces);
   if ((*params).left)
   {
     (*params).res += ft_strlen((*params).left);
