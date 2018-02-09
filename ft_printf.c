@@ -160,13 +160,13 @@ void argument_save(char *argv, t_argc *params, va_list ap)
 		while (argv[i] == '*' || (argv[i] >= '0' && argv[i] <= '9'))
 			i++;
 	}
-	if (argv[i] == '.' && (argv[i + 1] == '*' || (argv[i + 1] >= '0' &&
-		argv[i + 1] <= '9')))
+	if (argv[i] == '.')
 	{
+		(*params).precision = 0;
 		i++;
 		if (argv[i] == '*')
 			(*params).precision = '*';
-		else
+		if (argv[i] >= '0' && argv[i] <= '9')
 			(*params).precision = check_precision(&argv[i]);
 		while (argv[i] == '*' || (argv[i] >= '0' && argv[i] <= '9'))
 			i++;
@@ -219,7 +219,7 @@ void struct_init(t_argc *params)
 		i++;
 	}
   (*params).width = 0;
-  (*params).precision = 0;
+  (*params).precision = -1;
   (*params).length[0] = 0;
 	(*params).length[1] = 0;
 	(*params).length[2] = 0;
@@ -423,19 +423,20 @@ int ft_printf(const char *format, ...)
 	printf("NUMBER %d\n", ft_printf("%05o", 42));
 	printf("NUMBER %d\n", printf("%#6o", 2500));
 	printf("NUMBER %d\n", ft_printf("%#6o", 2500));
-	printf("NUMBER %d\n", printf("@moulitest: %.o %.o", 0, 0));
-	printf("NUMBER %d\n", ft_printf("@moulitest: %.o %.0o", 0, 0));
-	printf("NUMBER %d\n", printf("@moulitest: %5.o %5.0o", 0, 0));
-	printf("NUMBER %d\n", ft_printf("@moulitest: %5.o %5.0o", 0, 0));
-	printf("NUMBER %d\n", printf("@moulitest: %#.o %#.0o", 0, 0));
-	printf("NUMBER %d\n", ft_printf("@moulitest: %#.o %#.0o", 0, 0));
+
 	*/
 
 
 
 	//Тесты не проходят;
+	printf("NUMBER %d\n", printf("@moulitest: %o %o", 0, 0));
+	printf("NUMBER %d\n", ft_printf("@moulitest: %.0o %.0o", 0, 0));
+	printf("NUMBER %d\n", printf("@moulitest: %5.o %5.0o", 0, 0));
+	printf("NUMBER %d\n", ft_printf("@moulitest: %5.o %5.0o", 0, 0));
+	printf("NUMBER %d\n", printf("@moulitest: %#.o %#.0o", 0, 0));
+	printf("NUMBER %d\n", ft_printf("@moulitest: %#.o %#.0o", 0, 0));
 
-	/*printf("NUMBER %d\n", printf("%05d", -42));
+	printf("NUMBER %d\n", printf("%05d", -42));
 	printf("NUMBER %d\n", ft_printf("%05d", -42));
 	printf("NUMBER %d\n", printf("%0+5d", -42));
   printf("NUMBER %d\n", ft_printf("%0+5d", -42));
@@ -466,7 +467,27 @@ int ft_printf(const char *format, ...)
 	printf("NUMBER %d\n", printf("%03.2d", 1));
   printf("NUMBER %d\n", ft_printf("%03.2d", 1));
 	printf("NUMBER %d\n", printf("%03.2d", -1));
-  printf("NUMBER %d\n", ft_printf("%03.2d", -1));*/
+  printf("NUMBER %d\n", ft_printf("%03.2d", -1));
+	printf("NUMBER %d\n", printf("%-05o", 2500));
+	printf("NUMBER %d\n", ft_printf("%-05o", 2500));
+	printf("NUMBER %d\n", printf("%05d", -42));
+	printf("NUMBER %d\n", ft_printf("%05d", -42));
+	printf("NUMBER %d\n", printf("%0+5d", -42));
+	printf("NUMBER %d\n", ft_printf("%0+5d", -42));
+	printf("NUMBER %d\n", printf("%-05d", 42));
+	printf("NUMBER %d\n", ft_printf("%-05d", 42));
+	printf("NUMBER %d\n", printf("%-05d", -42));
+	printf("NUMBER %d\n", ft_printf("%-05d", -42));
+	printf("NUMBER %d\n", printf("%+10.5d", 4242));
+	printf("NUMBER %d\n", ft_printf("%+10.5d", 4242));
+	printf("NUMBER %d\n", printf("%-+10.5d", 4242));
+  printf("NUMBER %d\n", ft_printf("%-+10.5d", 4242));
+	printf("NUMBER %d\n", printf("%03.2d", 0));
+  printf("NUMBER %d\n", ft_printf("%03.2d", 0));
+	printf("NUMBER %d\n", printf("%03.2d", 1));
+  printf("NUMBER %d\n", ft_printf("%03.2d", 1));
+	printf("NUMBER %d\n", printf("%03.2d", -1));
+  printf("NUMBER %d\n", ft_printf("%03.2d", -1));
 
 
 

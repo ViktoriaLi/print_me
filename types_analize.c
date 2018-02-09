@@ -80,7 +80,11 @@ void print_int_params_left(intmax_t d, t_argc *params, int zeros, int spaces)
   }
   if (((*params).specifier == 'o' || (*params).specifier == 'O') && if_flag((*params).flag, '#', FLAG_LIMIT))
     write(1, "0", 1);
-  ft_putnbr(d);
+  if (d != 0)
+    ft_putnbr(d);
+  else
+    if ((*params).precision != 0)
+      write(1, "0", 1);
   if (spaces > 0)
   {
     (*params).res += spaces;
@@ -144,7 +148,11 @@ void print_int_params_right(intmax_t d, t_argc *params, int zeros, int spaces)
   }
   if (((*params).specifier == 'o' || (*params).specifier == 'O') && if_flag((*params).flag, '#', FLAG_LIMIT))
     write(1, "0", 1);
-  ft_putnbr(d);
+  if (d != 0)
+    ft_putnbr(d);
+  else
+    if ((*params).precision != 0)
+      write(1, "0", 1);
 }
 
 void s_analizator(t_argc *params, va_list ap)
@@ -161,7 +169,7 @@ void s_analizator(t_argc *params, va_list ap)
   if (s == NULL)
     s = "(null)";
   len = ft_strlen(s);
-  if ((*params).precision && (*params).precision < len)
+  if ((*params).precision > 0 && (*params).precision < len)
     len = (*params).precision;
   (*params).res += len;
   if (if_flag((*params).flag, '-', FLAG_LIMIT))
@@ -215,7 +223,7 @@ void S_analizator(t_argc *params, va_list ap)
   S = va_arg(ap, wchar_t *);
   while(S[len])
     len++;
-  if ((*params).precision && (*params).precision < len)
+  if ((*params).precision > 0 && (*params).precision < len)
     len = (*params).precision;
   (*params).res += len;
   if (if_flag((*params).flag, '-', FLAG_LIMIT))
@@ -282,10 +290,14 @@ void d_analizator(t_argc *params, va_list ap)
   d = va_arg(ap, intmax_t);
   print_int_depend_length(&d, (*params).length, params);
   //printf("FLAG %d% d\n", 12345, if_flag(params.flag, '-', FLAG_LIMIT));
-  len = ft_strlen(ft_itoa(d));
+  if (d != 0)
+    len = ft_strlen(ft_itoa(d));
+  else
+    if ((*params).precision != 0)
+      len = 1;
   (*params).res += len;
   //printf("LLLEN %d\n", (*params).res);
-  if ((*params).precision > 1)
+  if ((*params).precision > 0)
     zeros = (*params).precision - len;
   if (if_flag((*params).flag, '0', FLAG_LIMIT))
     zeros = (*params).width - len;
@@ -326,9 +338,13 @@ void o_analizator(t_argc *params, va_list ap)
   d = va_arg(ap, intmax_t);
   d = print_hex_and_oct(d, *params, 8);
   print_int_depend_length(&d, (*params).length, params);
-  len = ft_strlen(ft_itoa(d));
+  if (d != 0)
+    len = ft_strlen(ft_itoa(d));
+  else
+    if ((*params).precision != 0)
+      len = 1;
   (*params).res += len;
-  if ((*params).precision > 1)
+  if ((*params).precision > 0)
     zeros = (*params).precision - len;
   else if (if_flag((*params).flag, '0', FLAG_LIMIT))
     zeros = (*params).width - len;
