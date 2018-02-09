@@ -575,8 +575,8 @@ int ft_printf(const char *format, ...)
 	//printf("NUMBER %d\n", printf("% -3.5o", 9876543));
 	//printf("NUMBER %d\n", ft_printf("% -3.5o", 9876543));
 	//char *str;
-	//printf ("real   %#x eretr\n", 1232456);
-	//ft_printf ("custom %#x eretr\n", 1232456);
-	//printf ("real   %d eretr\n", &str);
-	//ft_printf ("custom %d eretr\n", &str);
+	//printf ("real   %x eretr\n", 155);
+	//ft_printf ("custom %x eretr\n", 155);
+	//printf ("real   %p eretr\n", &str);
+	//ft_printf ("custom %p eretr\n", &str);
 //}

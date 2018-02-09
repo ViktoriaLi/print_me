@@ -342,7 +342,7 @@ void o_analizator(t_argc *params, va_list ap)
 
   check_stars(params, ap);
   d = va_arg(ap, intmax_t);
-  d = print_hex_and_oct(d, *params, 8);
+  d = print_oct(d, *params, 8);
   print_int_depend_length(&d, (*params).length, params);
   if (d != 0)
     len = ft_strlen(ft_itoa(d));
@@ -379,25 +379,83 @@ void o_analizator(t_argc *params, va_list ap)
 void x_analizator(t_argc *params, va_list ap)
 {
   intmax_t d;
-  //int len;
-  //int spaces;
-  //int zeros;
-
+  int count;
+  int tmp;
+  int len;
+  int spaces;
+  int zeros;
+  char *s;
+  s = NULL;
+  count = 1;
+  tmp = 0;
+  len = 0;
+  spaces = 0;
+  zeros = 0;
   check_stars(params, ap);
   d = va_arg(ap, intmax_t);
   print_int_depend_length(&d, (*params).length, params);
-  if (if_flag((*params).flag, '#', FLAG_LIMIT))
+  tmp = d;
+  while (tmp >= 16)
   {
-    //zeros--;
-    //spaces--;
-    (*params).res += 2;
-    write(1, "0", 1);
-    if ((*params).specifier == 'x')
-      write(1, "x", 1);
-    else
-      write(1, "X", 1);
+    tmp = tmp / 16;
+    count++;
   }
-  print_hex_and_oct(d, *params, 16);
+  (*params).res += count;
+  s = print_hex(d, *params, 16, count);
+  if ((*params).precision > 0 && (*params).precision < len)
+    len = (*params).precision;
+  (*params).res += len;
+  if (if_flag((*params).flag, '-', FLAG_LIMIT))
+  {
+    if (if_flag((*params).flag, '#', FLAG_LIMIT))
+    {
+      //zeros--;
+      //spaces--;
+      (*params).res += 2;
+      write(1, "0", 1);
+      if ((*params).specifier == 'x')
+        write(1, "x", 1);
+      else
+        write(1, "X", 1);
+    }
+    write(1, s, count);
+    if ((*params).width > len)
+    {
+      spaces = (*params).width - len;
+      (*params).res += spaces;
+      while (spaces--)
+        write(1, " ", 1);
+    }
+  }
+  else
+  {
+    if ((*params).width > len && !if_flag((*params).flag, '0', FLAG_LIMIT))
+    {
+      spaces = (*params).width - len;
+      (*params).res += spaces;
+      while (spaces--)
+        write(1, " ", 1);
+    }
+    else if ((*params).width > len && if_flag((*params).flag, '0', FLAG_LIMIT))
+    {
+      spaces = (*params).width - len;
+      (*params).res += spaces;
+      while (spaces--)
+        write(1, "0", 1);
+    }
+    if (if_flag((*params).flag, '#', FLAG_LIMIT))
+    {
+      //zeros--;
+      //spaces--;
+      (*params).res += 2;
+      write(1, "0", 1);
+      if ((*params).specifier == 'x')
+        write(1, "x", 1);
+      else
+        write(1, "X", 1);
+    }
+    write(1, s, count);
+  }
   if ((*params).left)
   {
     (*params).res += ft_strlen((*params).left);
@@ -411,7 +469,7 @@ void p_analizator(t_argc *params, va_list ap)
 
   check_stars(params, ap);
   d = va_arg(ap, uintmax_t);
-  print_hex_and_oct(d, *params, 16);
+  print_hex(d, *params, 16, 12);
   if ((*params).left)
   {
     (*params).res += ft_strlen((*params).left);
