@@ -13,33 +13,36 @@ int print_oct(unsigned int nbr, t_argc params, unsigned int base)
 	return (res);
 }
 
-char *print_hex(unsigned int nbr, t_argc params, unsigned int base, int count)
+void print_hex(uintmax_t nbr, t_argc params, unsigned int base)
 {
-	static char *res;
-	static int i;
+	//static char *res;
+	//static int i;
 
-	i = 0;
-	res = NULL;
-	res = (char *)malloc(count + 1);
+	//i = 0;
+	//res = NULL;
+	//res = (char *)malloc(count + 1);
 	if (nbr >= base)
-		print_hex(nbr / base, params, base, count);
+		print_hex(nbr / base, params, base);
 	if ((nbr % base) < 10)
 	{
-			res[i] = (nbr % base) + 48;
-			i++;
+      ft_putchar((nbr % base) + 48);
+			//res[i] = (nbr % base) + 48;
+			//i++;
 	}
 	else if (params.specifier == 'x' || params.specifier == 'p')
 	{
-		res[i] = (nbr % base) - 10 + 97;
-		i++;
+    ft_putchar((nbr % base) - 10 + 97);
+		//res[i] = (nbr % base) - 10 + 97;
+		//i++;
 	}
 	else if (params.specifier == 'X')
 	{
-		res[i] = (nbr % base) - 10 + 65;
-		i++;
+    ft_putchar((nbr % base) - 10 + 65);
+		//res[i] = (nbr % base) - 10 + 65;
+		//i++;
 	}
-	res[i] = 0;
-	return (res);
+	//res[i] = 0;
+	//return (res);
 }
 
 void print_uint_params_left(uintmax_t d, t_argc *params, int zeros, int spaces)

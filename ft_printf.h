@@ -60,7 +60,7 @@ void C_analizator(t_argc *params, va_list ap);
 
 int if_flag(int *all_flags, int flag, int j);
 int print_oct(unsigned int nbr, t_argc params, unsigned int base);
-char *print_hex(unsigned int nbr, t_argc params, unsigned int base, int count);
+void print_hex(uintmax_t nbr, t_argc params, unsigned int base);
 void print_hex_X(unsigned int nbr);
 void print_hex_o(unsigned int nbr);
 void print_hex_O(unsigned int nbr);

@@ -116,7 +116,7 @@ void argument_analize(t_argc *params, va_list ap)
 	else if ((*params).specifier == 'S' || ((*params).specifier == 's' && (*params).length[0] == 'l'))
 		S_analizator(params, ap);
 	else if ((*params).specifier == 'p')
-		p_analizator(params, ap);
+		x_analizator(params, ap);
 	else if ((*params).specifier == 'd' || (*params).specifier == 'i')
 		d_analizator(params, ap);
 	else if ((*params).specifier == 'D')
@@ -294,8 +294,8 @@ int ft_printf(const char *format, ...)
 	return (params.res);
 }
 
-//int main(void)
-//{
+int main(void)
+{
 	/*разный вывод
 	printf("NUMBER %d\n", printf("% +0-5.15d", -2147483648));
 	printf("NUMBER %d\n", ft_printf("% +-05.15d", -2147483648));
@@ -583,7 +583,7 @@ int ft_printf(const char *format, ...)
 	printf("NUMBER %d\n", ft_printf("@moulitest: %5.d %5.0d", 0, 0));*/
 
 	//u specifier doesn't work
-	/*printf("NUMBER %d\n", printf("%u", -1));
+	printf("NUMBER %d\n", printf("%u", -1));
 	printf("NUMBER %d\n", ft_printf("%u", -1));
 	printf("NUMBER %d\n", printf("%u", 4294967295));
 	printf("NUMBER %d\n", ft_printf("%u", 4294967295));
@@ -617,13 +617,13 @@ int ft_printf(const char *format, ...)
 	printf("NUMBER %d\n", ft_printf("%hU", 4294967296));
 	printf("NUMBER %d\n", printf("%U", 4294967296));
 	printf("NUMBER %d\n", ft_printf("%U", 4294967296));
-	*/
+	
 
-	//printf("NUMBER %d\n", printf("% -3.5o", 9876543));
+		//printf("NUMBER %d\n", printf("% -3.5o", 9876543));
 	//printf("NUMBER %d\n", ft_printf("% -3.5o", 9876543));
-	//char *str;
-	//printf ("real   %x eretr\n", 155);
-	//ft_printf ("custom %x eretr\n", 155);
-	//printf ("real   %p eretr\n", &str);
-	//ft_printf ("custom %p eretr\n", &str);
-//}
+	/*char *str;
+	printf ("real   %x eretr\n", 155);
+	ft_printf ("custom %x eretr\n", 155);
+	printf ("real   %hp eretr\n", &str);
+	ft_printf ("custom %hp eretr\n", &str);*/
+}
