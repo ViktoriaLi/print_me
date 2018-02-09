@@ -41,3 +41,93 @@ char *print_hex(unsigned int nbr, t_argc params, unsigned int base, int count)
 	res[i] = 0;
 	return (res);
 }
+
+void print_uint_params_left(uintmax_t d, t_argc *params, int zeros, int spaces)
+{
+  if (if_flag((*params).flag, ' ', FLAG_LIMIT) && (*params).specifier
+    != 'u' && (*params).specifier != 'U' && !if_flag((*params).flag, '+', FLAG_LIMIT)
+    && (*params).specifier != 'o' && (*params).specifier != 'O')
+  {
+    (*params).res += 1;
+    write(1, " ", 1);
+    spaces -= 1;
+  }
+  if (if_flag((*params).flag, '+', FLAG_LIMIT) && (*params).specifier != 'o' && (*params).specifier != 'O')
+  {
+    (*params).res += 1;
+    spaces -= 1;
+    //zeros -= 1;
+    write(1, "+", 1);
+  }
+  if (zeros > 0)
+  {
+    (*params).res += zeros;
+    while (zeros--)
+      write(1, "0", 1);
+  }
+  if (((*params).specifier == 'o' || (*params).specifier == 'O') && if_flag((*params).flag, '#', FLAG_LIMIT))
+    write(1, "0", 1);
+  if (d != 0)
+    ft_putnbr(d);
+  else
+    if ((*params).precision != 0)
+      write(1, "0", 1);
+  if (spaces > 0)
+  {
+    (*params).res += spaces;
+    while (spaces--)
+    {
+      write(1, " ", 1);
+    }
+  }
+}
+
+void print_uint_params_right(uintmax_t d, t_argc *params, int zeros, int spaces)
+{
+  if (if_flag((*params).flag, ' ', FLAG_LIMIT) &&
+    !if_flag((*params).flag, '0', FLAG_LIMIT) && !if_flag((*params).flag, '+', FLAG_LIMIT)
+  && (*params).specifier != 'u' && (*params).specifier != 'U' &&
+  (*params).specifier != 'o' && (*params).specifier != 'O')
+  {
+    (*params).res += 1;
+    write(1, " ", 1);
+    spaces -= 1;
+  }
+  if (if_flag((*params).flag, '+', FLAG_LIMIT) && (*params).specifier != 'o' && (*params).specifier != 'O')
+  {
+    spaces -= 1;
+    if ((*params).precision <= 0)
+      zeros -= 1;
+  }
+  if (spaces > 0 && zeros > 0)
+  {
+    (*params).res += spaces;
+    while (spaces--)
+      write(1, " ", 1);
+  }
+  if (if_flag((*params).flag, '+', FLAG_LIMIT)
+      && (*params).specifier != 'o' && (*params).specifier != 'O')
+  {
+    (*params).res += 1;
+    write(1, "+", 1);
+  }
+  if (spaces > 0 && zeros <= 0)
+  {
+    (*params).res += spaces;
+    while (spaces--)
+      write(1, " ", 1);
+  }
+  if (zeros > 0)
+  {
+    (*params).res += zeros;
+    while (zeros--)
+      write(1, "0", 1);
+  }
+  if (((*params).specifier == 'o' || (*params).specifier == 'O') && if_flag((*params).flag, '#', FLAG_LIMIT))
+    write(1, "0", 1);
+  if (d != 0)
+    ft_putnbr(d);
+  else
+    if ((*params).precision != 0)
+      write(1, "0", 1);
+}
