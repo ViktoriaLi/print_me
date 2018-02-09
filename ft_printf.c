@@ -111,7 +111,6 @@ void check_flags(char *str, int *i, int *flag)
 
 void argument_analize(t_argc *params, va_list ap)
 {
-	char c;
 	if ((*params).specifier == 's' && (*params).length[0] != 'l')
 		s_analizator(params, ap);
 	else if ((*params).specifier == 'S' || ((*params).specifier == 's' && (*params).length[0] == 'l'))
@@ -134,15 +133,10 @@ void argument_analize(t_argc *params, va_list ap)
 		x_analizator(params, ap);
 	else if ((*params).specifier == 'X')
 		x_analizator(params, ap);
-	else if ((*params).specifier == 'c')
+	else if ((*params).specifier == 'c' || (*params).specifier == '%')
 		c_analizator(params, ap);
 	else if ((*params).specifier == 'C' || ((*params).specifier == 'c' && (*params).length[0] == 'l'))
 		C_analizator(params, ap);
-	else
-	{
-		c = (*params).specifier;
-		write(1, &c, 1);
-	}
 }
 
 void argument_save(char *argv, t_argc *params, va_list ap)
@@ -181,28 +175,35 @@ void argument_save(char *argv, t_argc *params, va_list ap)
 		else
 			i += 2;
 	}
-	if (check_specifier(argv[i]))
+	if (check_specifier(argv[i]) || !argv[i])
 	{
-		(*params).specifier = argv[i];
-		i++;
-		len = i;
-		while (argv[i])
+		if (!argv[i])
+			(*params).specifier = '%';
+		else
+			(*params).specifier = argv[i];
+		if (argv[i])
 		{
 			i++;
-		}
-		(*params).left = (char *)malloc(i - len + 1);
-		(*params).left[i - len] = 0;
-		j = i - len;
-		while (i >= len)
-		{
-			(*params).left[j] = argv[i];
-			j--;
-			i--;
+			len = i;
+			while (argv[i])
+			{
+				i++;
+			}
+			(*params).left = (char *)malloc(i - len + 1);
+			(*params).left[i - len] = 0;
+			j = i - len;
+			while (i >= len)
+			{
+				(*params).left[j] = argv[i];
+				j--;
+				i--;
+			}
 		}
 		argument_analize(params, ap);
 	}
 	else
-		write(1, &argv[i], 1);
+		if (argv[i])
+			write(1, &argv[i], 1);
 }
 
 void struct_init(t_argc *params)
@@ -352,22 +353,13 @@ int ft_printf(const char *format, ...)
 	ft_printf ("custom % -010.5hhi eretr\n", 65);*/
 
 
-	//не реализовано
-	//ft_printf("%%");
-	//ft_printf("%5%");
-	//ft_printf("%.0%");
-	//printf("%x\n", 0);
-	//ft_printf("%x\n", 0);
-	//printf("%X\n", 0);
-	//ft_printf("%X\n", 0);
-	//printf("%x\n", -42);
-	//ft_printf("%x\n", -42);
-	//printf("%X\n", -42);
-	//ft_printf("%X\n", -42);
-	//printf("%x\n", 4294967296);
-	//ft_printf("%x\n", 4294967296);
-	//printf("%X\n", 4294967296);
-	//ft_printf("%X\n", 4294967296);
+	/*printf("NUMBER %d\n", printf("%5%"));
+	printf("NUMBER %d\n", ft_printf("%5%"));
+	printf("NUMBER %d\n", printf("%.0%"));
+	printf("NUMBER %d\n", ft_printf("%.0%"));
+	printf("NUMBER %d\n", printf("%-5%"));
+	printf("NUMBER %d\n", ft_printf("%-5%"));*/
+
 
 
 	//Тесты проходят

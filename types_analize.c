@@ -518,7 +518,10 @@ void c_analizator(t_argc *params, va_list ap)
 
   spaces = 0;
   check_stars(params, ap);
-  c = va_arg(ap, int);
+  if ((*params).specifier != '%')
+    c = va_arg(ap, int);
+  else
+    c = (*params).specifier;
   (*params).res += 1;
   if (if_flag((*params).flag, '-', FLAG_LIMIT))
   {
@@ -531,7 +534,7 @@ void c_analizator(t_argc *params, va_list ap)
         write(1, " ", 1);
     }
   }
-  else
+  else if (!if_flag((*params).flag, '-', FLAG_LIMIT))
   {
     if ((*params).width > 1 && !if_flag((*params).flag, '0', FLAG_LIMIT))
     {
