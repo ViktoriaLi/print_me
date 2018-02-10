@@ -301,13 +301,7 @@ void d_analizator(t_argc *params, va_list ap)
  // printf("LEFT %s\n", params.left);
   check_stars(params, ap);
   d = va_arg(ap, intmax_t);
-  if ((*params).specifier == 'u' || (*params).specifier == 'U')
-  {
-    d = (uintmax_t)d;
-    print_unsigned_int_depend_length(&d, (*params).length, params);
-  }
-  else
-      print_signed_int_depend_length(&d, (*params).length, params);
+  print_signed_int_depend_length(&d, (*params).length, params);
   //printf("FLAG %d% d\n", 12345, if_flag(params.flag, '-', FLAG_LIMIT));
   if (d != 0)
     len = ft_strlen(ft_itoa(d));
@@ -355,7 +349,7 @@ void o_analizator(t_argc *params, va_list ap)
 
   check_stars(params, ap);
   d = va_arg(ap, uintmax_t);
-  d = print_oct(d, *params, 8);
+  d = print_oct(d, 8);
   print_unsigned_int_depend_length(&d, (*params).length, params);
   if (d != 0)
     len = ft_strlen(ft_itoa(d));
@@ -382,6 +376,54 @@ void o_analizator(t_argc *params, va_list ap)
     print_uint_params_left(d, params, zeros, spaces);
   else
     print_uint_params_right(d, params, zeros, spaces);
+  if ((*params).left)
+  {
+    (*params).res += ft_strlen((*params).left);
+    ft_putstr((*params).left);
+  }
+}
+
+void u_analizator(t_argc *params, va_list ap)
+{
+  uintmax_t d;
+  int len;
+  int spaces;
+  int zeros;
+  zeros = 0;
+  spaces = 0;
+  len = 0;
+  //printf("FLAG %c %c %c %c %c\n", (char)params.flag[0], (char)params.flag[1],
+   // (char)params.flag[2], (char)params.flag[3], (char)params.flag[4]);
+  //printf("WIDTH %d\n", params.width);
+  //printf("PRECISION %d\n", params.precision);
+ // printf("LENGTH %s\n", params.length);
+ // printf("SPECIFIER %c\n", params.specifier);
+ // printf("LEFT %s\n", params.left);
+  check_stars(params, ap);
+  d = va_arg(ap, uintmax_t);
+  print_unsigned_int_depend_length(&d, (*params).length, params);
+  //printf("FLAG %d% d\n", 12345, if_flag(params.flag, '-', FLAG_LIMIT));
+  if (d != 0)
+    len = ft_strlen(ft_itoa(d));
+  else
+    if ((*params).precision != 0)
+      len = 1;
+  (*params).res += len;
+  //printf("LLLEN %d\n", (*params).res);
+  if ((*params).precision > 0)
+    zeros = (*params).precision - len;
+  else if (if_flag((*params).flag, '0', FLAG_LIMIT) && !if_flag((*params).flag, '-', FLAG_LIMIT))
+    zeros = (*params).width - len;
+  if (zeros > 0 && (*params).width > 1)
+    spaces = (*params).width - len - zeros;
+  if (zeros <= 0 && (*params).width > 1)
+    spaces = (*params).width - len;
+  //printf("FLAG %d% d\n", 12345, if_flag(params.flag, '-', FLAG_LIMIT));
+  if (if_flag((*params).flag, '-', FLAG_LIMIT))
+    print_uint_params_left(d, params, zeros, spaces);
+  else
+    print_uint_params_right(d, params, zeros, spaces);
+
   if ((*params).left)
   {
     (*params).res += ft_strlen((*params).left);
@@ -515,6 +557,7 @@ void c_analizator(t_argc *params, va_list ap)
     c = va_arg(ap, int);
   else
     c = (*params).specifier;
+  //printf("CCC %c\n", c);
   (*params).res += 1;
   if (if_flag((*params).flag, '-', FLAG_LIMIT))
   {
@@ -527,22 +570,22 @@ void c_analizator(t_argc *params, va_list ap)
         write(1, " ", 1);
     }
   }
-  else if (!if_flag((*params).flag, '-', FLAG_LIMIT))
-  {
-    if ((*params).width > 1 && !if_flag((*params).flag, '0', FLAG_LIMIT))
-    {
-      spaces = (*params).width - 1;
-      (*params).res += spaces;
-      while (spaces--)
-        write(1, " ", 1);
-    }
-    else if ((*params).width > 1 && if_flag((*params).flag, '0', FLAG_LIMIT))
-    {
-      spaces = (*params).width - 1;
-      (*params).res += spaces;
-      while (spaces--)
-        write(1, "0", 1);
-    }
+  else
+   {
+     if ((*params).width > 1 && !if_flag((*params).flag, '0', FLAG_LIMIT))
+     {
+       spaces = (*params).width - 1;
+       (*params).res += spaces;
+       while (spaces--)
+         write(1, " ", 1);
+     }
+     else if ((*params).width > 1 && if_flag((*params).flag, '0', FLAG_LIMIT))
+     {
+       spaces = (*params).width - 1;
+       (*params).res += spaces;
+       while (spaces--)
+         write(1, "0", 1);
+     }
     write(1, &c, 1);
   }
   if ((*params).left)

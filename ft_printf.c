@@ -126,14 +126,14 @@ void argument_analize(t_argc *params, va_list ap)
 	else if ((*params).specifier == 'O')
 		o_analizator(params, ap);
 	else if ((*params).specifier == 'u')
-		d_analizator(params, ap);
+		u_analizator(params, ap);
 	else if ((*params).specifier == 'U')
-		d_analizator(params, ap);
+		u_analizator(params, ap);
 	else if ((*params).specifier == 'x')
 		x_analizator(params, ap);
 	else if ((*params).specifier == 'X')
 		x_analizator(params, ap);
-	else if ((*params).specifier == 'c' || (*params).specifier == '%')
+	else if ((*params).specifier == 'c')
 		c_analizator(params, ap);
 	else if ((*params).specifier == 'C' || ((*params).specifier == 'c' && (*params).length[0] == 'l'))
 		C_analizator(params, ap);
@@ -175,35 +175,31 @@ void argument_save(char *argv, t_argc *params, va_list ap)
 		else
 			i += 2;
 	}
-	if (check_specifier(argv[i]) || !argv[i])
+	if (check_specifier(argv[i]))
 	{
-		if (!argv[i])
-			(*params).specifier = '%';
-		else
-			(*params).specifier = argv[i];
-		if (argv[i])
+		(*params).specifier = argv[i];
+		i++;
+		len = i;
+		while (argv[i])
 		{
 			i++;
-			len = i;
-			while (argv[i])
-			{
-				i++;
-			}
-			(*params).left = (char *)malloc(i - len + 1);
-			(*params).left[i - len] = 0;
-			j = i - len;
-			while (i >= len)
-			{
-				(*params).left[j] = argv[i];
-				j--;
-				i--;
-			}
+		}
+		(*params).left = (char *)malloc(i - len + 1);
+		(*params).left[i - len] = 0;
+		j = i - len;
+		while (i >= len)
+		{
+			(*params).left[j] = argv[i];
+			j--;
+			i--;
 		}
 		argument_analize(params, ap);
 	}
-	else
+	if ((*params).specifier == '%')
+		c_analizator(params, ap);
+	/*else
 		if (argv[i])
-			write(1, &argv[i], 1);
+			write(1, &argv[i], 1);*/
 }
 
 void struct_init(t_argc *params)
@@ -264,6 +260,8 @@ int ft_printf(const char *format, ...)
 				i++;
 				j++;
 			}
+			if (format[i] == '%')
+				params.specifier = '%';
 			len = i;
 			params.one_arg = (char *)malloc(j + 1);
 			params.one_arg[j] = 0;
@@ -275,18 +273,18 @@ int ft_printf(const char *format, ...)
 				j--;
 				i--;
 			}
-			//printf("ARGUMENT %s\n", params.one_arg);
 		}
 		if (params.one_arg)
 			argument_save(params.one_arg, &params, ap);
-		/*printf("FLAG %c %c %c %c %c\n", (char)params.flag[0], (char)params.flag[1],
+		/*printf("ARGUMENT %s\n", params.one_arg);
+		printf("FLAG %c %c %c %c %c\n", (char)params.flag[0], (char)params.flag[1],
 		(char)params.flag[2], (char)params.flag[3], (char)params.flag[4]);
 		printf("WIDTH %d\n", params.width);
 		printf("PRECISION %d\n", params.precision);
 		printf("LENGTH %s\n", params.length);
 		printf("SPECIFIER %c\n", params.specifier);
-		printf("LEFT %s\n", params.left);*/
-		//printf("RETURN %d\n", params.res);
+		printf("LEFT %s\n", params.left);
+		printf("RETURN %d\n", params.res);*/
 		struct_init(&params);
 		i = len;
 	}
@@ -294,8 +292,8 @@ int ft_printf(const char *format, ...)
 	return (params.res);
 }
 
-int main(void)
-{
+//int main(void)
+//{
 	/*разный вывод
 	printf("NUMBER %d\n", printf("% +0-5.15d", -2147483648));
 	printf("NUMBER %d\n", ft_printf("% +-05.15d", -2147483648));
@@ -478,7 +476,6 @@ int main(void)
 	printf("NUMBER %d\n", ft_printf("@moulitest: %5.x %5.0x", 0, 0));
 	*/
 
-
 	//Тесты не проходят;
 
 	/*printf("NUMBER %d\n", printf("%x", -42));
@@ -504,10 +501,6 @@ int main(void)
 	printf("NUMBER %d\n", ft_printf("%llx", 9223372036854775808));
 	printf("NUMBER %d\n", printf("%#llx", 9223372036854775807));
 	printf("NUMBER %d\n", ft_printf("%#llx", 9223372036854775807));*/
-
-
-
-
 
 	/*printf("NUMBER %d\n", printf("%05d", -42));
 	printf("NUMBER %d\n", ft_printf("%05d", -42));
@@ -583,7 +576,7 @@ int main(void)
 	printf("NUMBER %d\n", ft_printf("@moulitest: %5.d %5.0d", 0, 0));*/
 
 	//u specifier doesn't work
-	printf("NUMBER %d\n", printf("%u", -1));
+	/*printf("NUMBER %d\n", printf("%u", -1));
 	printf("NUMBER %d\n", ft_printf("%u", -1));
 	printf("NUMBER %d\n", printf("%u", 4294967295));
 	printf("NUMBER %d\n", ft_printf("%u", 4294967295));
@@ -616,14 +609,13 @@ int main(void)
 	printf("NUMBER %d\n", printf("%hU", 4294967296));
 	printf("NUMBER %d\n", ft_printf("%hU", 4294967296));
 	printf("NUMBER %d\n", printf("%U", 4294967296));
-	printf("NUMBER %d\n", ft_printf("%U", 4294967296));
-	
+	printf("NUMBER %d\n", ft_printf("%U", 4294967296));*/
 
-		//printf("NUMBER %d\n", printf("% -3.5o", 9876543));
+	//printf("NUMBER %d\n", printf("% -3.5o", 9876543));
 	//printf("NUMBER %d\n", ft_printf("% -3.5o", 9876543));
 	/*char *str;
 	printf ("real   %x eretr\n", 155);
 	ft_printf ("custom %x eretr\n", 155);
 	printf ("real   %hp eretr\n", &str);
 	ft_printf ("custom %hp eretr\n", &str);*/
-}
+//}
