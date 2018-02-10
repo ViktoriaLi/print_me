@@ -63,8 +63,6 @@ void print_int_depend_length(intmax_t *d, char *length, t_argc *params)
   }
 }
 
-
-
 void print_params_left(intmax_t d, t_argc *params, int zeros, int spaces)
 {
   if (if_flag((*params).flag, ' ', FLAG_LIMIT) && d >= 0 && (*params).specifier
@@ -156,7 +154,7 @@ void print_params_right(intmax_t d, t_argc *params, int zeros, int spaces)
   {
       write(1, "-", 1);
       d = d * (-1);
-      if ((*params).precision > 0)
+      if ((*params).precision > 0 && !if_flag((*params).flag, '0', FLAG_LIMIT))
         zeros += 1;
   }
   if (zeros > 0)
@@ -318,7 +316,7 @@ void d_analizator(t_argc *params, va_list ap)
   //printf("LLLEN %d\n", (*params).res);
   if ((*params).precision > 0)
     zeros = (*params).precision - len;
-  else if (if_flag((*params).flag, '0', FLAG_LIMIT) && !if_flag((*params).flag, '-', FLAG_LIMIT))
+  if (zeros <= 0 && if_flag((*params).flag, '0', FLAG_LIMIT) && !if_flag((*params).flag, '-', FLAG_LIMIT))
     zeros = (*params).width - len;
   if (zeros > 0 && (*params).width > 1)
     spaces = (*params).width - len - zeros;
@@ -329,7 +327,6 @@ void d_analizator(t_argc *params, va_list ap)
     print_params_left(d, params, zeros, spaces);
   else
     print_params_right(d, params, zeros, spaces);
-
   if ((*params).left)
   {
     (*params).res += ft_strlen((*params).left);
