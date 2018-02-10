@@ -59,18 +59,18 @@ void c_analizator(t_argc *params, va_list ap);
 void C_analizator(t_argc *params, va_list ap);
 
 int if_flag(int *all_flags, int flag, int j);
-int print_oct(unsigned int nbr, unsigned int base);
-void print_hex(uintmax_t nbr, t_argc params, unsigned int base);
+int print_oct(unsigned long long nbr, unsigned int base);
+void print_hex(unsigned long long nbr, t_argc params, unsigned int base);
 void print_hex_X(unsigned int nbr);
 void print_hex_o(unsigned int nbr);
 void print_hex_O(unsigned int nbr);
 void check_stars(t_argc *params, va_list ap);
-void print_signed_int_depend_length(intmax_t *d, char *length, t_argc *params);
-void print_unsigned_int_depend_length(uintmax_t *d, char *length, t_argc *params);
-void print_int_params_left(intmax_t d, t_argc *params, int zeros, int spaces);
-void print_int_params_right(intmax_t d, t_argc *params, int zeros, int spaces);
-void print_uint_params_left(uintmax_t d, t_argc *params, int zeros, int spaces);
-void print_uint_params_right(uintmax_t d, t_argc *params, int zeros, int spaces);
+void print_int_depend_length(intmax_t *d, char *length, t_argc *params);
+//void print_unsigned_int_depend_length(unsigned long long *d, char *length, t_argc *params);
+void print_params_left(intmax_t d, t_argc *params, int zeros, int spaces);
+void print_params_right(intmax_t d, t_argc *params, int zeros, int spaces);
+//void print_uint_params_left(unsigned long long d, t_argc *params, int zeros, int spaces);
+//void print_uint_params_right(unsigned long long d, t_argc *params, int zeros, int spaces);
 
 
 int		ft_strcmp(const char *s1, const char *s2);

@@ -197,9 +197,6 @@ void argument_save(char *argv, t_argc *params, va_list ap)
 	}
 	if ((*params).specifier == '%')
 		c_analizator(params, ap);
-	/*else
-		if (argv[i])
-			write(1, &argv[i], 1);*/
 }
 
 void struct_init(t_argc *params)
@@ -481,8 +478,8 @@ int ft_printf(const char *format, ...)
 	/*printf("NUMBER %d\n", printf("%x", -42));
 	printf("NUMBER %d\n", ft_printf("%x", -42));
   printf("NUMBER %d\n", printf("%X", -42));
-	printf("NUMBER %d\n", ft_printf("%X", -42));
-	printf("NUMBER %d\n", printf("%jx", -4294967296));
+	printf("NUMBER %d\n", ft_printf("%X", -42));*/
+	/*printf("NUMBER %d\n", printf("%jx", -4294967296));
 	printf("NUMBER %d\n", ft_printf("%jx", -4294967296));
   printf("NUMBER %d\n", printf("%jx", -4294967297));
 	printf("NUMBER %d\n", ft_printf("%jx", -4294967297));*/
