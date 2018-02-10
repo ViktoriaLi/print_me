@@ -156,7 +156,8 @@ void print_params_right(intmax_t d, t_argc *params, int zeros, int spaces)
   {
       write(1, "-", 1);
       d = d * (-1);
-      zeros += 1;
+      if ((*params).precision > 0)
+        zeros += 1;
   }
   if (zeros > 0)
   {
@@ -472,6 +473,7 @@ void x_analizator(t_argc *params, va_list ap)
       tmp = tmp / 16;
       len++;
     }
+  //printf("LEN %d\n", len);
   (*params).res += len;
   if ((*params).precision > 0)
     zeros = (*params).precision - len;

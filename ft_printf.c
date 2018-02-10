@@ -471,14 +471,15 @@ int ft_printf(const char *format, ...)
 	printf("NUMBER %d\n", ft_printf("@moulitest: %.x %.0x", 0, 0));
   printf("NUMBER %d\n", printf("@moulitest: %5.x %5.0x", 0, 0));
 	printf("NUMBER %d\n", ft_printf("@moulitest: %5.x %5.0x", 0, 0));
+	printf("NUMBER %d\n", printf("%x", -42));
+	printf("NUMBER %d\n", ft_printf("%x", -42));
+  printf("NUMBER %d\n", printf("%X", -42));
+	printf("NUMBER %d\n", ft_printf("%X", -42));
 	*/
 
 	//Тесты не проходят;
 
-	/*printf("NUMBER %d\n", printf("%x", -42));
-	printf("NUMBER %d\n", ft_printf("%x", -42));
-  printf("NUMBER %d\n", printf("%X", -42));
-	printf("NUMBER %d\n", ft_printf("%X", -42));*/
+
 	/*printf("NUMBER %d\n", printf("%jx", -4294967296));
 	printf("NUMBER %d\n", ft_printf("%jx", -4294967296));
   printf("NUMBER %d\n", printf("%jx", -4294967297));
@@ -502,8 +503,9 @@ int ft_printf(const char *format, ...)
 	/*printf("NUMBER %d\n", printf("%05d", -42));
 	printf("NUMBER %d\n", ft_printf("%05d", -42));
 	printf("NUMBER %d\n", printf("%0+5d", -42));
-  printf("NUMBER %d\n", ft_printf("%0+5d", -42));
-	printf("NUMBER %d\n", printf("%-05d", 42));
+  printf("NUMBER %d\n", ft_printf("%0+5d", -42));*/
+
+	/*printf("NUMBER %d\n", printf("%-05d", 42));
  	printf("NUMBER %d\n", ft_printf("%-05d", 42));
 	printf("NUMBER %d\n", printf("%-05d", -42));
 	printf("NUMBER %d\n", ft_printf("%-05d", -42));
