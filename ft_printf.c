@@ -126,9 +126,9 @@ void argument_analize(t_argc *params, va_list ap)
 	else if ((*params).specifier == 'O')
 		o_analizator(params, ap);
 	else if ((*params).specifier == 'u')
-		u_analizator(params, ap);
+		d_analizator(params, ap);
 	else if ((*params).specifier == 'U')
-		u_analizator(params, ap);
+		d_analizator(params, ap);
 	else if ((*params).specifier == 'x')
 		x_analizator(params, ap);
 	else if ((*params).specifier == 'X')
@@ -371,6 +371,8 @@ int ft_printf(const char *format, ...)
 	printf("NUMBER %d\n", printf("@moulitest: %c", 0));
 	printf("NUMBER %d\n", ft_printf("@moulitest: %c", 0));
 
+	printf("NUMBER %d\n", printf("%03.2d", -1));
+  printf("NUMBER %d\n", ft_printf("%03.2d", -1));
 	printf("NUMBER %d\n", printf("the %d", 1));
 	printf("NUMBER %d\n", ft_printf("the %d", 1));
 	printf("NUMBER %d\n", printf("%+d", 0));
@@ -504,9 +506,6 @@ int ft_printf(const char *format, ...)
 	printf("NUMBER %d\n", printf("%#llx", 9223372036854775807));
 	printf("NUMBER %d\n", ft_printf("%#llx", 9223372036854775807));*/
 
-
-
-
 	/*printf("NUMBER %d\n", printf("%ld", 2147483648));
 	printf("NUMBER %d\n", ft_printf("%ld", 2147483648));
 	printf("NUMBER %d\n", printf("%ld", -2147483649));
@@ -526,9 +525,6 @@ int ft_printf(const char *format, ...)
 	printf("NUMBER %d\n", printf("%zd", 4294967296));
   printf("NUMBER %d\n", ft_printf("%zd", 4294967296));*/
 
-
-	//printf("NUMBER %d\n", printf("%03.2d", -1));
-  //printf("NUMBER %d\n", ft_printf("%03.2d", -1));
 	/*printf("NUMBER %d\n", printf("%05d", -42));
 	printf("NUMBER %d\n", ft_printf("%05d", -42));
 	printf("NUMBER %d\n", printf("%0+5d", -42));
@@ -609,8 +605,8 @@ int ft_printf(const char *format, ...)
 	printf("NUMBER %d\n", ft_printf("%U", 4294967295));
 	printf("NUMBER %d\n", printf("%hU", 4294967296));
 	printf("NUMBER %d\n", ft_printf("%hU", 4294967296));
-	printf("NUMBER %d\n", printf("%U", 4294967296));
-	printf("NUMBER %d\n", ft_printf("%U", 4294967296));*/
+	printf("NUMBER %d\n", printf("%U", 4294967296));*/
+	//printf("NUMBER %d\n", ft_printf("%U", 4294967296));
 
 	//printf("NUMBER %d\n", printf("% -3.5o", 9876543));
 	//printf("NUMBER %d\n", ft_printf("% -3.5o", 9876543));

@@ -12,9 +12,9 @@
 
 NAME = libftprintf.a
 
-SFILES = libft_funcs.c ft_printf.c types_analize.c hex.c
+SFILES = libft_funcs.c ft_printf.c types_analize.c hex.c ft_put_long_nbr.c
 
-OFILES = libft_funcs.o ft_printf.o types_analize.o hex.o
+OFILES = libft_funcs.o ft_printf.o types_analize.o hex.o ft_put_long_nbr.o
 
 all: $(NAME)
 
