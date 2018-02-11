@@ -656,5 +656,7 @@ int ft_printf(const char *format, ...)
 	//printf("NUMBER %d\n", ft_printf("|%30O|",	9223372036854775807));
 
 	/*printf("NUMBER %d\n", printf("|%U|", 18446744073709551615));
-	printf("NUMBER %d\n", ft_printf("|%U|",	18446744073709551615));
+	printf("NUMBER %d\n", ft_printf("|%U|",	18446744073709551615));*/
+	/*ft_printf("%hU\n", 4294967296);
+	printf("%hU\n", 4294967296);
 }*/

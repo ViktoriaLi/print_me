@@ -30,8 +30,8 @@ void print_int_depend_length(intmax_t *d, char *length, t_argc *params)
     *d = (uintmax_t)*d;*/
   if ((ft_strcmp(length, "hh") == 0) && ((*params).specifier == 'd' || (*params).specifier == 'i' || (*params).specifier == 'D'))
     *d = (signed char)*d;
-  else if ((ft_strcmp(length, "hh") == 0) && ((*params).specifier == 'u' || (*params).specifier == 'U' ||
-  (*params).specifier == 'o' || (*params).specifier == 'O' || (*params).specifier == 'x' || (*params).specifier == 'X'))
+  else if ((ft_strcmp(length, "hh") == 0) && ((*params).specifier == 'u' ||
+    (*params).specifier == 'o' || (*params).specifier == 'O' || (*params).specifier == 'x' || (*params).specifier == 'X'))
     *d = (unsigned char)*d;
   else if ((ft_strcmp(length, "ll") == 0) && ((*params).specifier == 'd' || (*params).specifier == 'i' || (*params).specifier == 'D'))
     *d = (long long)*d;
@@ -40,7 +40,7 @@ void print_int_depend_length(intmax_t *d, char *length, t_argc *params)
     *d = (unsigned long long)*d;
   else if ((length[0] == 'h') && ((*params).specifier == 'd' || (*params).specifier == 'i' || (*params).specifier == 'D'))
     *d = (short)*d;
-  else if ((length[0] == 'h') && ((*params).specifier == 'u' || (*params).specifier == 'U' ||
+  else if ((length[0] == 'h') && ((*params).specifier == 'u' ||
   (*params).specifier == 'o' || (*params).specifier == 'O' || (*params).specifier == 'x' || (*params).specifier == 'X'))
     *d = (unsigned short)*d;
   else if ((length[0] == 'l') && ((*params).specifier == 'd' || (*params).specifier == 'i' || (*params).specifier == 'D'))
@@ -82,7 +82,7 @@ void print_uint_depend_length(uintmax_t *d, char *length, t_argc *params)
     *d = (uintmax_t)*d;*/
   if ((ft_strcmp(length, "hh") == 0) && ((*params).specifier == 'd' || (*params).specifier == 'i' || (*params).specifier == 'D'))
     *d = (signed char)*d;
-  else if ((ft_strcmp(length, "hh") == 0) && ((*params).specifier == 'u' || (*params).specifier == 'U' ||
+  else if ((ft_strcmp(length, "hh") == 0) && ((*params).specifier == 'u' ||
   (*params).specifier == 'o' || (*params).specifier == 'O' || (*params).specifier == 'x' || (*params).specifier == 'X'))
     *d = (unsigned char)*d;
   else if ((ft_strcmp(length, "ll") == 0) && ((*params).specifier == 'd' || (*params).specifier == 'i' || (*params).specifier == 'D'))
@@ -92,7 +92,7 @@ void print_uint_depend_length(uintmax_t *d, char *length, t_argc *params)
     *d = (unsigned long long)*d;
   else if ((length[0] == 'h') && ((*params).specifier == 'd' || (*params).specifier == 'i' || (*params).specifier == 'D'))
     *d = (short)*d;
-  else if ((length[0] == 'h') && ((*params).specifier == 'u' || (*params).specifier == 'U' ||
+  else if ((length[0] == 'h') && ((*params).specifier == 'u' ||
   (*params).specifier == 'o' || (*params).specifier == 'O' || (*params).specifier == 'x' || (*params).specifier == 'X'))
     *d = (unsigned short)*d;
   else if ((length[0] == 'l') && ((*params).specifier == 'd' || (*params).specifier == 'i' || (*params).specifier == 'D'))
