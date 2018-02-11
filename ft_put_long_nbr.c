@@ -25,6 +25,7 @@ void			ft_put_long_nbr(intmax_t n)
 	intmax_t		c;
 
 	c = 1;
+	d = n;
 	if (n == -2147483648)
 	{
 		d = 147483648;
@@ -55,7 +56,7 @@ void			ft_put_long_nbr(intmax_t n)
 
 }*/
 
-static void		print_uns_chars(unsigned long long d, unsigned long long c, unsigned long long n)
+static void		print_uns_chars(uintmax_t d, uintmax_t c, uintmax_t n)
 {
 	char res;
 
@@ -73,10 +74,10 @@ static void		print_uns_chars(unsigned long long d, unsigned long long c, unsigne
 	}
 }
 
-void			ft_put_uns_long_nbr(unsigned long long n)
+void			ft_put_uns_long_nbr(uintmax_t n)
 {
-	unsigned long long		d;
-	unsigned long long		c;
+	uintmax_t		d;
+	uintmax_t		c;
 
 	c = 1;
 	d = n;

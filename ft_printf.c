@@ -107,6 +107,8 @@ void check_flags(char *str, int *i, int *flag)
 		flag[k] = '\'';
 		k++;
 	}
+	if (tmp)
+		free(tmp);
 }
 
 void argument_analize(t_argc *params, va_list ap)
@@ -170,7 +172,7 @@ void argument_save(char *argv, t_argc *params, va_list ap)
 	check_length(argv[i], argv[i + 1], (*params).length);
 	if ((*params).length[0] != 0)
 	{
-		if (ft_strlen((*params).length) == 1)
+		if ((*params).length[1] == 0)
 			i++;
 		else
 			i += 2;
@@ -187,6 +189,7 @@ void argument_save(char *argv, t_argc *params, va_list ap)
 		(*params).left = (char *)malloc(i - len + 1);
 		(*params).left[i - len] = 0;
 		j = i - len;
+		(*params).left_len = j;
 		while (i >= len)
 		{
 			(*params).left[j] = argv[i];
@@ -208,8 +211,6 @@ void argument_save(char *argv, t_argc *params, va_list ap)
 
 void struct_init(t_argc *params)
 {
-	//if ((*params).one_arg != NULL)
-		//free((*params).one_arg);
 	int i;
 
 	i = 0;
@@ -225,8 +226,6 @@ void struct_init(t_argc *params)
 	(*params).length[1] = 0;
 	(*params).length[2] = 0;
   (*params).specifier = 0;
-	//if ((*params).left != NULL)
-		//free((*params).left);
 	(*params).left = NULL;
 }
 
@@ -299,6 +298,10 @@ int ft_printf(const char *format, ...)
 		printf("SPECIFIER %c\n", params.specifier);
 		printf("LEFT %s\n", params.left);
 		printf("RETURN %d\n", params.res);*/
+		if (params.left)
+			free(params.left);
+		if (params.one_arg)
+			free(params.one_arg);
 		struct_init(&params);
 	}
 	va_end(ap);
@@ -657,6 +660,8 @@ int ft_printf(const char *format, ...)
 
 	/*printf("NUMBER %d\n", printf("|%U|", 18446744073709551615));
 	printf("NUMBER %d\n", ft_printf("|%U|",	18446744073709551615));*/
-	/*ft_printf("%hU\n", 4294967296);
-	printf("%hU\n", 4294967296);
+	/*printf("NUMBER %d\n", printf("%lld", -9223372036854775808));
+	printf("NUMBER %d\n", ft_printf("%lld", -9223372036854775808));
+	printf("NUMBER %d\n", printf("%jd", -9223372036854775808));
+	printf("NUMBER %d\n", ft_printf("%jd", -9223372036854775808));
 }*/

@@ -28,6 +28,11 @@ void print_int_depend_length(intmax_t *d, char *length, t_argc *params)
   /*if ((*params).specifier == 'o' || (*params).specifier == 'O' || (*params).specifier == 'u' || (*params).specifier == 'U'
   || (*params).specifier == 'x' || (*params).specifier == 'X')
     *d = (uintmax_t)*d;*/
+  /*if (*d >= -9223372036854775807 && *d <= 9223372036854775807)
+  {
+    printf("ok\n");
+    *d = (unsigned long long)*d;
+  }*/
   if ((ft_strcmp(length, "hh") == 0) && ((*params).specifier == 'd' || (*params).specifier == 'i' || (*params).specifier == 'D'))
     *d = (signed char)*d;
   else if ((ft_strcmp(length, "hh") == 0) && ((*params).specifier == 'u' ||
@@ -297,8 +302,8 @@ void s_analizator(t_argc *params, va_list ap)
   }
   if ((*params).left)
   {
-    (*params).res += ft_strlen((*params).left);
-    ft_putstr((*params).left);
+    (*params).res += (*params).left_len;
+    write(1, (*params).left, (*params).left_len);
   }
 }
 
@@ -359,8 +364,8 @@ void S_analizator(t_argc *params, va_list ap)
   }
   if ((*params).left)
   {
-    (*params).res += ft_strlen((*params).left);
-    ft_putstr((*params).left);
+    (*params).res += (*params).left_len;
+    write(1, (*params).left, (*params).left_len);
   }
 }
 
@@ -429,8 +434,8 @@ void d_analizator(t_argc *params, va_list ap)
     print_params_right(d, params, zeros, spaces);
   if ((*params).left)
   {
-    (*params).res += ft_strlen((*params).left);
-    ft_putstr((*params).left);
+    (*params).res += (*params).left_len;
+    write(1, (*params).left, (*params).left_len);
   }
 
   //printf("Prec %d\n", params.precision);
@@ -442,11 +447,12 @@ void d_analizator(t_argc *params, va_list ap)
 void o_analizator(t_argc *params, va_list ap)
 {
   intmax_t d;
+  intmax_t tmp = 0;
   long long len;
   int spaces;
   int zeros;
 
-  len = 0;
+  len = 1;
   spaces = 0;
   zeros = 0;
   check_stars(params, ap);
@@ -457,16 +463,36 @@ void o_analizator(t_argc *params, va_list ap)
   if (d != 9223372036854775807)
     d = print_oct(d, 8);
   //printf("DDD %jd\n", d);
+
+  tmp = d;
+  if (d < 0)
+  {
+    len = 2;
+    tmp = tmp * -1;
+  }
+  //printf("DDD %lld\n", d);
+  //printf("FLAG %d% d\n", 12345, if_flag(params.flag, '-', FLAG_LIMIT));
   if (d != 0)
   {
     if (d == 9223372036854775807)
       len = 21;
     else
-      len = ft_strlen(ft_itoa(d));
+      while (tmp > 9)
+      {
+        tmp = tmp / 10;
+        len++;
+      }
+    //len = ft_strlen(ft_itoa(d));
+    //printf("DDD %d\n", len);
   }
   else
+  {
     if ((*params).precision != 0)
       len = 1;
+    else
+      len = 0;
+  }
+
   //printf("DDD %jd\n", len);
   (*params).res += len;
   if ((*params).precision > 0)
@@ -500,8 +526,8 @@ void o_analizator(t_argc *params, va_list ap)
   }
   if ((*params).left)
   {
-    (*params).res += ft_strlen((*params).left);
-    ft_putstr((*params).left);
+    (*params).res += (*params).left_len;
+    write(1, (*params).left, (*params).left_len);
   }
 }
 
@@ -567,8 +593,8 @@ void u_analizator(t_argc *params, va_list ap)
     long_print_params_right(d, params, zeros, spaces);
   if ((*params).left)
   {
-    (*params).res += ft_strlen((*params).left);
-    ft_putstr((*params).left);
+    (*params).res += (*params).left_len;
+    write(1, (*params).left, (*params).left_len);
   }
 }
 
@@ -700,9 +726,12 @@ void x_analizator(t_argc *params, va_list ap)
   }
   if ((*params).left)
   {
-    (*params).res += ft_strlen((*params).left);
-    ft_putstr((*params).left);
+    (*params).res += (*params).left_len;
+    write(1, (*params).left, (*params).left_len);
+    //ft_putstr((*params).left);
   }
+  if (s)
+    free(s);
 }
 
 void c_analizator(t_argc *params, va_list ap)
@@ -749,8 +778,8 @@ void c_analizator(t_argc *params, va_list ap)
   }
   if ((*params).left)
   {
-    (*params).res += ft_strlen((*params).left);
-    ft_putstr((*params).left);
+    (*params).res += (*params).left_len;
+    write(1, (*params).left, (*params).left_len);
   }
 }
 
@@ -796,7 +825,7 @@ void C_analizator(t_argc *params, va_list ap)
   }
   if ((*params).left)
   {
-    (*params).res += ft_strlen((*params).left);
-    ft_putstr((*params).left);
+    (*params).res += (*params).left_len;
+    write(1, (*params).left, (*params).left_len);
   }
 }

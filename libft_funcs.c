@@ -75,47 +75,6 @@ size_t		ft_strlen(const char *s)
 	return (i);
 }
 
-static void		print_chars(int d, int c, int n)
-{
-	char res;
-
-	res = 0;
-	while (d > 9)
-	{
-		d = d / 10;
-		c = c * 10;
-	}
-	while (c > 0 && n >= 0)
-	{
-		res = (n / c) % 10 + '0';
-		write(1, &res, 1);
-		c = c / 10;
-	}
-}
-
-void			ft_putnbr(int n)
-{
-	int		d;
-	int		c;
-
-	c = 1;
-	if (n == -2147483648)
-	{
-		d = 147483648;
-		n = 147483648;
-		write(1, "-2", 2);
-	}
-	if (n < 0)
-	{
-		d = -1 * n;
-		n = -1 * n;
-		write(1, "-", 1);
-	}
-	else
-		d = n;
-	print_chars(d, c, n);
-}
-
 void	ft_putstr(char const *s)
 {
 	int i;
@@ -129,86 +88,6 @@ void	ft_putstr(char const *s)
 			i++;
 		}
 	}
-}
-
-static char		*min_int(int n, char *dest)
-{
-	int		len;
-
-	len = 3;
-	n = 214748364;
-	while (n > 9)
-	{
-		n = n / 10;
-		len++;
-	}
-	n = 214748364;
-	if (!(dest = (char *)malloc((len + 1))))
-		return (NULL);
-	dest[len--] = 0;
-	dest[len--] = '8';
-	while (len >= 2)
-	{
-		dest[len--] = n % 10 + '0';
-		n = n / 10;
-	}
-	dest[len--] = '2';
-	dest[len] = '-';
-	return (dest);
-}
-
-static char		*ft_negative_itoa(long long n, char *dest)
-{
-	long long	d;
-	int		len;
-
-	len = 2;
-	d = -1 * n;
-	while (d > 9)
-	{
-		d = d / 10;
-		len++;
-	}
-	d = -1 * n;
-	if (!(dest = (char *)malloc((len + 1))))
-		return (NULL);
-	dest[len--] = 0;
-	while (len)
-	{
-		dest[len--] = d % 10 + '0';
-		d = d / 10;
-	}
-	dest[len] = '-';
-	return (dest);
-}
-
-char			*ft_itoa(long long n)
-{
-	long long	d;
-	int		len;
-	char	*dest;
-
-	dest = NULL;
-	if (n == -2147483648)
-		return (min_int(n, dest));
-	if (n < 0 && n != -2147483648)
-		return (ft_negative_itoa(n, dest));
-	len = 1;
-	d = n;
-	while (d > 9)
-	{
-		d = d / 10;
-		len++;
-	}
-	if (!(dest = (char *)malloc((len + 1))))
-		return (NULL);
-	dest[len--] = 0;
-	while (len >= 0)
-	{
-		dest[len--] = n % 10 + '0';
-		n = n / 10;
-	}
-	return (dest);
 }
 
 void	ft_putchar(char c)
