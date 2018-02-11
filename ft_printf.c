@@ -195,9 +195,15 @@ void argument_save(char *argv, t_argc *params, va_list ap)
 		}
 		argument_analize(params, ap);
 	}
-	if ((*params).specifier == '%')
+	else if ((*params).specifier == '%')
 		c_analizator(params, ap);
-
+	else
+		while (argv[i])
+		{
+			write(1, &argv[i], 1);
+			(*params).res++;
+			i++;
+		}
 }
 
 void struct_init(t_argc *params)
