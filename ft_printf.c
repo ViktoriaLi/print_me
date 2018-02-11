@@ -197,6 +197,7 @@ void argument_save(char *argv, t_argc *params, va_list ap)
 	}
 	if ((*params).specifier == '%')
 		c_analizator(params, ap);
+
 }
 
 void struct_init(t_argc *params)
@@ -270,6 +271,16 @@ int ft_printf(const char *format, ...)
 				j--;
 				i--;
 			}
+			i = len;
+		}
+		else
+		{
+			while (format[i] && format[i] != '%')
+			{
+				write(1, &format[i], 1);
+				params.res++;
+				i++;
+			}
 		}
 		if (params.one_arg)
 			argument_save(params.one_arg, &params, ap);
@@ -283,7 +294,6 @@ int ft_printf(const char *format, ...)
 		printf("LEFT %s\n", params.left);
 		printf("RETURN %d\n", params.res);*/
 		struct_init(&params);
-		i = len;
 	}
 	va_end(ap);
 	return (params.res);
@@ -621,4 +631,13 @@ int ft_printf(const char *format, ...)
 	ft_printf ("custom %x eretr\n", 155);
 	printf ("real   %hp eretr\n", &str);
 	ft_printf ("custom %hp eretr\n", &str);*/
-//}
+
+	//moulitests
+	//int i;
+	//printf("NUMBER %d\n", printf("%p", &i));
+	//printf("NUMBER %d\n", ft_printf("%p", &i));
+	/*printf("NUMBER %d\n", printf("% Zoooo"));
+	printf("NUMBER %d\n", ft_printf("% Zoooo"));
+
+
+}*/

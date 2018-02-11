@@ -68,7 +68,10 @@ void print_int_depend_length(intmax_t *d, char *length, t_argc *params)
     if ((*params).specifier == 'd' || (*params).specifier == 'i')
       *d = (int)*d;
     else
+    {
+      if ((*params).specifier != 'p')
       *d = (unsigned int)*d;
+    }
   }
 }
 
