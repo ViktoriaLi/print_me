@@ -468,8 +468,10 @@ void x_analizator(t_argc *params, va_list ap)
   int len;
   int spaces;
   int zeros;
+  char *s;
+  s = NULL;
   tmp = 0;
-  len = 1;
+  len = 0;
   spaces = 0;
   zeros = 0;
   check_stars(params, ap);
@@ -478,25 +480,28 @@ void x_analizator(t_argc *params, va_list ap)
   print_int_depend_length(&d, (*params).length, params);
   //printf("DDD2 %d\n", d);
   tmp = d;
-  if (d > 0)
-    while (tmp >= 16)
+  s = print_hex(d, *params, 16);
+  //printf("%s\n", s);
+  if (d != 0)
+   {
+     len = ft_strlen(s);
+   }
+  /*  while (tmp >= 16)
     {
       tmp = tmp / 16;
       len++;
-    }
+    }*/
   if (d == 0)
   {
     if ((*params).precision != 0)
       len = 1;
-    else
-      len = 0;
   }
-  if (d < 0)
+/*  if (d < 0)
     while (tmp <= -16)
     {
       tmp = tmp / 16;
       len++;
-    }
+    }*/
   //printf("LEN %d\n", len);
   (*params).res += len;
   if ((*params).precision > 0)
@@ -531,7 +536,8 @@ void x_analizator(t_argc *params, va_list ap)
         write(1, "0", 1);
     }
     if (d != 0)
-      print_hex(d, *params, 16);
+      ft_putstr(s);
+      //print_hex(d, *params, 16);
     else
       if ((*params).precision != 0)
         write(1, "0", 1);
@@ -575,7 +581,8 @@ void x_analizator(t_argc *params, va_list ap)
         write(1, "0", 1);
     }
     if (d != 0)
-      print_hex(d, *params, 16);
+      ft_putstr(s);
+      //print_hex(d, *params, 16);
     else
       if ((*params).precision != 0)
         write(1, "0", 1);
