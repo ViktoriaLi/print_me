@@ -1,7 +1,7 @@
 #include "ft_printf.h"
 #include <stdio.h>
 
-static void		print_chars(long long d, int c, long long n)
+static void		print_chars(long long d, long long c, long long n)
 {
 	char res;
 
@@ -40,4 +40,45 @@ void			ft_put_long_nbr(long long n)
 	else
 		d = n;
 	print_chars(d, c, n);
+}
+
+/*int main(void)
+{
+	ft_put_long_nbr(18446744073709551574);
+	write(1, "\n", 1);
+	ft_put_long_nbr(-9223372036854775808);
+	write(1, "\n", 1);
+	ft_put_long_nbr(4294967295);
+	write(1, "\n", 1);
+	ft_put_long_nbr(4294967296);
+	write(1, "\n", 1);
+
+}*/
+
+static void		print_uns_chars(unsigned long long d, unsigned long long c, unsigned long long n)
+{
+	char res;
+
+	res = 0;
+	while (d > 9)
+	{
+		d = d / 10;
+		c = c * 10;
+	}
+	while (c > 0)
+	{
+		res = (n / c) % 10 + '0';
+		write(1, &res, 1);
+		c = c / 10;
+	}
+}
+
+void			ft_put_uns_long_nbr(unsigned long long n)
+{
+	unsigned long long		d;
+	unsigned long long		c;
+
+	c = 1;
+	d = n;
+	print_uns_chars(d, c, n);
 }

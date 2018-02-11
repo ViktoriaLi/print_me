@@ -82,5 +82,6 @@ void	ft_putstr(char const *s);
 char			*ft_itoa(int n);
 void	ft_putchar(char c);
 void			ft_put_long_nbr(long long n);
+void			ft_put_uns_long_nbr(unsigned long long n);
 
 #endif
