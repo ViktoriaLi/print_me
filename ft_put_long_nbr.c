@@ -1,7 +1,7 @@
 #include "ft_printf.h"
 #include <stdio.h>
 
-static void		print_chars(long long d, long long c, long long n)
+static void		print_chars(intmax_t d, intmax_t c, intmax_t n)
 {
 	char res;
 
@@ -19,10 +19,10 @@ static void		print_chars(long long d, long long c, long long n)
 	}
 }
 
-void			ft_put_long_nbr(long long n)
+void			ft_put_long_nbr(intmax_t n)
 {
-	long long		d;
-	long long		c;
+	intmax_t		d;
+	intmax_t		c;
 
 	c = 1;
 	if (n == -2147483648)

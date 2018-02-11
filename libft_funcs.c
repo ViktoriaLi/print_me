@@ -157,9 +157,9 @@ static char		*min_int(int n, char *dest)
 	return (dest);
 }
 
-static char		*ft_negative_itoa(int n, char *dest)
+static char		*ft_negative_itoa(long long n, char *dest)
 {
-	long	d;
+	long long	d;
 	int		len;
 
 	len = 2;
@@ -182,9 +182,9 @@ static char		*ft_negative_itoa(int n, char *dest)
 	return (dest);
 }
 
-char			*ft_itoa(int n)
+char			*ft_itoa(long long n)
 {
-	long	d;
+	long long	d;
 	int		len;
 	char	*dest;
 

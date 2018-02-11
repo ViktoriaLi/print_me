@@ -126,9 +126,9 @@ void argument_analize(t_argc *params, va_list ap)
 	else if ((*params).specifier == 'O')
 		o_analizator(params, ap);
 	else if ((*params).specifier == 'u')
-		d_analizator(params, ap);
+		u_analizator(params, ap);
 	else if ((*params).specifier == 'U')
-		d_analizator(params, ap);
+		u_analizator(params, ap);
 	else if ((*params).specifier == 'x')
 		x_analizator(params, ap);
 	else if ((*params).specifier == 'X')
@@ -645,5 +645,16 @@ int ft_printf(const char *format, ...)
 	/*printf("NUMBER %d\n", printf("% Zoooo"));
 	printf("NUMBER %d\n", ft_printf("% Zoooo"));
 
+	printf("NUMBER %d\n", printf("%D", -1L));
+	printf("NUMBER %d\n", ft_printf("%D", -1L));*/
 
+	//printf("NUMBER %d\n", printf("%o%o%o%o%o", 1, 100, 999, 42, 999988888));
+	//printf("NUMBER %d\n", ft_printf("%o%o%o%o%o",	1, 100, 999, 42, 999988888));
+	//printf("NUMBER %d\n", printf("%o", 999988888));
+	//printf("NUMBER %d\n", ft_printf("%o",	999988888));
+	//printf("NUMBER %d\n", printf("|%30O|", 9223372036854775807));
+	//printf("NUMBER %d\n", ft_printf("|%30O|",	9223372036854775807));
+
+	/*printf("NUMBER %d\n", printf("|%U|", 18446744073709551615));
+	printf("NUMBER %d\n", ft_printf("|%U|",	18446744073709551615));
 }*/
