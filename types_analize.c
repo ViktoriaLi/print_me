@@ -286,7 +286,10 @@ void s_analizator(t_argc *params, va_list ap)
   len = 0;
   s = NULL;
   check_stars(params, ap);
-  s = va_arg(ap, char *);
+  if ((*params).specifier == 's' || (*params).specifier == 'S')
+    s = va_arg(ap, char *);
+  else
+    s = (*params).reserve;
   if (s == NULL)
     s = "(null)";
   len = ft_strlen(s);

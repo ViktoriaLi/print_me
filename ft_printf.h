@@ -31,6 +31,7 @@ typedef struct	s_argc
   char length[3];
   char specifier;
 	char *left;
+	char *reserve;
 	int left_len;
 }				       t_argc;
 
@@ -85,5 +86,6 @@ char			*ft_itoa(long long n);
 void	ft_putchar(char c);
 void			ft_put_long_nbr(intmax_t n);
 void			ft_put_uns_long_nbr(uintmax_t n);
+char	*ft_strncpy(char *dst, const char *src, size_t len);
 
 #endif

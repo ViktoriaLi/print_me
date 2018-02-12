@@ -19,6 +19,7 @@
 //characters, %k to print a date in any ordinary ISO format etc.
 //Management of alter tools for colors, fd or other fun stuff like that :)
 //перевести все в итоа, для ансайнд - сайз т, для сайнд - интмакс, но внутри привести к сайз т без минуса, а минус сохранить
+//не указана тип, но есть буква - выводится она, если есть только число - это считается шириной - проверить остельные флаги без типа
 
 int check_specifier(char type)
 {
@@ -202,12 +203,29 @@ void argument_save(char *argv, t_argc *params, va_list ap)
 	else if ((*params).specifier == '%')
 		c_analizator(params, ap);
 	else
+	{
+		len = i;
 		while (argv[i])
 		{
-			write(1, &argv[i], 1);
-			(*params).res++;
+			//write(1, &argv[i], 1);
+			//(*params).res++;
 			i++;
 		}
+		len = i - len;
+		(*params).reserve = (char *)malloc(len + 1);
+		(*params).reserve[len] = 0;
+		//len--;
+		while (len >= 0)
+		{
+			(*params).reserve[len] = argv[i];
+			i--;
+			len--;
+		}
+		//return ;
+		//printf("SSS");
+		//printf("SSS %s\n", (*params).reserve);
+		s_analizator(params, ap);
+	}
 }
 
 void struct_init(t_argc *params)
@@ -227,6 +245,7 @@ void struct_init(t_argc *params)
 	(*params).length[1] = 0;
 	(*params).length[2] = 0;
   (*params).specifier = 0;
+	(*params).reserve = NULL;
 	(*params).left = NULL;
 }
 
@@ -309,8 +328,8 @@ int ft_printf(const char *format, ...)
 	return (params.res);
 }
 
-//int main(void)
-//{
+int main(void)
+{
 	/*разный вывод
 	printf("NUMBER %d\n", printf("% +0-5.15d", -2147483648));
 	printf("NUMBER %d\n", ft_printf("% +-05.15d", -2147483648));
@@ -367,12 +386,15 @@ int ft_printf(const char *format, ...)
 	printf ("real   % -010.5hhi eretr\n", 65);
 	ft_printf ("custom % -010.5hhi eretr\n", 65);*/
 
+
 	/*printf("NUMBER %d\n", printf("%5%"));
 	printf("NUMBER %d\n", ft_printf("%5%"));
 	printf("NUMBER %d\n", printf("%.0%"));
 	printf("NUMBER %d\n", ft_printf("%.0%"));
 	printf("NUMBER %d\n", printf("%-5%"));
 	printf("NUMBER %d\n", ft_printf("%-5%"));*/
+
+
 
 	//Тесты проходят
 	/*printf("NUMBER %d\n", printf("this is a %s", "string"));
@@ -704,18 +726,21 @@ int ft_printf(const char *format, ...)
 	printf("NUMBER %d\n", ft_printf("%O", -9223372036854775806));
 	printf("NUMBER %d\n", printf("%zo, %zo", 0, 18446744073709551615));
 	printf("NUMBER %d\n", ft_printf("%zo, %zo", 0, 18446744073709551615));
+
+	printf("NUMBER %d\n", printf("%zi", -9223372036854775807));
+	printf("NUMBER %d\n", ft_printf("%zi", -9223372036854775807));
 	*/
 
-	/*printf("NUMBER %d\n", printf("{%10R}"));
-	printf("NUMBER %d\n", ft_printf("{%10R}"));
+	printf("NUMBER %d\n", printf("{%10Rt}"));
+	printf("NUMBER %d\n", ft_printf("{%10Rt}"));
+
 	printf("NUMBER %d\n", printf("{%-15Z}", 123));
 	printf("NUMBER %d\n", ft_printf("{%-15Z}", 123));
+
 	printf("NUMBER %d\n", printf("{%3*d}", 0, 0));
-	printf("NUMBER %d\n", ft_printf("{%3*d}", 0, 0));
+	printf("NUMBER %d\n", ft_printf("{*d}", 0, 0));
+
 	printf("NUMBER %d\n", printf("{%3*p}", 10, 0));
 	printf("NUMBER %d\n", ft_printf("{%3*p}", 10, 0));
 
-	printf("NUMBER %d\n", printf("%zi", -9223372036854775807));
-	printf("NUMBER %d\n", ft_printf("%zi", -9223372036854775807));*/
-
-//}
+}

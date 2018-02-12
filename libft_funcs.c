@@ -94,3 +94,24 @@ void	ft_putchar(char c)
 {
 	write(1, &c, 1);
 }
+
+char	*ft_strncpy(char *dst, const char *src, size_t len)
+{
+	size_t	i;
+
+	i = 0;
+	while (i < len && src[i] != 0)
+	{
+		dst[i] = src[i];
+		i++;
+	}
+	if (i < len && src[i] == 0)
+	{
+		while (i < len)
+		{
+			dst[i] = 0;
+			i++;
+		}
+	}
+	return (dst);
+}
