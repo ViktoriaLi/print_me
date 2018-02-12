@@ -678,6 +678,8 @@ int ft_printf(const char *format, ...)
 
 	printf("NUMBER %d\n", printf("%-#.O", 0));
 	printf("NUMBER %d\n", ft_printf("%-#.O", 0));
+	printf("NUMBER %d\n", printf("{% S}", NULL));
+	printf("NUMBER %d\n", ft_printf("{% S}", NULL));
 	*/
 
 	//MOULITESTS
@@ -697,12 +699,12 @@ int ft_printf(const char *format, ...)
 	printf("NUMBER %d\n", ft_printf("%O", -9223372036854775806));
 	printf("NUMBER %d\n", printf("%zo, %zo", 0, 18446744073709551615));
 	printf("NUMBER %d\n", ft_printf("%zo, %zo", 0, 18446744073709551615));
+	*/
 
+	//printf("NUMBER %d\n", printf("%.u, %.0u", 0, 0));
+	//printf("NUMBER %d\n", ft_printf("%.u, %.0u", 0, 0));
 
-	printf("NUMBER %d\n", printf("{% S}", NULL));
-	printf("NUMBER %d\n", ft_printf("{% S}", NULL));
-
-	printf("NUMBER %d\n", printf("{%10R}"));
+	/*printf("NUMBER %d\n", printf("{%10R}"));
 	printf("NUMBER %d\n", ft_printf("{%10R}"));
 	printf("NUMBER %d\n", printf("{%-15Z}", 123));
 	printf("NUMBER %d\n", ft_printf("{%-15Z}", 123));
@@ -711,8 +713,7 @@ int ft_printf(const char *format, ...)
 	printf("NUMBER %d\n", printf("{%3*p}", 10, 0));
 	printf("NUMBER %d\n", ft_printf("{%3*p}", 10, 0));
 
-	printf("NUMBER %d\n", printf("%.u, %.0u", 0, 0));
-	printf("NUMBER %d\n", ft_printf("%.u, %.0u", 0, 0));
+
 
 	printf("NUMBER %d\n", printf("%4.s", "42"));
 	printf("NUMBER %d\n", ft_printf("%4.s", "42"));
