@@ -346,18 +346,24 @@ void S_analizator(t_argc *params, va_list ap)
   S = NULL;
   check_stars(params, ap);
   S = va_arg(ap, wchar_t *);
-  while(S[len])
-    len++;
+  if (S == NULL)
+    len = 6;
+  else
+    while(S[len])
+      len++;
   if ((*params).precision > 0 && (*params).precision < len)
     len = (*params).precision;
   (*params).res += len;
   if (if_flag((*params).flag, '-', FLAG_LIMIT))
   {
-    while(S[j])
-    {
-      write(1, &S[j], 1);
-      j += 1;
-    }
+    if (S == NULL)
+      write(1, "(null)", 6);
+    else
+      while(S[j])
+      {
+        write(1, &S[j], 1);
+        j += 1;
+      }
     if ((*params).width > len)
     {
       spaces = (*params).width - len;
@@ -382,11 +388,14 @@ void S_analizator(t_argc *params, va_list ap)
       while (spaces--)
         write(1, "0", 1);
     }
-    while(S[j])
-    {
-      write(1, &S[j], 1);
-      j += 1;
-    }
+    if (S == NULL)
+      write(1, "(null)", 6);
+    else
+      while(S[j])
+      {
+        write(1, &S[j], 1);
+        j += 1;
+      }
   }
   if ((*params).left)
   {

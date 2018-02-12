@@ -309,8 +309,8 @@ int ft_printf(const char *format, ...)
 	return (params.res);
 }
 
-int main(void)
-{
+//int main(void)
+//{
 	/*разный вывод
 	printf("NUMBER %d\n", printf("% +0-5.15d", -2147483648));
 	printf("NUMBER %d\n", ft_printf("% +-05.15d", -2147483648));
@@ -697,11 +697,12 @@ int main(void)
 	printf("NUMBER %d\n", ft_printf("%O", -9223372036854775806));
 	printf("NUMBER %d\n", printf("%zo, %zo", 0, 18446744073709551615));
 	printf("NUMBER %d\n", ft_printf("%zo, %zo", 0, 18446744073709551615));
-	*/
 
 
+	printf("NUMBER %d\n", printf("{% S}", NULL));
+	printf("NUMBER %d\n", ft_printf("{% S}", NULL));
 
-	/*printf("NUMBER %d\n", printf("{%10R}"));
+	printf("NUMBER %d\n", printf("{%10R}"));
 	printf("NUMBER %d\n", ft_printf("{%10R}"));
 	printf("NUMBER %d\n", printf("{%-15Z}", 123));
 	printf("NUMBER %d\n", ft_printf("{%-15Z}", 123));
@@ -709,9 +710,6 @@ int main(void)
 	printf("NUMBER %d\n", ft_printf("{%3*d}", 0, 0));
 	printf("NUMBER %d\n", printf("{%3*p}", 10, 0));
 	printf("NUMBER %d\n", ft_printf("{%3*p}", 10, 0));
-
-	printf("NUMBER %d\n", printf("{% S}", NULL));
-	printf("NUMBER %d\n", ft_printf("{% S}", NULL));
 
 	printf("NUMBER %d\n", printf("%.u, %.0u", 0, 0));
 	printf("NUMBER %d\n", ft_printf("%.u, %.0u", 0, 0));
