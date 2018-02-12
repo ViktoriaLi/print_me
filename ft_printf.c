@@ -18,6 +18,7 @@
 //Non-existing flags management: %b to print in binary, %r to print a string of nonprintable
 //characters, %k to print a date in any ordinary ISO format etc.
 //Management of alter tools for colors, fd or other fun stuff like that :)
+//перевести все в итоа, для ансайнд - сайз т, для сайнд - интмакс, но внутри привести к сайз т без минуса, а минус сохранить
 
 int check_specifier(char type)
 {
@@ -308,8 +309,8 @@ int ft_printf(const char *format, ...)
 	return (params.res);
 }
 
-//int main(void)
-//{
+int main(void)
+{
 	/*разный вывод
 	printf("NUMBER %d\n", printf("% +0-5.15d", -2147483648));
 	printf("NUMBER %d\n", ft_printf("% +-05.15d", -2147483648));
@@ -665,6 +666,18 @@ int ft_printf(const char *format, ...)
 	printf("NUMBER %d\n", ft_printf("|%U|",	18446744073709551615 / 2));
 	printf("NUMBER %d\n", printf("{% 03d}", 0));
 	printf("NUMBER %d\n", ft_printf("{% 03d}", 0));
+	printf("NUMBER %d\n", printf("%hD, %hD", 0, 65535));
+	printf("NUMBER %d\n", ft_printf("%hD, %hD", 0, 65535));
+	printf("NUMBER %d\n", printf("%hhO, %hhO", 0, 65535));
+	printf("NUMBER %d\n", ft_printf("%hhO, %hhO", 0, 65535));
+	printf("NUMBER %d\n", printf("%#o", 0));
+	printf("NUMBER %d\n", ft_printf("%#o", 0));
+
+	printf("NUMBER %d\n", printf("%-#.o, %#.0o", 0, 0));
+	printf("NUMBER %d\n", ft_printf("%-#.o, %#.0o", 0, 0));
+
+	printf("NUMBER %d\n", printf("%-#.O", 0));
+	printf("NUMBER %d\n", ft_printf("%-#.O", 0));
 	*/
 
 	//MOULITESTS
@@ -678,25 +691,17 @@ int ft_printf(const char *format, ...)
 	printf("NUMBER %d\n", printf("%lld", -9223372036854775808));
 	printf("NUMBER %d\n", ft_printf("%lld", -9223372036854775808));
 	printf("NUMBER %d\n", printf("%jd", -9223372036854775808));
-	printf("NUMBER %d\n", ft_printf("%jd", -9223372036854775808));*/
+	printf("NUMBER %d\n", ft_printf("%jd", -9223372036854775808));
 
-
-	/*printf("NUMBER %d\n", printf("%hD, %hD", 0, 65535));
-	printf("NUMBER %d\n", ft_printf("%hD, %hD", 0, 65535));
-	printf("NUMBER %d\n", printf("%D", -9223372036854775807));
-	printf("NUMBER %d\n", ft_printf("%D", -9223372036854775807));
-
-	printf("NUMBER %d\n", printf("%hhO, %hhO", 0, 65535));
-	printf("NUMBER %d\n", ft_printf("%hhO, %hhO", 0, 65535));
-	printf("NUMBER %d\n", printf("%O", -2147483647));
-	printf("NUMBER %d\n", ft_printf("%O", -2147483647));
-
+	printf("NUMBER %d\n", printf("%O", -9223372036854775806));
+	printf("NUMBER %d\n", ft_printf("%O", -9223372036854775806));
 	printf("NUMBER %d\n", printf("%zo, %zo", 0, 18446744073709551615));
 	printf("NUMBER %d\n", ft_printf("%zo, %zo", 0, 18446744073709551615));
-	printf("NUMBER %d\n", printf("%#o", 0));
-	printf("NUMBER %d\n", ft_printf("%#o", 0));
+	*/
 
-	printf("NUMBER %d\n", printf("{%10R}"));
+
+
+	/*printf("NUMBER %d\n", printf("{%10R}"));
 	printf("NUMBER %d\n", ft_printf("{%10R}"));
 	printf("NUMBER %d\n", printf("{%-15Z}", 123));
 	printf("NUMBER %d\n", ft_printf("{%-15Z}", 123));

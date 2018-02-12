@@ -107,3 +107,72 @@
 [ ----------END OF UNIT TESTS---------- ]
 
 >>>> Result: 22/48 test suites passed. 329/396 tests passed (dots).
+
+23
+>>>> 17_conv_C.spec.c ------------ [FAIL] ...FFFFF. [FAIL] test_chinese -> printf("%C", L'зM-^LЂ')
+>>>> 18_mix_all_previous.spec.c -- [FAIL] FF [FAIL] test_simple -> printf("%s %C %d %p %x %% %S", "bonjour ", L'и©≤', 42, &free, 42, L"ўM-^DЎ≠ўM-^E ЎЃўM-^FЎ...
+>>>> 40_length_modif_l.spec.c ---- [FAIL] ....F....F.F..FF... [FAIL] test_ld_long_min -> printf("%ld", LONG_MIN)
+>>>> 41_length_modif_ll.spec.c --- [FAIL] ..F..F.F..... [FAIL] test_lld_llong_min -> printf("%lld", LLONG_MIN)
+>>>> 42_length_modif_h.spec.c ---- [Ok !] .............
+>>>> 43_length_modif_hh.spec.c --- [FAIL] .....................FS [FAIL] test_err_hhc_up_max -> printf("%hhC, %hhC", 0, L'з±≥')
+>>>> 43_length_modif_j.spec.c ---- [FAIL] ..F..F.F..... [FAIL] test_jd_llong_min -> printf("%jd", LLONG_MIN)
+>>>> 44_length_modif_z.spec.c ---- [FAIL] .....F..... [FAIL] test_zo_unsign_long_long_max -> printf("%zo, %zo", 0, ULLONG_MAX)
+>>>> 45_length_modif_edge_cases.sp [Ok !] .
+>>>> 50_min_width.spec.c --------- [FAIL] .........FFF [FAIL] invalidConvSpec_withMinWith -> printf("{%10R}")
+>>>> 51_min_width_flag_minus.spec. [Ok !] ...
+>>>> 52_min_width_flag_zero.spec.c [FAIL] ........F.. [FAIL] wide_str_posMinWidth_zeroFlag -> printf("{%030S}", L"жM-M-^QжM-^XѓдЄM-еM-^O™зM-^LЂгM-M-^B")
+>>>> 53_min_width_non_valid_conv.s [FAIL] F [FAIL] nonValidConv_negativeMinWidth -> printf("{%-15Z}", 123)
+>>>> 60_flag_sharp.spec.c -------- [FAIL] .F......... [FAIL] test_octal_zero -> printf("%#o", 0)
+>>>> 61_flag_plus.spec.c --------- [Ok !] .............
+>>>> 62_flag_space.spec.c -------- [FAIL] ............S.. [SEGV] SNullString_spaceFlag -> (null)
+>>>> 69_flag_mix.spec.c ---------- [Ok !] .........
+>>>> 70_precision_for_diu.spec.c - [FAIL] .............................F [FAIL] test_precision_u_zero_value -> printf("%.u, %.0u", 0, 0)
+>>>> 71_precision_for_oOxX.spec.c  [Ok !] ...............................
+>>>> 72_precision_for_sS.spec.c -- [FAIL] .........FFFFF [FAIL] test_precision_S -> printf("%.4S", L"жM-M-^QжM-^XѓдЄM-еM-^O™зM-^LЂгM-M-^B")
+>>>> 73_precision_for_cC.spec.c -- [Ok !] ......
+>>>> 74_precision_for_p.spec.c --- [FAIL] .F..FF [FAIL] pNullPointer_3Precision -> printf("%.5p", 0)
+>>>> 75_precision_for_percent.spec [Ok !] .
+>>>> 79_precision_mixed_with_flags [FAIL] ......FF.F [FAIL] nonValidConvSpec_precision_minwdith_and_flagZero -> printf("{%05.Z}", 0)
+>>>> 90_incomptbl_values_sdpi.spec [FAIL] .FF. [FAIL] test_zi -> printf("%zi", LLONG_MIN)
+>>>> 91_incomptbl_values_uUSDcC.sp [Ok !] ......
+>>>> 92_incomptbl_values_oOxX.spec [FAIL] ..F.... [FAIL] test_octal_up_long_min -> printf("%O", LONG_MIN)
+>>>> bonus_01_wildcard.spec.c ---- [FAIL] ............F [FAIL] pointer_wildcard -> printf("{%3*p}", 10, 0)
+>>>> bonus_02_wildcard_multi.spec. [Ok !] .
+>>>> bonus_03_wildcard_flag_mix.sp [FAIL] FFF. [FAIL] digit_wildcard_and_min_width_value1 -> printf("{%3*d}", 0, 0)
+>>>> bonus_10_conv_fF.spec.c ----- [FAIL] FFFF [FAIL] simple_small_nbr -> printf("{%f}{%F}", 1.42, 1.42)
+[ ----------END OF UNIT TESTS---------- ]
+
+
+24
+
+>>>> 17_conv_C.spec.c ------------ [FAIL] ...FFFFF. [FAIL] test_chinese -> printf("%C", L'зM-^LЂ')
+>>>> 18_mix_all_previous.spec.c -- [FAIL] FF [FAIL] test_simple -> printf("%s %C %d %p %x %% %S", "bonjour ", L'и©≤', 42, &free, 42, L"ўM-^DЎ≠ўM-^E ЎЃўM-^FЎ...
+>>>> 40_length_modif_l.spec.c ---- [FAIL] ....F....F.F..FF... [FAIL] test_ld_long_min -> printf("%ld", LONG_MIN)
+>>>> 41_length_modif_ll.spec.c --- [FAIL] ..F..F.F..... [FAIL] test_lld_llong_min -> printf("%lld", LLONG_MIN)
+>>>> 42_length_modif_h.spec.c ---- [Ok !] .............
+>>>> 43_length_modif_hh.spec.c --- [FAIL] .....................FS [FAIL] test_err_hhc_up_max -> printf("%hhC, %hhC", 0, L'з±≥')
+>>>> 43_length_modif_j.spec.c ---- [FAIL] ..F..F.F..... [FAIL] test_jd_llong_min -> printf("%jd", LLONG_MIN)
+>>>> 44_length_modif_z.spec.c ---- [FAIL] .....F..... [FAIL] test_zo_unsign_long_long_max -> printf("%zo, %zo", 0, ULLONG_MAX)
+>>>> 45_length_modif_edge_cases.sp [Ok !] .
+>>>> 50_min_width.spec.c --------- [FAIL] .........FFF [FAIL] invalidConvSpec_withMinWith -> printf("{%10R}")
+>>>> 51_min_width_flag_minus.spec. [Ok !] ...
+>>>> 52_min_width_flag_zero.spec.c [FAIL] ........F.. [FAIL] wide_str_posMinWidth_zeroFlag -> printf("{%030S}", L"жM-M-^QжM-^XѓдЄM-еM-^O™зM-^LЂгM-M-^B")
+>>>> 53_min_width_non_valid_conv.s [FAIL] F [FAIL] nonValidConv_negativeMinWidth -> printf("{%-15Z}", 123)
+>>>> 60_flag_sharp.spec.c -------- [FAIL] .F......... [FAIL] test_octal_zero -> printf("%#o", 0)
+>>>> 61_flag_plus.spec.c --------- [Ok !] .............
+>>>> 62_flag_space.spec.c -------- [FAIL] ............S.. [SEGV] SNullString_spaceFlag -> (null)
+>>>> 69_flag_mix.spec.c ---------- [FAIL] ........F [FAIL] octalUppercase_precision_sharpFlag_zeroValue -> printf("%#.O", 0)
+>>>> 70_precision_for_diu.spec.c - [FAIL] .............................F [FAIL] test_precision_u_zero_value -> printf("%.u, %.0u", 0, 0)
+>>>> 71_precision_for_oOxX.spec.c  [Ok !] ...............................
+>>>> 72_precision_for_sS.spec.c -- [FAIL] .........FFFFF [FAIL] test_precision_S -> printf("%.4S", L"жM-M-^QжM-^XѓдЄM-еM-^O™зM-^LЂгM-M-^B")
+>>>> 73_precision_for_cC.spec.c -- [Ok !] ......
+>>>> 74_precision_for_p.spec.c --- [FAIL] .F..FF [FAIL] pNullPointer_3Precision -> printf("%.5p", 0)
+>>>> 75_precision_for_percent.spec [Ok !] .
+>>>> 79_precision_mixed_with_flags [FAIL] F.....FF.F [FAIL] test_precision_o_sharp_zero -> printf("%#.o, %#.0o", 0, 0)
+>>>> 90_incomptbl_values_sdpi.spec [FAIL] .FF. [FAIL] test_zi -> printf("%zi", LLONG_MIN)
+>>>> 91_incomptbl_values_uUSDcC.sp [Ok !] ......
+>>>> 92_incomptbl_values_oOxX.spec [FAIL] ..F.... [FAIL] test_octal_up_long_min -> printf("%O", LONG_MIN)
+>>>> bonus_01_wildcard.spec.c ---- [FAIL] ............F [FAIL] pointer_wildcard -> printf("{%3*p}", 10, 0)
+>>>> bonus_02_wildcard_multi.spec. [Ok !] .
+>>>> bonus_03_wildcard_flag_mix.sp [FAIL] FFF. [FAIL] digit_wildcard_and_min_width_value1 -> printf("{%3*d}", 0, 0)
+>>>> bonus_10_conv_fF.spec.c ----- [FAIL] FFFF [FAIL] simple_small_nbr -> printf("{%f}{%F}", 1.42, 1.42)

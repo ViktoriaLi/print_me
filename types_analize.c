@@ -51,17 +51,17 @@ void print_int_depend_length(intmax_t *d, char *length, t_argc *params)
     printf("ok\n");
     *d = (unsigned long long)*d;
   }*/
-  if ((ft_strcmp(length, "hh") == 0) && ((*params).specifier == 'd' || (*params).specifier == 'i' || (*params).specifier == 'D'))
+  if ((ft_strcmp(length, "hh") == 0) && ((*params).specifier == 'd' || (*params).specifier == 'i'))
     *d = (signed char)*d;
   else if ((ft_strcmp(length, "hh") == 0) && ((*params).specifier == 'u' ||
-    (*params).specifier == 'o' || (*params).specifier == 'O' || (*params).specifier == 'x' || (*params).specifier == 'X'))
+    (*params).specifier == 'o' || (*params).specifier == 'x' || (*params).specifier == 'X'))
     *d = (unsigned char)*d;
   else if ((ft_strcmp(length, "ll") == 0) && ((*params).specifier == 'd' || (*params).specifier == 'i' || (*params).specifier == 'D'))
     *d = (long long)*d;
   else if ((ft_strcmp(length, "ll") == 0) && ((*params).specifier == 'u' || (*params).specifier == 'U' ||
   (*params).specifier == 'o' || (*params).specifier == 'O' || (*params).specifier == 'x' || (*params).specifier == 'X'))
     *d = (unsigned long long)*d;
-  else if ((length[0] == 'h') && ((*params).specifier == 'd' || (*params).specifier == 'i' || (*params).specifier == 'D'))
+  else if ((length[0] == 'h') && ((*params).specifier == 'd' || (*params).specifier == 'i'))
     *d = (short)*d;
   else if ((length[0] == 'h') && ((*params).specifier == 'u' ||
   (*params).specifier == 'o' || (*params).specifier == 'O' || (*params).specifier == 'x' || (*params).specifier == 'X'))
@@ -106,7 +106,7 @@ void print_uint_depend_length(uintmax_t *d, char *length, t_argc *params)
   if ((ft_strcmp(length, "hh") == 0) && ((*params).specifier == 'd' || (*params).specifier == 'i' || (*params).specifier == 'D'))
     *d = (signed char)*d;
   else if ((ft_strcmp(length, "hh") == 0) && ((*params).specifier == 'u' ||
-  (*params).specifier == 'o' || (*params).specifier == 'O' || (*params).specifier == 'x' || (*params).specifier == 'X'))
+  (*params).specifier == 'o' || (*params).specifier == 'x' || (*params).specifier == 'X'))
     *d = (unsigned char)*d;
   else if ((ft_strcmp(length, "ll") == 0) && ((*params).specifier == 'd' || (*params).specifier == 'i' || (*params).specifier == 'D'))
     *d = (long long)*d;
@@ -182,7 +182,8 @@ void print_params_left(intmax_t d, t_argc *params, int zeros, int spaces)
     while (zeros--)
       write(1, "0", 1);
   }
-  if (((*params).specifier == 'o' || (*params).specifier == 'O') && if_flag((*params).flag, '#', FLAG_LIMIT))
+  if (((*params).specifier == 'o' || (*params).specifier == 'O') && if_flag((*params).flag, '#', FLAG_LIMIT) &&
+   (d != 0 || (*params).precision != -1))
     write(1, "0", 1);
   if (d != 0)
   {
@@ -259,7 +260,8 @@ void print_params_right(intmax_t d, t_argc *params, int zeros, int spaces)
     while (zeros--)
       write(1, "0", 1);
   }
-  if (((*params).specifier == 'o' || (*params).specifier == 'O') && if_flag((*params).flag, '#', FLAG_LIMIT))
+  if (((*params).specifier == 'o' || (*params).specifier == 'O') && if_flag((*params).flag, '#', FLAG_LIMIT) &&
+   (d != 0 || (*params).precision != -1))
     write(1, "0", 1);
   //printf("DDD %jud\n", d);
   if (d != 0)
@@ -534,7 +536,8 @@ void o_analizator(t_argc *params, va_list ap)
   {
     zeros--;
     spaces--;
-    (*params).res += 1;
+    if (d != 0 || (*params).precision != -1)
+      (*params).res += 1;
   }
   //printf("FLAG %d% d\n", 12345, if_flag(params.flag, '-', FLAG_LIMIT));
   if (d == 9223372036854775807)

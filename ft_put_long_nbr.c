@@ -80,10 +80,10 @@ void			ft_put_uns_long_nbr(uintmax_t n)
 	uintmax_t		c;
 
 	c = 1;
-	if (n > 9223372036854775807)
+	/*if (n > 9223372036854775807)
 	{
 		write(1, "-", 1);
-	}
+	}*/
 	d = n;
 	print_uns_chars(d, c, n);
 }
