@@ -96,7 +96,7 @@ void long_print_params_left(uintmax_t d, t_argc *params, int zeros, int spaces)
   }
   if (((*params).specifier == 'o' || (*params).specifier == 'O') && if_flag((*params).flag, '#', FLAG_LIMIT))
     write(1, "0", 1);
-	if (d == 9223372036854775807)
+	if (d == 9223372036854775807 && ((*params).specifier == 'o' || (*params).specifier == 'O'))
 	 	write(1, "777777777777777777777", 21);
 	else
 		ft_put_uns_long_nbr(d);
@@ -112,14 +112,15 @@ void long_print_params_left(uintmax_t d, t_argc *params, int zeros, int spaces)
 
 void long_print_params_right(uintmax_t d, t_argc *params, int zeros, int spaces)
 {
-  if (if_flag((*params).flag, ' ', FLAG_LIMIT) &&
-    !if_flag((*params).flag, '0', FLAG_LIMIT) && !if_flag((*params).flag, '+', FLAG_LIMIT)
+  if (if_flag((*params).flag, ' ', FLAG_LIMIT) && !if_flag((*params).flag, '+', FLAG_LIMIT)
   && (*params).specifier != 'u' && (*params).specifier != 'U' &&
   (*params).specifier != 'o' && (*params).specifier != 'O')
   {
     (*params).res += 1;
     write(1, " ", 1);
     spaces -= 1;
+		if (if_flag((*params).flag, '0', FLAG_LIMIT))
+      zeros -= 1;
   }
   if (if_flag((*params).flag, '+', FLAG_LIMIT) && (*params).specifier != 'o' && (*params).specifier != 'O')
   {
@@ -154,7 +155,7 @@ void long_print_params_right(uintmax_t d, t_argc *params, int zeros, int spaces)
   }
   if (((*params).specifier == 'o' || (*params).specifier == 'O') && if_flag((*params).flag, '#', FLAG_LIMIT))
     write(1, "0", 1);
-	if (d == 9223372036854775807)
+	if (d == 9223372036854775807 && ((*params).specifier == 'o' || (*params).specifier == 'O'))
   	write(1, "777777777777777777777", 21);
 	else
 		ft_put_uns_long_nbr(d);

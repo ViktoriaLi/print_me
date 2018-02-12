@@ -188,14 +188,16 @@ void print_params_left(intmax_t d, t_argc *params, int zeros, int spaces)
 
 void print_params_right(intmax_t d, t_argc *params, int zeros, int spaces)
 {
-  if (if_flag((*params).flag, ' ', FLAG_LIMIT) && d >= 0 &&
-    !if_flag((*params).flag, '0', FLAG_LIMIT) && !if_flag((*params).flag, '+', FLAG_LIMIT)
+  if (if_flag((*params).flag, ' ', FLAG_LIMIT) && d >= 0 /*&&
+    !if_flag((*params).flag, '0', FLAG_LIMIT)*/ && !if_flag((*params).flag, '+', FLAG_LIMIT)
   && (*params).specifier != 'u' && (*params).specifier != 'U' &&
   (*params).specifier != 'o' && (*params).specifier != 'O')
   {
     (*params).res += 1;
     write(1, " ", 1);
     spaces -= 1;
+    if (if_flag((*params).flag, '0', FLAG_LIMIT))
+      zeros -= 1;
   }
   if (d >= 0 && if_flag((*params).flag, '+', FLAG_LIMIT) && (*params).specifier != 'o' && (*params).specifier != 'O')
   {
@@ -418,7 +420,6 @@ void d_analizator(t_argc *params, va_list ap)
   }
 
   (*params).res += len;
-  //printf("LLLEN %d\n", (*params).res);
   if ((*params).precision > 0)
     zeros = (*params).precision - len;
   if (zeros <= 0 && if_flag((*params).flag, '0', FLAG_LIMIT) && !if_flag((*params).flag, '-', FLAG_LIMIT))
