@@ -367,15 +367,12 @@ int ft_printf(const char *format, ...)
 	printf ("real   % -010.5hhi eretr\n", 65);
 	ft_printf ("custom % -010.5hhi eretr\n", 65);*/
 
-
 	/*printf("NUMBER %d\n", printf("%5%"));
 	printf("NUMBER %d\n", ft_printf("%5%"));
 	printf("NUMBER %d\n", printf("%.0%"));
 	printf("NUMBER %d\n", ft_printf("%.0%"));
 	printf("NUMBER %d\n", printf("%-5%"));
 	printf("NUMBER %d\n", ft_printf("%-5%"));*/
-
-
 
 	//Тесты проходят
 	/*printf("NUMBER %d\n", printf("this is a %s", "string"));
@@ -680,6 +677,14 @@ int ft_printf(const char *format, ...)
 	printf("NUMBER %d\n", ft_printf("%-#.O", 0));
 	printf("NUMBER %d\n", printf("{% S}", NULL));
 	printf("NUMBER %d\n", ft_printf("{% S}", NULL));
+	printf("NUMBER %d\n", printf("%.u, %.0u", 0, 0));
+	printf("NUMBER %d\n", ft_printf("%.u, %.0u", 0, 0));
+	printf("NUMBER %d\n", printf("%4.s", "42"));
+	printf("NUMBER %d\n", ft_printf("%4.s", "42"));
+	printf("NUMBER %d\n", printf("{%05.s}", 0));
+	printf("NUMBER %d\n", ft_printf("{%05.s}", 0));
+	printf("NUMBER %d\n", printf("%.5p", 0));
+	printf("NUMBER %d\n", ft_printf("%.5p", 0));
 	*/
 
 	//MOULITESTS
@@ -701,9 +706,6 @@ int ft_printf(const char *format, ...)
 	printf("NUMBER %d\n", ft_printf("%zo, %zo", 0, 18446744073709551615));
 	*/
 
-	//printf("NUMBER %d\n", printf("%.u, %.0u", 0, 0));
-	//printf("NUMBER %d\n", ft_printf("%.u, %.0u", 0, 0));
-
 	/*printf("NUMBER %d\n", printf("{%10R}"));
 	printf("NUMBER %d\n", ft_printf("{%10R}"));
 	printf("NUMBER %d\n", printf("{%-15Z}", 123));
@@ -712,16 +714,6 @@ int ft_printf(const char *format, ...)
 	printf("NUMBER %d\n", ft_printf("{%3*d}", 0, 0));
 	printf("NUMBER %d\n", printf("{%3*p}", 10, 0));
 	printf("NUMBER %d\n", ft_printf("{%3*p}", 10, 0));
-
-
-
-	printf("NUMBER %d\n", printf("%4.s", "42"));
-	printf("NUMBER %d\n", ft_printf("%4.s", "42"));
-	printf("NUMBER %d\n", printf("{%05.s}", 0));
-	printf("NUMBER %d\n", ft_printf("{%05.s}", 0));
-
-	printf("NUMBER %d\n", printf("%.5p", 0));
-	printf("NUMBER %d\n", ft_printf("%.5p", 0));
 
 	printf("NUMBER %d\n", printf("%zi", -9223372036854775807));
 	printf("NUMBER %d\n", ft_printf("%zi", -9223372036854775807));*/

@@ -691,7 +691,8 @@ void x_analizator(t_argc *params, va_list ap)
   if ((if_flag((*params).flag, '#', FLAG_LIMIT) && d != 0) || (*params).specifier == 'p')
   {
     spaces -= 2;
-    zeros -= 2;
+    if ((*params).specifier != 'p')
+      zeros -= 2;
   }
   if (if_flag((*params).flag, '-', FLAG_LIMIT))
   {
