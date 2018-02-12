@@ -17,10 +17,28 @@ int if_flag(int *all_flags, int flag, int j)
 
 void check_stars(t_argc *params, va_list ap)
 {
+  int i;
+
+  i = 0;
   if ((*params).width == '*')
+  {
     (*params).width = va_arg(ap, int);
+    if ((*params).width < 0)
+    {
+      (*params).width = (*params).width * -1;
+      if (!if_flag((*params).flag, '-', FLAG_LIMIT))
+        {
+          while ((*params).flag[i] != 0)
+            i++;
+          (*params).flag[i] = '-';
+        }
+    }
+  }
+  i = 0;
   if ((*params).precision == '*')
+  {
     (*params).precision = va_arg(ap, int);
+  }
 }
 
 void print_int_depend_length(intmax_t *d, char *length, t_argc *params)
@@ -272,10 +290,13 @@ void s_analizator(t_argc *params, va_list ap)
   len = ft_strlen(s);
   if ((*params).precision > 0 && (*params).precision < len)
     len = (*params).precision;
+  else if ((*params).precision == 0)
+    len = 0;
   (*params).res += len;
   if (if_flag((*params).flag, '-', FLAG_LIMIT))
   {
-    write(1, s, len);
+    if ((*params).precision != 0)
+      write(1, s, len);
     if ((*params).width > len)
     {
       spaces = (*params).width - len;
@@ -300,7 +321,8 @@ void s_analizator(t_argc *params, va_list ap)
       while (spaces--)
         write(1, "0", 1);
     }
-    write(1, s, len);
+    if ((*params).precision != 0)
+      write(1, s, len);
   }
   if ((*params).left)
   {
@@ -394,15 +416,19 @@ void d_analizator(t_argc *params, va_list ap)
   print_int_depend_length(&d, (*params).length, params);
   //printf("DDD %jud\n", d);
   tmp = d;
-  if (d < 0)
+  if (d < -9223372036854775807 || d > 9223372036854775807)
+    len = 20;
+  else
   {
-    len = 2;
-    tmp = tmp * -1;
-  }
+    if (d < 0)
+    {
+      len = 2;
+      tmp = tmp * -1;
+    }
   //printf("DDD %lld\n", d);
   //printf("FLAG %d% d\n", 12345, if_flag(params.flag, '-', FLAG_LIMIT));
-  if (d != 0)
-  {
+    if (d != 0)
+    {
       while (tmp > 9)
       {
         tmp = tmp / 10;
@@ -410,15 +436,15 @@ void d_analizator(t_argc *params, va_list ap)
       }
     //len = ft_strlen(ft_itoa(d));
     //printf("DDD %d\n", len);
-  }
-  else
-  {
-    if ((*params).precision != 0)
-      len = 1;
+    }
     else
-      len = 0;
-  }
-
+    {
+      if ((*params).precision != 0)
+        len = 1;
+      else
+        len = 0;
+    }
+}
   (*params).res += len;
   if ((*params).precision > 0)
     zeros = (*params).precision - len;

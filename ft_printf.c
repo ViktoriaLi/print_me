@@ -366,12 +366,15 @@ int ft_printf(const char *format, ...)
 	printf ("real   % -010.5hhi eretr\n", 65);
 	ft_printf ("custom % -010.5hhi eretr\n", 65);*/
 
+
 	/*printf("NUMBER %d\n", printf("%5%"));
 	printf("NUMBER %d\n", ft_printf("%5%"));
 	printf("NUMBER %d\n", printf("%.0%"));
 	printf("NUMBER %d\n", ft_printf("%.0%"));
 	printf("NUMBER %d\n", printf("%-5%"));
 	printf("NUMBER %d\n", ft_printf("%-5%"));*/
+
+
 
 	//Тесты проходят
 	/*printf("NUMBER %d\n", printf("this is a %s", "string"));
@@ -666,18 +669,17 @@ int ft_printf(const char *format, ...)
 
 	//MOULITESTS
 
-	/*printf("NUMBER %d\n", printf("{%*d}", -5, 42));
-	printf("NUMBER %d\n", ft_printf("{%*d}", -5, 42));
-	printf("NUMBER %d\n", printf("%ld", -2147483647));
-	printf("NUMBER %d\n", ft_printf("%ld", -2147483647));
-	printf("NUMBER %d\n", printf("%lld", -9223372036854775807));
-	printf("NUMBER %d\n", ft_printf("%lld", -9223372036854775807));
-	printf("NUMBER %d\n", printf("%jd", -9223372036854775807));
-	printf("NUMBER %d\n", ft_printf("%jd", -9223372036854775807));
+	/*printf("NUMBER %d\n", printf("%ld", -9223372036854775808));
+	printf("NUMBER %d\n", ft_printf("%ld", -9223372036854775808));
+	printf("NUMBER %d\n", printf("%lld", -9223372036854775808));
+	printf("NUMBER %d\n", ft_printf("%lld", -9223372036854775808));
+	printf("NUMBER %d\n", printf("%jd", -9223372036854775808));
+	printf("NUMBER %d\n", ft_printf("%jd", -9223372036854775808));
 	printf("NUMBER %d\n", printf("%lld", -9223372036854775808));
 	printf("NUMBER %d\n", ft_printf("%lld", -9223372036854775808));
 	printf("NUMBER %d\n", printf("%jd", -9223372036854775808));
 	printf("NUMBER %d\n", ft_printf("%jd", -9223372036854775808));*/
+
 
 	/*printf("NUMBER %d\n", printf("%hD, %hD", 0, 65535));
 	printf("NUMBER %d\n", ft_printf("%hD, %hD", 0, 65535));
@@ -700,6 +702,8 @@ int ft_printf(const char *format, ...)
 	printf("NUMBER %d\n", ft_printf("{%-15Z}", 123));
 	printf("NUMBER %d\n", printf("{%3*d}", 0, 0));
 	printf("NUMBER %d\n", ft_printf("{%3*d}", 0, 0));
+	printf("NUMBER %d\n", printf("{%3*p}", 10, 0));
+	printf("NUMBER %d\n", ft_printf("{%3*p}", 10, 0));
 
 	printf("NUMBER %d\n", printf("{% S}", NULL));
 	printf("NUMBER %d\n", ft_printf("{% S}", NULL));
