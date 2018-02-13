@@ -163,7 +163,8 @@ void argument_save(char *argv, t_argc *params, va_list ap)
 	}
 	if ((argv[i] >= '0' && argv[i] <= '9'))
 	{
-			(*params).width = check_width(&argv[i]);
+		(*params).star_width = (*params).width;
+		(*params).width = check_width(&argv[i]);
 		while (argv[i] >= '0' && argv[i] <= '9')
 			i++;
 	}
@@ -747,6 +748,11 @@ int ft_printf(const char *format, ...)
 
 	printf("NUMBER %d\n", printf("%#08x", 42));
 	printf("NUMBER %d\n", ft_printf("%#08x", 42));
+	printf("NUMBER %d\n", printf("{%3*d}", 2, 1));
+	printf("NUMBER %d\n", ft_printf("{%3*d}", 2, 1));
+
+	printf("NUMBER %d\n", printf("{%3*p}", 10, 5));
+	printf("NUMBER %d\n", ft_printf("{%3*p}", 10, 5));
 	*/
 
 	//MOULITESTS
@@ -778,10 +784,7 @@ int ft_printf(const char *format, ...)
 	//* меньше потом число - число
 	//число больше * - число
 	//число меньше * - звезда
-	/*printf("NUMBER %d\n", printf("{%3*d}", 2, 1));
-	printf("NUMBER %d\n", ft_printf("{%3*d}", 2, 1));
-
-	printf("NUMBER %d\n", printf("{%3*p}", 10, 5));
-	printf("NUMBER %d\n", ft_printf("{%3*p}", 10, 5));
+	/*printf("NUMBER %d\n", printf("{%*3d}", 5, 0));
+	printf("NUMBER %d\n", ft_printf("{%*3d}", 5, 0));
 
 }*/
