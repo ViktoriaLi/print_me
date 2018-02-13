@@ -12,6 +12,7 @@
 //для интов учитывать длину изначальную или после модификаторов?
 //types Must contain at least one type. Example: "diouxX"
 //length, you must mark it as "-|other_flags", otherwise it will be ignored. Example: "-|hh|ll"
+//flag '0' results in undefined behavior with 'S' conversion specifier
 
 //More detailed conversions management: eE, fF, gG, aA, n.
 //More detailed flags management: *, $, L, ’.
@@ -753,6 +754,8 @@ int ft_printf(const char *format, ...)
 
 	printf("NUMBER %d\n", printf("{%3*p}", 10, 5));
 	printf("NUMBER %d\n", ft_printf("{%3*p}", 10, 5));
+	printf("NUMBER %d\n", printf("{%*3d}", 5, 0));
+	printf("NUMBER %d\n", ft_printf("{%*3d}", 5, 0));
 	*/
 
 	//MOULITESTS
@@ -777,14 +780,13 @@ int ft_printf(const char *format, ...)
 	printf("NUMBER %d\n", ft_printf("%zi", -9223372036854775807));
 	*/
 
+	/*printf("NUMBER %d\n", printf("{%S}", NULL));
+	printf("NUMBER %d\n", ft_printf("{%S}", NULL));
 
-	//printf("NUMBER %d\n", printf("{%05.S}", L"42 c est cool"));
-	//printf("NUMBER %d\n", ft_printf("{%05.S}", L"42 c est cool"));
+	printf("NUMBER %d\n", printf("{%05.S}", L"42 c est cool"));
+	printf("NUMBER %d\n", ft_printf("{%05.S}", L"42 c est cool"));*/
   //* больше потом число - число
 	//* меньше потом число - число
 	//число больше * - число
 	//число меньше * - звезда
-	/*printf("NUMBER %d\n", printf("{%*3d}", 5, 0));
-	printf("NUMBER %d\n", ft_printf("{%*3d}", 5, 0));
-
-}*/
+//}
