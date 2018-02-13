@@ -34,6 +34,7 @@ typedef struct	s_argc
 	char *left;
 	char *reserve;
 	int left_len;
+	char sign;
 }				       t_argc;
 
 int ft_printf(const char *format, ...);
@@ -70,8 +71,8 @@ void print_hex_O(unsigned int nbr);
 void check_stars(t_argc *params, va_list ap);
 void print_int_depend_length(intmax_t *d, char *length, t_argc *params);
 void print_uint_depend_length(uintmax_t *d, char *length, t_argc *params);
-void print_params_left(intmax_t d, t_argc *params, int zeros, int spaces);
-void print_params_right(intmax_t d, t_argc *params, int zeros, int spaces);
+void print_params_left(char *s, t_argc *params, int zeros, int spaces);
+void print_params_right(char *s, t_argc *params, int zeros, int spaces);
 //void print_uint_params_left(uintmax_t d, t_argc *params, int zeros, int spaces);
 //void print_uint_params_right(uuintmax_t d, t_argc *params, int zeros, int spaces);
 void long_print_params_right(uintmax_t d, t_argc *params, int zeros, int spaces);
@@ -83,7 +84,7 @@ int			ft_atoi(const char *str);
 size_t		ft_strlen(const char *s);
 void			ft_putnbr(int n);
 void	ft_putstr(char const *s);
-char			*ft_itoa(long long n);
+char			*ft_itoa(intmax_t n);
 void	ft_putchar(char c);
 void			ft_put_long_nbr(intmax_t n);
 void			ft_put_uns_long_nbr(uintmax_t n);

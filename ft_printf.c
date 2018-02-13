@@ -165,7 +165,7 @@ void argument_save(char *argv, t_argc *params, va_list ap)
 	if ((argv[i] >= '0' && argv[i] <= '9'))
 	{
 		(*params).star_width = (*params).width;
-		(*params).width = check_width(&argv[i]);
+		(*params).width = ft_atoi(&argv[i]);
 		while (argv[i] >= '0' && argv[i] <= '9')
 			i++;
 	}
@@ -186,11 +186,11 @@ void argument_save(char *argv, t_argc *params, va_list ap)
 		if (argv[i] >= '0' && argv[i] <= '9')
 		{
 			if ((*params).precision != '*')
-				(*params).precision = check_precision(&argv[i]);
+				(*params).precision = ft_atoi(&argv[i]);
 			else
 			{
 				if ((*params).width != '*')
-					(*params).width = check_precision(&argv[i]);
+					(*params).width = ft_atoi(&argv[i]);
 			}
 		}
 		while ((argv[i] >= '0' && argv[i] <= '9'))
@@ -274,6 +274,7 @@ void struct_init(t_argc *params)
   (*params).specifier = 0;
 	(*params).reserve = NULL;
 	(*params).left = NULL;
+	(*params).sign = 0;
 }
 
 int ft_printf(const char *format, ...)

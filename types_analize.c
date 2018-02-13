@@ -155,9 +155,9 @@ void print_uint_depend_length(uintmax_t *d, char *length, t_argc *params)
   }
 }
 
-void print_params_left(intmax_t d, t_argc *params, int zeros, int spaces)
+void print_params_left(char *s, t_argc *params, int zeros, int spaces)
 {
-  if (if_flag((*params).flag, ' ', FLAG_LIMIT) && d >= 0 && (*params).specifier
+  if (if_flag((*params).flag, ' ', FLAG_LIMIT) && (*params).sign != '-' && (*params).specifier
     != 'u' && (*params).specifier != 'U' && !if_flag((*params).flag, '+', FLAG_LIMIT)
     && (*params).specifier != 'o' && (*params).specifier != 'O')
   {
@@ -165,7 +165,7 @@ void print_params_left(intmax_t d, t_argc *params, int zeros, int spaces)
     write(1, " ", 1);
     spaces -= 1;
   }
-  if (d >= 0 && if_flag((*params).flag, '+', FLAG_LIMIT) && (*params).specifier != 'o' && (*params).specifier != 'O'
+  if ((*params).sign != '-' && if_flag((*params).flag, '+', FLAG_LIMIT) && (*params).specifier != 'o' && (*params).specifier != 'O'
   && (*params).specifier != 'u' && (*params).specifier != 'U')
   {
     (*params).res += 1;
@@ -173,11 +173,12 @@ void print_params_left(intmax_t d, t_argc *params, int zeros, int spaces)
     //zeros -= 1;
     write(1, "+", 1);
   }
-  if (d < 0 && zeros > 0)
+  if ((*params).sign == '-' && zeros > 0)
   {
+      (*params).sign = 0;
       spaces--;
       write(1, "-", 1);
-      d = d * (-1);
+      //d = d * (-1);
       zeros += 1;
       //(*params).res += 1;
   }
@@ -187,15 +188,19 @@ void print_params_left(intmax_t d, t_argc *params, int zeros, int spaces)
     while (zeros--)
       write(1, "0", 1);
   }
-  if (((*params).specifier == 'o' || (*params).specifier == 'O') && if_flag((*params).flag, '#', FLAG_LIMIT) &&
-   (d != 0 || (*params).precision != -1))
+  if (((*params).specifier == 'o' || (*params).specifier == 'O') &&
+  if_flag((*params).flag, '#', FLAG_LIMIT) &&
+   (s[0] != '0' || (*params).precision != -1))
     write(1, "0", 1);
-  if (d != 0)
+  if (s[0] != '0')
   {
-    if (d >= -9223372036854775807 && d <= 9223372036854775807)
+    /*if (d >= -9223372036854775807 && d <= 9223372036854775807)
       ft_put_long_nbr(d);
     else
-      ft_put_uns_long_nbr(d);
+      ft_put_uns_long_nbr(d);*/
+    if ((*params).sign == '-')
+      write(1, "-", 1);
+    ft_putstr(s);
   }
   else
     if ((*params).precision != 0)
@@ -210,9 +215,9 @@ void print_params_left(intmax_t d, t_argc *params, int zeros, int spaces)
   }
 }
 
-void print_params_right(intmax_t d, t_argc *params, int zeros, int spaces)
+void print_params_right(char *s, t_argc *params, int zeros, int spaces)
 {
-  if (if_flag((*params).flag, ' ', FLAG_LIMIT) && d >= 0 /*&&
+  if (if_flag((*params).flag, ' ', FLAG_LIMIT) && (*params).sign != '-' /*&&
     !if_flag((*params).flag, '0', FLAG_LIMIT)*/ && !if_flag((*params).flag, '+', FLAG_LIMIT)
   && (*params).specifier != 'u' && (*params).specifier != 'U' &&
   (*params).specifier != 'o' && (*params).specifier != 'O')
@@ -223,7 +228,7 @@ void print_params_right(intmax_t d, t_argc *params, int zeros, int spaces)
     if (if_flag((*params).flag, '0', FLAG_LIMIT))
       zeros -= 1;
   }
-  if (d >= 0 && if_flag((*params).flag, '+', FLAG_LIMIT) && (*params).specifier != 'o' && (*params).specifier != 'O')
+  if ((*params).sign != '-' && if_flag((*params).flag, '+', FLAG_LIMIT) && (*params).specifier != 'o' && (*params).specifier != 'O')
   {
     spaces -= 1;
     if ((*params).precision <= 0)
@@ -231,13 +236,13 @@ void print_params_right(intmax_t d, t_argc *params, int zeros, int spaces)
   }
   if (spaces > 0 && zeros > 0)
   {
-    if (d < 0 && zeros > 0)
+    if ((*params).sign == '-' && zeros > 0)
       spaces--;
     (*params).res += spaces;
     while (spaces--)
       write(1, " ", 1);
   }
-  if (d >= 0 && if_flag((*params).flag, '+', FLAG_LIMIT)
+  if ((*params).sign != '-' && if_flag((*params).flag, '+', FLAG_LIMIT)
       && (*params).specifier != 'o' && (*params).specifier != 'O'
       && (*params).specifier != 'u' && (*params).specifier != 'U')
   {
@@ -246,16 +251,17 @@ void print_params_right(intmax_t d, t_argc *params, int zeros, int spaces)
   }
   if (spaces > 0 && zeros <= 0)
   {
-    if (d < 0 && zeros > 0)
+    if ((*params).sign == '-' && zeros > 0)
       spaces--;
     (*params).res += spaces;
     while (spaces--)
       write(1, " ", 1);
   }
-  if (d < 0 && zeros > 0)
+  if ((*params).sign == '-' && zeros > 0)
   {
       write(1, "-", 1);
-      d = d * (-1);
+      (*params).sign = 0;
+      //d = d * (-1);
       if ((*params).precision > 0 && !if_flag((*params).flag, '0', FLAG_LIMIT))
         zeros += 1;
   }
@@ -266,15 +272,18 @@ void print_params_right(intmax_t d, t_argc *params, int zeros, int spaces)
       write(1, "0", 1);
   }
   if (((*params).specifier == 'o' || (*params).specifier == 'O') && if_flag((*params).flag, '#', FLAG_LIMIT) &&
-   (d != 0 || (*params).precision != -1))
+   (s[0] != '0' || (*params).precision != -1))
     write(1, "0", 1);
   //printf("DDD %jud\n", d);
-  if (d != 0)
+  if (s[0] != '0')
   {
-    if (d >= -9223372036854775807 && d <= 9223372036854775807)
+    /*if (d >= -9223372036854775807 && d <= 9223372036854775807)
       ft_put_long_nbr(d);
     else
-      ft_put_uns_long_nbr(d);
+      ft_put_uns_long_nbr(d);*/
+    if ((*params).sign == '-')
+      write(1, "-", 1);
+    ft_putstr(s);
   }
   else
     if ((*params).precision != 0)
@@ -433,13 +442,15 @@ void S_analizator(t_argc *params, va_list ap)
 void d_analizator(t_argc *params, va_list ap)
 {
   intmax_t d;
-  intmax_t tmp;
+  //intmax_t tmp;
   intmax_t len;
   int spaces;
   int zeros;
   zeros = 0;
   spaces = 0;
   len = 1;
+  char *s;
+  s = NULL;
   //printf("FLAG %c %c %c %c %c\n", (char)params.flag[0], (char)params.flag[1],
    // (char)params.flag[2], (char)params.flag[3], (char)params.flag[4]);
   //printf("WIDTH %d\n", params.width);
@@ -452,7 +463,14 @@ void d_analizator(t_argc *params, va_list ap)
   //printf("DDD %jud\n", d);
   print_int_depend_length(&d, (*params).length, params);
   //printf("DDD %jud\n", d);
-  tmp = d;
+  if (d < 0)
+  {
+    (*params).sign = '-';
+    d = -1 * d;
+    //(*params).res += 1;
+  }
+  s = ft_itoa(d);
+  /*tmp = d;
   if (d < -9223372036854775807 || d > 9223372036854775807)
     len = 20;
   else
@@ -461,16 +479,19 @@ void d_analizator(t_argc *params, va_list ap)
     {
       len = 2;
       tmp = tmp * -1;
-    }
+    }*/
   //printf("DDD %lld\n", d);
   //printf("FLAG %d% d\n", 12345, if_flag(params.flag, '-', FLAG_LIMIT));
     if (d != 0)
     {
-      while (tmp > 9)
+      len = ft_strlen(s);
+      if ((*params).sign == '-')
+        len++;
+      /*while (tmp > 9)
       {
         tmp = tmp / 10;
         len++;
-      }
+      }*/
     //len = ft_strlen(ft_itoa(d));
     //printf("DDD %d\n", len);
     }
@@ -481,7 +502,6 @@ void d_analizator(t_argc *params, va_list ap)
       else
         len = 0;
     }
-}
   (*params).res += len;
   if ((*params).precision > 0)
     zeros = (*params).precision - len;
@@ -493,9 +513,9 @@ void d_analizator(t_argc *params, va_list ap)
     spaces = (*params).width - len;
   //printf("FLAG %d% d\n", 12345, if_flag(params.flag, '-', FLAG_LIMIT));
   if (if_flag((*params).flag, '-', FLAG_LIMIT))
-    print_params_left(d, params, zeros, spaces);
+    print_params_left(s, params, zeros, spaces);
   else
-    print_params_right(d, params, zeros, spaces);
+    print_params_right(s, params, zeros, spaces);
   if ((*params).left)
   {
     (*params).res += (*params).left_len;
@@ -515,7 +535,8 @@ void o_analizator(t_argc *params, va_list ap)
   long long len;
   int spaces;
   int zeros;
-
+  char *s;
+  s = NULL;
   len = 1;
   spaces = 0;
   zeros = 0;
@@ -524,28 +545,34 @@ void o_analizator(t_argc *params, va_list ap)
   //printf("DDD %jd\n", d);
   print_int_depend_length(&d, (*params).length, params);
   //printf("DDD %jd\n", d);
+  if (d < 0)
+  {
+    (*params).sign = '-';
+    d = -1 * d;
+  }
   if (d != 9223372036854775807)
     d = print_oct(d, 8);
   //printf("DDD %jd\n", d);
-
+  s = ft_itoa(d);
   tmp = d;
-  if (d < 0)
+  /*if (d < 0)
   {
     len = 2;
     tmp = tmp * -1;
   }
   //printf("DDD %lld\n", d);
-  //printf("FLAG %d% d\n", 12345, if_flag(params.flag, '-', FLAG_LIMIT));
+  //printf("FLAG %d% d\n", 12345, if_flag(params.flag, '-', FLAG_LIMIT));*/
   if (d != 0)
   {
     if (d == 9223372036854775807)
       len = 21;
     else
-      while (tmp > 9)
+      len = ft_strlen(s);
+      /*while (tmp > 9)
       {
         tmp = tmp / 10;
         len++;
-      }
+      }*/
     //len = ft_strlen(ft_itoa(d));
     //printf("DDD %d\n", len);
   }
@@ -585,9 +612,9 @@ void o_analizator(t_argc *params, va_list ap)
   else
   {
     if (if_flag((*params).flag, '-', FLAG_LIMIT))
-      print_params_left(d, params, zeros, spaces);
+      print_params_left(s, params, zeros, spaces);
     else
-      print_params_right(d, params, zeros, spaces);
+      print_params_right(s, params, zeros, spaces);
   }
   if ((*params).left)
   {
