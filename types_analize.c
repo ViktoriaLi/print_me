@@ -20,12 +20,12 @@ void check_stars(t_argc *params, va_list ap)
   int i;
 
   i = 0;
-  if ((*params).star_width == '*')
+  if ((*params).width == '*')
   {
-    (*params).star_width = va_arg(ap, int);
-    if ((*params).star_width < 0)
+    (*params).width = va_arg(ap, int);
+    if ((*params).width < 0)
     {
-      (*params).star_width = (*params).star_width * -1;
+      (*params).width = (*params).width * -1;
       if (!if_flag((*params).flag, '-', FLAG_LIMIT))
         {
           while ((*params).flag[i] != 0)
@@ -33,8 +33,8 @@ void check_stars(t_argc *params, va_list ap)
           (*params).flag[i] = '-';
         }
     }
-    if ((*params).star_width > (*params).width)
-      (*params).width = (*params).star_width;
+    //if ((*params).star_width > (*params).width)
+      //(*params).width = (*params).star_width;
   }
   i = 0;
   if ((*params).precision == '*')
@@ -690,7 +690,6 @@ void x_analizator(t_argc *params, va_list ap)
       tmp = tmp / 16;
       len++;
     }*/
-  //printf("LEN %d\n", len);
   (*params).res += len;
   if ((*params).precision > 0)
     zeros = (*params).precision - len;
@@ -703,9 +702,10 @@ void x_analizator(t_argc *params, va_list ap)
   if ((if_flag((*params).flag, '#', FLAG_LIMIT) && d != 0) || (*params).specifier == 'p')
   {
     spaces -= 2;
-    if ((*params).specifier != 'p')
+    if (if_flag((*params).flag, '0', FLAG_LIMIT) && (*params).specifier != 'p')
       zeros -= 2;
   }
+  //printf("LEN %d\n", zeros);
   if (if_flag((*params).flag, '-', FLAG_LIMIT))
   {
     if ((if_flag((*params).flag, '#', FLAG_LIMIT) && d != 0) || (*params).specifier == 'p')

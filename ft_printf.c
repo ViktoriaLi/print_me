@@ -151,26 +151,25 @@ void argument_save(char *argv, t_argc *params, va_list ap)
 
 	if (argv[i] == '*')
 	{
-		(*params).star_width = '*';
+		(*params).width = '*';
 		i++;
 	}
 	check_flags(argv, &i, (*params).flag);
 	//i++;
-	if (argv[i] == '*' || (argv[i] >= '0' && argv[i] <= '9'))
+	if (argv[i] == '*')
 	{
-		if (argv[i] == '*')
-		{
-			(*params).star_width = '*';
-			i++;
-		}
-		if (argv[i] >= '0' && argv[i] <= '9')
+		(*params).width = '*';
+		i++;
+	}
+	if ((argv[i] >= '0' && argv[i] <= '9'))
+	{
 			(*params).width = check_width(&argv[i]);
-		while (argv[i] == '*' || (argv[i] >= '0' && argv[i] <= '9'))
+		while (argv[i] >= '0' && argv[i] <= '9')
 			i++;
 	}
 	if (argv[i] == '*')
 	{
-		(*params).star_width = '*';
+		(*params).width = '*';
 		i++;
 	}
 	if (argv[i] == '.')
@@ -178,17 +177,28 @@ void argument_save(char *argv, t_argc *params, va_list ap)
 		(*params).precision = 0;
 		i++;
 		if (argv[i] == '*')
+		{
 			(*params).precision = '*';
+			i++;
+		}
 		if (argv[i] >= '0' && argv[i] <= '9')
-			(*params).precision = check_precision(&argv[i]);
-		while (argv[i] == '*' || (argv[i] >= '0' && argv[i] <= '9'))
+		{
+			if ((*params).precision != '*')
+				(*params).precision = check_precision(&argv[i]);
+			else
+			{
+				if ((*params).width != '*')
+					(*params).width = check_precision(&argv[i]);
+			}
+		}
+		while ((argv[i] >= '0' && argv[i] <= '9'))
 			i++;
 	}
 	else if (argv[i] == '.')
 		i++;
 	if (argv[i] == '*')
 	{
-		(*params).star_width = '*';
+		(*params).width = '*';
 		i++;
 	}
 	check_length(argv[i], argv[i + 1], (*params).length);
@@ -730,6 +740,13 @@ int ft_printf(const char *format, ...)
 
 	printf("NUMBER %d\n", printf("{%-15Z}", 123));
 	printf("NUMBER %d\n", ft_printf("{%-15Z}", 123));
+	printf("NUMBER %d\n", printf("{%-*5d}", 2, 6));
+	printf("NUMBER %d\n", ft_printf("{%-*5d}", 2, 6));
+	printf("NUMBER %d\n", printf("{%#.5x}", 1));
+	printf("NUMBER %d\n", ft_printf("{%#.5x}", 1));
+
+	printf("NUMBER %d\n", printf("%#08x", 42));
+	printf("NUMBER %d\n", ft_printf("%#08x", 42));
 	*/
 
 	//MOULITESTS
@@ -754,12 +771,16 @@ int ft_printf(const char *format, ...)
 	printf("NUMBER %d\n", ft_printf("%zi", -9223372036854775807));
 	*/
 
-	/*printf("NUMBER %d\n", printf("{%-*5d}", 2, 6));
-	printf("NUMBER %d\n", ft_printf("{%-*5d}", 2, 6));
 
-	printf("NUMBER %d\n", printf("{%#.5x}", 1));
-	printf("NUMBER %d\n", ft_printf("{%#.5x}", 1));
-		
+	//printf("NUMBER %d\n", printf("{%05.S}", L"42 c est cool"));
+	//printf("NUMBER %d\n", ft_printf("{%05.S}", L"42 c est cool"));
+  //* больше потом число - число
+	//* меньше потом число - число
+	//число больше * - число
+	//число меньше * - звезда
+	/*printf("NUMBER %d\n", printf("{%3*d}", 2, 1));
+	printf("NUMBER %d\n", ft_printf("{%3*d}", 2, 1));
+
 	printf("NUMBER %d\n", printf("{%3*p}", 10, 5));
 	printf("NUMBER %d\n", ft_printf("{%3*p}", 10, 5));
 
