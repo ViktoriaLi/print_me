@@ -753,6 +753,11 @@ int ft_printf(const char *format, ...)
 	printf("NUMBER %d\n", ft_printf("{%3*p}", 10, 5));
 	printf("NUMBER %d\n", printf("{%*3d}", 5, 0));
 	printf("NUMBER %d\n", ft_printf("{%*3d}", 5, 0));
+	printf("NUMBER %d\n", printf("%lld", -9223372036854775808));
+  printf("NUMBER %d\n", ft_printf("%lld", -9223372036854775808));
+
+	printf("NUMBER %d\n", printf("%jd", -9223372036854775808));
+  printf("NUMBER %d\n", ft_printf("%jd", -9223372036854775808));
 	*/
 
 	//MOULITESTS
@@ -787,10 +792,7 @@ int ft_printf(const char *format, ...)
 	//число больше * - число
 	//число меньше * - звезда
 
-	/*printf("NUMBER %d\n", printf("%lld", -9223372036854775808));
-  printf("NUMBER %d\n", ft_printf("%lld", -9223372036854775808));
 
-	printf("NUMBER %d\n", printf("%jd", -9223372036854775808));
-  printf("NUMBER %d\n", ft_printf("%jd", -9223372036854775808));
-}
-*/
+	/*printf("NUMBER %d\n", printf("%o", 40));
+  printf("NUMBER %d\n", ft_printf("%o", 40));
+}*/

@@ -1,19 +1,31 @@
 #include "ft_printf.h"
 #include <stdio.h>
 
-uintmax_t print_oct(uintmax_t nbr, unsigned int base)
+char *print_oct(uintmax_t nbr, unsigned int base, int count)
 {
-	static uintmax_t res;
-	res = 0;
+	static char *res;
+	static int i;
 	/*while (nbr >= base)
 	{
 		res = res * 10 + (nbr % base);
 		nbr = nbr / base;
 	}*/
+	i = 0;
+	res = NULL;
+	res = (char *)malloc(count + 1);
+	/*while (i < count)
+	{
+		res[i] = 0;
+		i++;
+	}
+	i = 0;*/
 	if (nbr >= base)
-  		print_oct(nbr / base, base);
+  		print_oct(nbr / base, base, count);
 	if ((nbr % base) < 10)
-			res = res * 10 + (nbr % base);
+	{
+		res[i] = (nbr % base) + 48;
+		i++;
+	}
 	//printf("111 %jd\n", res);
 	return (res);
 }

@@ -63,7 +63,7 @@ void c_analizator(t_argc *params, va_list ap);
 void C_analizator(t_argc *params, va_list ap);
 
 int if_flag(int *all_flags, int flag, int j);
-uintmax_t print_oct(uintmax_t nbr, unsigned int base);
+char *print_oct(uintmax_t nbr, unsigned int base, int count);
 char *print_hex(uintmax_t nbr, t_argc params, unsigned int base);
 void print_hex_X(unsigned int nbr);
 void print_hex_o(unsigned int nbr);
@@ -89,5 +89,6 @@ void	ft_putchar(char c);
 void			ft_put_long_nbr(intmax_t n);
 void			ft_put_uns_long_nbr(uintmax_t n);
 char	*ft_strncpy(char *dst, const char *src, size_t len);
+char			*ft_uns_itoa(uintmax_t n);
 
 #endif

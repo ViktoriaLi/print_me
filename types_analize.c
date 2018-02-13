@@ -535,7 +535,6 @@ void d_analizator(t_argc *params, va_list ap)
 void o_analizator(t_argc *params, va_list ap)
 {
   intmax_t d;
-  intmax_t tmp = 0;
   long long len;
   int spaces;
   int zeros;
@@ -549,28 +548,29 @@ void o_analizator(t_argc *params, va_list ap)
   //printf("DDD %jd\n", d);
   print_int_depend_length(&d, (*params).length, params);
   //printf("DDD %jd\n", d);
-  if (d < 0)
+  /*if (d < 0)
   {
     (*params).sign = '-';
     d = -1 * d;
-  }
-  if (d != 9223372036854775807)
-    d = print_oct(d, 8);
+  }*/
+  s = print_oct(d, 8, 30);
+
+  //if (d != 9223372036854775807)
+    //d = print_oct(d, 8);
   //printf("DDD %jd\n", d);
-  s = ft_itoa(d);
-  tmp = d;
+  //s = ft_itoa(d);
   /*if (d < 0)
   {
     len = 2;
     tmp = tmp * -1;
-  }
-  //printf("DDD %lld\n", d);
-  //printf("FLAG %d% d\n", 12345, if_flag(params.flag, '-', FLAG_LIMIT));*/
+  }*/
+  //printf("DDD %s\n", s);
+  //printf("FLAG %d% d\n", 12345, if_flag(params.flag, '-', FLAG_LIMIT));
   if (d != 0)
   {
-    if (d == 9223372036854775807)
+    /*if (d == 9223372036854775807)
       len = 21;
-    else
+    else*/
       len = ft_strlen(s);
       /*while (tmp > 9)
       {
@@ -587,7 +587,6 @@ void o_analizator(t_argc *params, va_list ap)
     else
       len = 0;
   }
-
   //printf("DDD %jd\n", len);
   (*params).res += len;
   if ((*params).precision > 0)
@@ -606,25 +605,15 @@ void o_analizator(t_argc *params, va_list ap)
       (*params).res += 1;
   }
   //printf("FLAG %d% d\n", 12345, if_flag(params.flag, '-', FLAG_LIMIT));
-  if (d == 9223372036854775807)
-  {
-    if (if_flag((*params).flag, '-', FLAG_LIMIT))
-      long_print_params_left(d, params, zeros, spaces);
-    else
-      long_print_params_right(d, params, zeros, spaces);
-  }
+  if (if_flag((*params).flag, '-', FLAG_LIMIT))
+    print_params_left(s, params, zeros, spaces);
   else
-  {
-    if (if_flag((*params).flag, '-', FLAG_LIMIT))
-      print_params_left(s, params, zeros, spaces);
-    else
-      print_params_right(s, params, zeros, spaces);
-  }
+    print_params_right(s, params, zeros, spaces);
   if ((*params).left)
-  {
-    (*params).res += (*params).left_len;
-    write(1, (*params).left, (*params).left_len);
-  }
+    {
+      (*params).res += (*params).left_len;
+      write(1, (*params).left, (*params).left_len);
+    }
 }
 
 void u_analizator(t_argc *params, va_list ap)
