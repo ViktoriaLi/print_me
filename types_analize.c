@@ -298,13 +298,17 @@ void s_analizator(t_argc *params, va_list ap)
   else if ((*params).precision == 0)
     len = 0;
   (*params).res += len;
+  //printf("SSS %d\n", (*params).res);
   if (if_flag((*params).flag, '-', FLAG_LIMIT))
   {
     if ((*params).precision != 0)
       write(1, s, len);
     if ((*params).width > len)
     {
-      spaces = (*params).width - len;
+      if ((*params).specifier == 's' || (*params).specifier == 'S')
+        spaces = (*params).width - len;
+      else
+        spaces = (*params).width - 1;
       (*params).res += spaces;
       while (spaces--)
         write(1, " ", 1);
@@ -314,7 +318,10 @@ void s_analizator(t_argc *params, va_list ap)
   {
     if ((*params).width > len && !if_flag((*params).flag, '0', FLAG_LIMIT))
     {
-      spaces = (*params).width - len;
+      if ((*params).specifier == 's' || (*params).specifier == 'S')
+        spaces = (*params).width - len;
+      else
+        spaces = (*params).width - 1;
       (*params).res += spaces;
       while (spaces--)
         write(1, " ", 1);
@@ -784,7 +791,7 @@ void c_analizator(t_argc *params, va_list ap)
 
   spaces = 0;
   check_stars(params, ap);
-  if ((*params).specifier != '%')
+  if ((*params).specifier == 'c')
     c = va_arg(ap, int);
   else
     c = (*params).specifier;

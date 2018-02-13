@@ -199,33 +199,22 @@ void argument_save(char *argv, t_argc *params, va_list ap)
 			i--;
 		}
 		argument_analize(params, ap);
+		i++;
 	}
-	else if ((*params).specifier == '%')
-		c_analizator(params, ap);
-	else
+	else if ((*params).specifier == '%' || ((argv[i] >= 65 && argv[i] <= 90) || (argv[i] >= 97 && argv[i] <= 122)))
 	{
-		len = i;
+		if ((*params).specifier != '%')
+			(*params).specifier = argv[i];
+		c_analizator(params, ap);
+		i++;
+	}
+	if (!(*params).left)
 		while (argv[i])
 		{
-			//write(1, &argv[i], 1);
-			//(*params).res++;
+			write(1, &argv[i], 1);
+			(*params).res++;
 			i++;
 		}
-		len = i - len;
-		(*params).reserve = (char *)malloc(len + 1);
-		(*params).reserve[len] = 0;
-		//len--;
-		while (len >= 0)
-		{
-			(*params).reserve[len] = argv[i];
-			i--;
-			len--;
-		}
-		//return ;
-		//printf("SSS");
-		//printf("SSS %s\n", (*params).reserve);
-		s_analizator(params, ap);
-	}
 }
 
 void struct_init(t_argc *params)
@@ -328,8 +317,8 @@ int ft_printf(const char *format, ...)
 	return (params.res);
 }
 
-int main(void)
-{
+//int main(void)
+//{
 	/*разный вывод
 	printf("NUMBER %d\n", printf("% +0-5.15d", -2147483648));
 	printf("NUMBER %d\n", ft_printf("% +-05.15d", -2147483648));
@@ -731,8 +720,11 @@ int main(void)
 	printf("NUMBER %d\n", ft_printf("%zi", -9223372036854775807));
 	*/
 
-	printf("NUMBER %d\n", printf("{%10Rt}"));
-	printf("NUMBER %d\n", ft_printf("{%10Rt}"));
+	/*printf("NUMBER %d\n", printf("{%-10Rt}"));
+	printf("NUMBER %d\n", ft_printf("{%-10Rt}"));
+
+	printf("NUMBER %d\n", printf("{%-05.Zt}"));
+	printf("NUMBER %d\n", ft_printf("{%-05.Zt}"));
 
 	printf("NUMBER %d\n", printf("{%-15Z}", 123));
 	printf("NUMBER %d\n", ft_printf("{%-15Z}", 123));
@@ -744,3 +736,4 @@ int main(void)
 	printf("NUMBER %d\n", ft_printf("{%3*p}", 10, 0));
 
 }
+*/
