@@ -26,6 +26,7 @@ typedef struct	s_argc
 	char *one_arg;
 	int flag[6];
   int width;
+	int star_width;
 	int res;
   int precision;
   char length[3];

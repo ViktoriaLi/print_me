@@ -20,12 +20,12 @@ void check_stars(t_argc *params, va_list ap)
   int i;
 
   i = 0;
-  if ((*params).width == '*')
+  if ((*params).star_width == '*')
   {
-    (*params).width = va_arg(ap, int);
-    if ((*params).width < 0)
+    (*params).star_width = va_arg(ap, int);
+    if ((*params).star_width < 0)
     {
-      (*params).width = (*params).width * -1;
+      (*params).star_width = (*params).star_width * -1;
       if (!if_flag((*params).flag, '-', FLAG_LIMIT))
         {
           while ((*params).flag[i] != 0)
@@ -33,6 +33,8 @@ void check_stars(t_argc *params, va_list ap)
           (*params).flag[i] = '-';
         }
     }
+    if ((*params).star_width > (*params).width)
+      (*params).width = (*params).star_width;
   }
   i = 0;
   if ((*params).precision == '*')
