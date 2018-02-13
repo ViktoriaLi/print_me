@@ -557,11 +557,7 @@ int ft_printf(const char *format, ...)
 	//printf("NUMBER %d\n", printf("%jd", 9223372036854775807));
   //printf("NUMBER %d\n", ft_printf("%jd", 9223372036854775807));
 
-	/*printf("NUMBER %d\n", printf("%lld", -9223372036854775808));
-  printf("NUMBER %d\n", ft_printf("%lld", -9223372036854775808));
-
-	printf("NUMBER %d\n", printf("%jd", -9223372036854775808));
-  printf("NUMBER %d\n", ft_printf("%jd", -9223372036854775808));
+	/*
 	printf("NUMBER %d\n", printf("%+u", 4294967295));
 	printf("NUMBER %d\n", ft_printf("%+u", 4294967295));
 	printf("NUMBER %d\n", printf("%lu", -42));
@@ -790,4 +786,11 @@ int ft_printf(const char *format, ...)
 	//* меньше потом число - число
 	//число больше * - число
 	//число меньше * - звезда
-//}
+
+	/*printf("NUMBER %d\n", printf("%lld", -9223372036854775808));
+  printf("NUMBER %d\n", ft_printf("%lld", -9223372036854775808));
+
+	printf("NUMBER %d\n", printf("%jd", -9223372036854775808));
+  printf("NUMBER %d\n", ft_printf("%jd", -9223372036854775808));
+}
+*/

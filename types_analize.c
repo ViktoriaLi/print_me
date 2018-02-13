@@ -198,9 +198,11 @@ void print_params_left(char *s, t_argc *params, int zeros, int spaces)
       ft_put_long_nbr(d);
     else
       ft_put_uns_long_nbr(d);*/
-    if ((*params).sign == '-')
+    if ((*params).sign == '-' && s[0] != '-')
       write(1, "-", 1);
     ft_putstr(s);
+    if (s[0] == '-')
+      (*params).res--;
   }
   else
     if ((*params).precision != 0)
@@ -281,9 +283,11 @@ void print_params_right(char *s, t_argc *params, int zeros, int spaces)
       ft_put_long_nbr(d);
     else
       ft_put_uns_long_nbr(d);*/
-    if ((*params).sign == '-')
+    if ((*params).sign == '-' && s[0] != '-')
       write(1, "-", 1);
     ft_putstr(s);
+    if (s[0] == '-')
+      (*params).res--;
   }
   else
     if ((*params).precision != 0)
@@ -462,7 +466,6 @@ void d_analizator(t_argc *params, va_list ap)
   d = va_arg(ap, intmax_t);
   //printf("DDD %jud\n", d);
   print_int_depend_length(&d, (*params).length, params);
-  //printf("DDD %jud\n", d);
   if (d < 0)
   {
     (*params).sign = '-';
@@ -470,6 +473,7 @@ void d_analizator(t_argc *params, va_list ap)
     //(*params).res += 1;
   }
   s = ft_itoa(d);
+  //printf("DDD %s\n", s);
   /*tmp = d;
   if (d < -9223372036854775807 || d > 9223372036854775807)
     len = 20;

@@ -144,7 +144,7 @@ static char		*min_int(intmax_t n, char *dest)
 
 static char		*ft_negative_itoa(intmax_t n, char *dest)
 {
-	intmax_t	d;
+	size_t	d;
 	intmax_t		len;
 
 	len = 2;
@@ -169,7 +169,7 @@ static char		*ft_negative_itoa(intmax_t n, char *dest)
 
 char			*ft_itoa(intmax_t n)
 {
-	intmax_t	d;
+	size_t	d;
 	intmax_t		len;
 	char	*dest;
 
@@ -196,7 +196,7 @@ char			*ft_itoa(intmax_t n)
 	return (dest);
 }
 
-static char		*min_uns_int(uintmax_t n, char *dest)
+/*static char		*min_uns_int(uintmax_t n, char *dest)
 {
 	uintmax_t		len;
 
@@ -274,4 +274,4 @@ char			*ft_uns_itoa(uintmax_t n)
 		n = n / 10;
 	}
 	return (dest);
-}
+}*/
