@@ -32,27 +32,61 @@ int check_specifier(char type)
 		return (0);
 }
 
-void check_length(char length1, char length2, char *dest)
+void check_length(char *length, int *i, char *dest)
 {
-	char length[3];
-	length[0] = length1;
-	length[1] = length2;
-	length[2] = 0;
-	if (ft_strcmp(length, "hh") == 0 || ft_strcmp(length, "ll") == 0)
-		dest = ft_strcpy(dest, length);
-	else if (length[0] == 'h' || length[0] == 'l' ||
-		length[0] == 'j' || length[0] == 'z')
-		dest[0] = length[0];
-}
-
-int check_precision(char *precision)
-{
-	return ft_atoi(precision);
-}
-
-int check_width(char *width)
-{
-	return (ft_atoi(width));
+	int j;
+	int len;
+	int h_count;
+	int l_count;
+	j = 0;
+	len = 0;
+	h_count = 0;
+	l_count = 0;
+	while (length[j] == 'h' || length[j] == 'l' || length[j] == 'j' || length[j] == 'z')
+	{
+		j++;
+		(*i)++;
+	}
+	len = j;
+	j = 0;
+	if (ft_len_strnstr(length, "ll", len) && dest[0] != 'z' && dest[0] != 'j')
+	{
+		dest[0] = 'l';
+		dest[1] = 'l';
+	}
+	if (ft_len_strnstr(length, "hh", len) && dest[0] != 'l' && dest[0] != 'z' && dest[0] != 'j')
+	{
+		dest[0] = 'h';
+		dest[1] = 'h';
+	}
+	while (j < len)
+	{
+		if (length[j] == 'z')
+		{
+			dest[0] = 'z';
+			dest[1] = 0;
+		}
+		if (length[j] == 'j' && dest[0] != 'z')
+		{
+			dest[0] = 'j';
+			dest[1] = 0;
+		}
+		if (length[j] == 'h')
+			h_count++;
+		if (length[j] == 'l')
+			l_count++;
+		j++;
+	}
+	if (h_count % 2 != 0 && dest[0] != 'l' && dest[0] != 'z' && dest[0] != 'j')
+		{
+			dest[0] = 'h';
+			dest[1] = 0;
+		}
+	if (l_count % 2 != 0 && dest[0] != 'l' && dest[0] != 'z' && dest[0] != 'j')
+		{
+			dest[0] = 'l';
+			dest[1] = 0;
+		}
 }
 
 void check_flags(char *str, int *i, int *flag)
@@ -203,14 +237,7 @@ void argument_save(char *argv, t_argc *params, va_list ap)
 		(*params).width = '*';
 		i++;
 	}
-	check_length(argv[i], argv[i + 1], (*params).length);
-	if ((*params).length[0] != 0)
-	{
-		if ((*params).length[1] == 0)
-			i++;
-		else
-			i += 2;
-	}
+	check_length(&argv[i], &i, (*params).length);
 	if (argv[i] == '*')
 	{
 		(*params).width = '*';
@@ -421,8 +448,6 @@ int ft_printf(const char *format, ...)
 	printf("NUMBER %d\n", ft_printf("%.0%"));
 	printf("NUMBER %d\n", printf("%-5%"));
 	printf("NUMBER %d\n", ft_printf("%-5%"));*/
-
-
 
 	//Тесты проходят
 	/*printf("NUMBER %d\n", printf("this is a %s", "string"));
@@ -792,7 +817,23 @@ int ft_printf(const char *format, ...)
 	//число больше * - число
 	//число меньше * - звезда
 
-
 	/*printf("NUMBER %d\n", printf("%o", 40));
-  printf("NUMBER %d\n", ft_printf("%o", 40));
+  printf("NUMBER %d\n", ft_printf("%o", 40));*/
+
+	/*printf("NUMBER %d\n", printf("%lu", -42));
+  printf("NUMBER %d\n", ft_printf("%lu", -42));
+	printf("NUMBER %d\n", printf("%U", 9223372036854775808));
+  printf("NUMBER %d\n", ft_printf("%U", 9223372036854775808));
+	printf("NUMBER %d\n", printf("%lu, %lu", 0, 9223372036854775808));
+  printf("NUMBER %d\n", ft_printf("%lu, %lu", 0, 9223372036854775808));
+	printf("NUMBER %d\n", printf("%llu, %llu", 0, 18446744073709551615));
+  printf("NUMBER %d\n", ft_printf("%llu, %llu", 0, 18446744073709551615));
+	printf("NUMBER %d\n", printf("%ju, %ju", 0, 18446744073709551615));
+  printf("NUMBER %d\n", ft_printf("%ju, %ju", 0, 18446744073709551615));
+	printf("NUMBER %d\n", printf("%zu, %zu", 0, 18446744073709551615));
+  printf("NUMBER %d\n", ft_printf("%zu, %zu", 0, 18446744073709551615));*/
+
+	/*printf("NUMBER %d\n", printf("%hhhllzlhjlu", 1178955456));
+	printf("NUMBER %d\n", ft_printf("%hhhllzjlhlu",1178955456));
+
 }*/

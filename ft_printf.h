@@ -39,9 +39,7 @@ typedef struct	s_argc
 
 int ft_printf(const char *format, ...);
 int check_specifier(char type);
-void check_length(char length1, char length2, char *dest);
-int check_precision(char *precision);
-int check_width(char *width);
+void check_length(char *length, int *i, char *dest);
 void check_flags(char *str, int *i, int *flag);
 void argument_analize(t_argc *params, va_list ap);
 void argument_save(char *argv, t_argc *params, va_list ap);
@@ -90,5 +88,6 @@ void			ft_put_long_nbr(intmax_t n);
 void			ft_put_uns_long_nbr(uintmax_t n);
 char	*ft_strncpy(char *dst, const char *src, size_t len);
 char			*ft_uns_itoa(uintmax_t n);
+char	*ft_len_strnstr(char *big, char *little, size_t len);
 
 #endif
