@@ -25,8 +25,10 @@
 int check_specifier(char type)
 {
 	if (type == 's' || type == 'S' || type == 'p' || type == 'd' || type == 'D'
-	|| type == 'i' || type == 'o' || type == 'O' || type == 'u' ||
- 	type == 'U' || type == 'x' || type == 'X' || type == 'c' || type == 'C')
+	|| type == 'i' || type == 'o' || type == 'O' || type == 'u' || type == 'U'
+	|| type == 'x' || type == 'X' || type == 'c' || type == 'C' || type == 'e'
+	|| type == 'E' || type == 'f' || type == 'F' || type == 'g' || type == 'G'
+	|| type == 'a' || type == 'A' || type == 'n')
 		return (type);
 	else
 		return (0);
@@ -38,6 +40,7 @@ void check_length(char *length, int *i, char *dest)
 	int len;
 	int h_count;
 	int l_count;
+
 	j = 0;
 	len = 0;
 	h_count = 0;
@@ -98,8 +101,8 @@ void check_flags(char *str, int *i, int *flag)
 	j = 0;
 	k = 0;
 	tmp = NULL;
-	while (str[*i] == '+' || str[*i] == '#' || str[*i] == '0' || str[*i] == '-' || str[*i] == ' '
-		|| str[*i] == '\'')
+	while (str[*i] == '+' || str[*i] == '#' || str[*i] == '0'
+		|| str[*i] == '-' || str[*i] == ' '	|| str[*i] == '\'')
 	{
 		j++;
 		(*i)++;
@@ -108,42 +111,20 @@ void check_flags(char *str, int *i, int *flag)
 	tmp[j] = 0;
 	*i = 0;
 	while (k < j)
-	{
-		tmp[k] = str[*i];
-		k++;
-		(*i)++;
-	}
+		tmp[k++] = str[(*i)++];
 	k = 0;
 	if (if_flag(tmp, '+', j))
-	{
-		flag[k] = '+';
-		k++;
-	}
+		flag[k++] = '+';
 	if (if_flag(tmp, '#', j))
-	{
-		flag[k] = '#';
-		k++;
-	}
+		flag[k++] = '#';
 	if (if_flag(tmp, '0', j))
-	{
-		flag[k] = '0';
-		k++;
-	}
+		flag[k++] = '0';
 	if (if_flag(tmp, '-', j))
-	{
-		flag[k] = '-';
-		k++;
-	}
+		flag[k++] = '-';
 	if (if_flag(tmp, ' ', j))
-	{
-		flag[k] = ' ';
-		k++;
-	}
+		flag[k++] = ' ';
 	if (if_flag(tmp, '\'', j))
-	{
-		flag[k] = '\'';
-		k++;
-	}
+		flag[k++] = '\'';
 	if (tmp)
 		free(tmp);
 }
@@ -152,50 +133,47 @@ void argument_analize(t_argc *params, va_list ap)
 {
 	if ((*params).specifier == 's' && (*params).length[0] != 'l')
 		s_analizator(params, ap);
-	else if ((*params).specifier == 'S' || ((*params).specifier == 's' && (*params).length[0] == 'l'))
+	else if ((*params).specifier == 'S' || ((*params).specifier == 's'
+		&& (*params).length[0] == 'l'))
 		S_analizator(params, ap);
-	else if ((*params).specifier == 'p')
-		x_analizator(params, ap);
-	else if ((*params).specifier == 'd' || (*params).specifier == 'i')
+	else if ((*params).specifier == 'd' || (*params).specifier == 'i'
+		|| (*params).specifier == 'D')
 		d_analizator(params, ap);
-	else if ((*params).specifier == 'D')
-		d_analizator(params, ap);
-	else if ((*params).specifier == 'o')
+	else if ((*params).specifier == 'o' || (*params).specifier == 'O')
 		o_analizator(params, ap);
-	else if ((*params).specifier == 'O')
-		o_analizator(params, ap);
-	else if ((*params).specifier == 'u')
+	else if ((*params).specifier == 'u' || (*params).specifier == 'U')
 		u_analizator(params, ap);
-	else if ((*params).specifier == 'U')
-		u_analizator(params, ap);
-	else if ((*params).specifier == 'x')
-		x_analizator(params, ap);
-	else if ((*params).specifier == 'X')
+	else if ((*params).specifier == 'x' || (*params).specifier == 'X'
+		|| (*params).specifier == 'p')
 		x_analizator(params, ap);
 	else if ((*params).specifier == 'c')
 		c_analizator(params, ap);
-	else if ((*params).specifier == 'C' || ((*params).specifier == 'c' && (*params).length[0] == 'l'))
+	else if ((*params).specifier == 'C' || ((*params).specifier == 'c'
+		&& (*params).length[0] == 'l'))
 		C_analizator(params, ap);
+}
+
+void check_star_anywhere(char c, int *i, int *param)
+{
+	if (c == '*')
+	{
+		*param = '*';
+		(*i)++;
+	}
 }
 
 void argument_save(char *argv, t_argc *params, va_list ap)
 {
-	int i = 0;
-	int j = 0;
-	int len = 0;
+	int i;
+	int j;
+	int len;
 
-	if (argv[i] == '*')
-	{
-		(*params).width = '*';
-		i++;
-	}
+	i = 0;
+	j = 0;
+	len = 0;
+	check_star_anywhere(argv[i], &i, &params->width);
 	check_flags(argv, &i, (*params).flag);
-	//i++;
-	if (argv[i] == '*')
-	{
-		(*params).width = '*';
-		i++;
-	}
+	check_star_anywhere(argv[i], &i, &params->width);
 	if ((argv[i] >= '0' && argv[i] <= '9'))
 	{
 		(*params).star_width = (*params).width;
@@ -203,69 +181,44 @@ void argument_save(char *argv, t_argc *params, va_list ap)
 		while (argv[i] >= '0' && argv[i] <= '9')
 			i++;
 	}
-	if (argv[i] == '*')
-	{
-		(*params).width = '*';
-		i++;
-	}
+	check_star_anywhere(argv[i], &i, &params->width);
 	if (argv[i] == '.')
 	{
 		(*params).precision = 0;
 		i++;
-		if (argv[i] == '*')
-		{
-			(*params).precision = '*';
-			i++;
-		}
+		check_star_anywhere(argv[i], &i, &params->precision);
 		if (argv[i] >= '0' && argv[i] <= '9')
 		{
 			if ((*params).precision != '*')
 				(*params).precision = ft_atoi(&argv[i]);
-			else
-			{
-				if ((*params).width != '*')
-					(*params).width = ft_atoi(&argv[i]);
-			}
+			else if ((*params).width != '*')
+				(*params).width = ft_atoi(&argv[i]);
 		}
 		while ((argv[i] >= '0' && argv[i] <= '9'))
 			i++;
 	}
 	else if (argv[i] == '.')
 		i++;
-	if (argv[i] == '*')
-	{
-		(*params).width = '*';
-		i++;
-	}
+	check_star_anywhere(argv[i], &i, &params->width);
 	check_length(&argv[i], &i, (*params).length);
-	if (argv[i] == '*')
-	{
-		(*params).width = '*';
-		i++;
-	}
+	check_star_anywhere(argv[i], &i, &params->width);
 	if (check_specifier(argv[i]))
 	{
-		(*params).specifier = argv[i];
-		i++;
+		(*params).specifier = argv[i++];
 		len = i;
 		while (argv[i])
-		{
 			i++;
-		}
 		(*params).left = (char *)malloc(i - len + 1);
 		(*params).left[i - len] = 0;
 		j = i - len;
 		(*params).left_len = j;
 		while (i >= len)
-		{
-			(*params).left[j] = argv[i];
-			j--;
-			i--;
-		}
+			(*params).left[j--] = argv[i--];
 		argument_analize(params, ap);
 		i++;
 	}
-	else if ((*params).specifier == '%' || ((argv[i] >= 65 && argv[i] <= 90) || (argv[i] >= 97 && argv[i] <= 122)))
+	else if ((*params).specifier == '%' || ((argv[i] >= 65
+		&& argv[i] <= 90) || (argv[i] >= 97 && argv[i] <= 122)))
 	{
 		if ((*params).specifier != '%')
 			(*params).specifier = argv[i];
@@ -275,9 +228,8 @@ void argument_save(char *argv, t_argc *params, va_list ap)
 	if (!(*params).left)
 		while (argv[i])
 		{
-			write(1, &argv[i], 1);
+			write(1, &argv[i++], 1);
 			(*params).res++;
-			i++;
 		}
 }
 
@@ -288,10 +240,7 @@ void struct_init(t_argc *params)
 	i = 0;
 	(*params).one_arg = NULL;
 	while (i < FLAG_LIMIT)
-	{
-		(*params).flag[i] = 0;
-		i++;
-	}
+		(*params).flag[i++] = 0;
   (*params).width = 0;
 	(*params).star_width = 0;
   (*params).precision = -1;
@@ -299,36 +248,37 @@ void struct_init(t_argc *params)
 	(*params).length[1] = 0;
 	(*params).length[2] = 0;
   (*params).specifier = 0;
-	(*params).reserve = NULL;
 	(*params).left = NULL;
+	(*params).left_len = 0;
+	(*params).reserve = NULL;
 	(*params).sign = 0;
 }
 
 int ft_printf(const char *format, ...)
 {
 	t_argc params;
-	int i = 0;
-	int j = 0;
-	int len = 0;
+	int i;
+	int j;
+	int len;
 	va_list ap;
-	struct_init(&params);
+
+	i = 0;
+	len = 0;
 	params.res = 0;
 	va_start(ap, format);
 	while (format[i] && format[i] != '%')
 	{
-		write(1, &format[i], 1);
+		write(1, &format[i++], 1);
 		params.res++;
-		i++;
 	}
 	while (format[i])
 	{
 		if (format[i] == '%')
 		{
-			i++;
-			if (format[i] == '%')
+			struct_init(&params);
+			if (format[++i] == '%')
 			{
-				write(1, &format[i], 1);
-				i++;
+				write(1, &format[i++], 1);
 				params.res++;
 				continue;
 			}
@@ -340,26 +290,19 @@ int ft_printf(const char *format, ...)
 			}
 			if (format[i] == '%')
 				params.specifier = '%';
-			len = i;
+			len = i--;
 			params.one_arg = (char *)malloc(j + 1);
-			params.one_arg[j] = 0;
-			j--;
-			i--;
+			params.one_arg[j--] = 0;
 			while (j >= 0)
-			{
-				params.one_arg[j] = format[i];
-				j--;
-				i--;
-			}
+				params.one_arg[j--] = format[i--];
 			i = len;
 		}
 		else
 		{
 			while (format[i] && format[i] != '%')
 			{
-				write(1, &format[i], 1);
+				write(1, &format[i++], 1);
 				params.res++;
-				i++;
 			}
 		}
 		if (params.one_arg)
@@ -373,11 +316,8 @@ int ft_printf(const char *format, ...)
 		printf("SPECIFIER %c\n", params.specifier);
 		printf("LEFT %s\n", params.left);*/
 		/*printf("RETURN %d\n", params.res);*/
-		if (params.left)
-			free(params.left);
-		if (params.one_arg)
-			free(params.one_arg);
-		struct_init(&params);
+		ft_strdel(&params.left);
+		ft_strdel(&params.one_arg);
 	}
 	va_end(ap);
 	return (params.res);

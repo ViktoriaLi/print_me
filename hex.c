@@ -1,84 +1,25 @@
 #include "ft_printf.h"
 #include <stdio.h>
 
-char *print_oct(uintmax_t nbr, unsigned int base, int count)
+char *print_hex(uintmax_t nbr, t_argc params, unsigned int base, int count)
 {
 	static char *res;
 	static int i;
-	/*while (nbr >= base)
-	{
-		res = res * 10 + (nbr % base);
-		nbr = nbr / base;
-	}*/
+
 	i = 0;
 	res = NULL;
 	res = (char *)malloc(count + 1);
-	/*while (i < count)
-	{
-		res[i] = 0;
-		i++;
-	}
-	i = 0;*/
-	if (nbr >= base)
-  		print_oct(nbr / base, base, count);
-	if ((nbr % base) < 10)
-	{
-		res[i] = (nbr % base) + 48;
-		i++;
-	}
-	//printf("111 %jd\n", res);
-	return (res);
-}
-
-/*void print_hex(unsigned long long nbr, t_argc params, unsigned int base)
-{
-	if (nbr >= base)
-		print_hex(nbr / base, params, base);
-	if ((nbr % base) < 10)
-	{
-      ft_putchar((nbr % base) + 48);
-	}
-	else if (params.specifier == 'x' || params.specifier == 'p')
-	{
-    ft_putchar((nbr % base) - 10 + 97);
-	}
-	else if (params.specifier == 'X')
-	{
-    ft_putchar((nbr % base) - 10 + 65);
-	}
-}*/
-
-char *print_hex(uintmax_t nbr, t_argc params, unsigned int base)
-{
-	static char *res;
-	static uintmax_t i;
-
-	i = 0;
-	res = NULL;
-	res = (char *)malloc(16 + 1);
-	while (i < 16)
-	{
-		res[i] = 0;
-		i++;
-	}
+	while (i < count)
+		res[i++] = 0;
 	i = 0;
 	if (nbr >= base)
-		print_hex(nbr / base, params, base);
+		print_hex(nbr / base, params, base, count);
 	if ((nbr % base) < 10)
-	{
-			res[i] = (nbr % base) + 48;
-			i++;
-	}
+		res[i++] = (nbr % base) + 48;
 	else if (params.specifier == 'x' || params.specifier == 'p')
-	{
-		res[i] = (nbr % base) - 10 + 97;
-		i++;
-	}
+		res[i++] = (nbr % base) - 10 + 97;
 	else if (params.specifier == 'X')
-	{
-		res[i] = (nbr % base) - 10 + 65;
-		i++;
-	}
+		res[i++] = (nbr % base) - 10 + 65;
 	return (res);
 }
 

@@ -30,7 +30,7 @@ int main()
 	short int d1 = 123;
 	printf ("%+10.6hderetr%d\n", d1);
 	printf ("%lggfhfhfgh\n",123);*/
-	printf ("%0.0d\n", 123);
+	printf ("%LS\n", "123");
 	printf ("%d\n", 123);
 	return 0;
 }

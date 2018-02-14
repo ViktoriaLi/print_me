@@ -245,3 +245,12 @@ char	*ft_len_strnstr(char *big, char *little, size_t len)
 	}
 	return (NULL);
 }
+
+void	ft_strdel(char **as)
+{
+	if (as && *as)
+	{
+		free(*as);
+		*as = NULL;
+	}
+}
