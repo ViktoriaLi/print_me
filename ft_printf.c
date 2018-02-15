@@ -21,6 +21,7 @@
 //Management of alter tools for colors, fd or other fun stuff like that :)
 //перевести все в итоа, для ансайнд - сайз т, для сайнд - интмакс, но внутри привести к сайз т без минуса, а минус сохранить
 //не указана тип, но есть буква - выводится она, если есть только число - это считается шириной - проверить остельные флаги без типа
+// Большас С - нужно ли приводить к винт_т?
 
 int check_specifier(char type)
 {
@@ -131,6 +132,8 @@ void check_flags(char *str, int *i, int *flag)
 
 void argument_analize(t_argc *params, va_list ap)
 {
+	//int **n_value;
+
 	if ((*params).specifier == 's' && (*params).length[0] != 'l')
 		s_analizator(params, ap);
 	else if ((*params).specifier == 'S' || ((*params).specifier == 's'
@@ -151,6 +154,10 @@ void argument_analize(t_argc *params, va_list ap)
 	else if ((*params).specifier == 'C' || ((*params).specifier == 'c'
 		&& (*params).length[0] == 'l'))
 		C_analizator(params, ap);
+	/*else if ((*params).specifier == 'n')
+		*n_value = va_arg(ap, int *);
+		**n_value = (*params).res;*/
+
 }
 
 void check_star_anywhere(char c, int *i, int *param)
@@ -323,8 +330,8 @@ int ft_printf(const char *format, ...)
 	return (params.res);
 }
 
-//int main(void)
-//{
+int main(void)
+{
 	/*разный вывод
 	printf("NUMBER %d\n", printf("% +0-5.15d", -2147483648));
 	printf("NUMBER %d\n", ft_printf("% +-05.15d", -2147483648));
@@ -338,6 +345,7 @@ int ft_printf(const char *format, ...)
 	ошибка на %-5.1s
 	проверить что на  выводит printf("NUMBER %d\n", printf("@moulitest: %c", 0));
 	printf("NUMBER %d\n", ft_printf("@moulitest: %c", 0));
+	не работает корректно строка ft_printf("real   %%%010.20ls dsfdsfdsf %c %+d %+i %u %S|", L"string", 'c', 156, 651, 54646, L"abcdef"));
 	*/
 
 	/*printf("NUMBER %d\n", printf("% -20.d", 0));
@@ -774,6 +782,20 @@ int ft_printf(const char *format, ...)
   printf("NUMBER %d\n", ft_printf("%zu, %zu", 0, 18446744073709551615));*/
 
 	/*printf("NUMBER %d\n", printf("%hhhllzlhjlu", 1178955456));
-	printf("NUMBER %d\n", ft_printf("%hhhllzjlhlu",1178955456));
+	printf("NUMBER %d\n", ft_printf("%hhhllzjlhlu",1178955456));*/
+	int d;
+	int f;
+	printf("NUMBER %d\n", printf("real   %%%010.20ls dsfdsfdsf %c %+d %+i %u %S|%n", L"string", 'c', 156, 651, 54646, L"abcdef", &d));
+	printf("NUMBER %d\n", ft_printf("real   %010.20ls dsfdsfdsf %c %+d %+i %u %S|%n", L"string", 'c', 156, 651, 54646, L"abcdef", &f));
+	printf("%010.20s\n", "string");
+	ft_printf("%010.20s\n", "string");
 
-}*/
+	//ft_printf("%c\n", 'c');
+	//ft_printf("%+d\n", 156);
+	//ft_printf("%+i\n", 651);
+	//ft_printf("%u\n", 54646);
+	//ft_printf("%S\n", L"abcdef");
+
+	printf("%d\n", d);
+	printf("%d\n", f);
+}
