@@ -154,17 +154,19 @@ int main(void)
 				else
 					bytes_count = 4;
 			}
+			printf("BYTE %d\n", bytes_count);
 			if (bytes_count == 2)
-				res[j] &= 11111;
+				res[j] = test[i] & 31;
 			else if (bytes_count == 3)
-				res[j] &= 1111;
+				res[j] = test[i] & 15;
 			else if (bytes_count == 4)
-				res[j] &= 111;
+				res[j] = test[i] & 7;
+			printf("code1 %d\n", res[j]);
+			bytes_count--;
+			i++;
 			while (bytes_count > 0)
 			{
-				printf("code1 %d\n", res[j]);
-				res[j] <<= 6;
-				res[j] |= test[i];
+				res[j] += test[i] << 6;
 				i++;
 				bytes_count--;
 			}

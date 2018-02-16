@@ -133,8 +133,9 @@ void check_flags(char *str, int *i, int *flag)
 
 void argument_analize(t_argc *params, va_list ap)
 {
-	//int **n_value;
+	int *n_value;
 
+	n_value = NULL;
 	if ((*params).specifier == 's' && (*params).length[0] != 'l')
 		s_analizator(params, ap);
 	else if ((*params).specifier == 'S' || ((*params).specifier == 's'
@@ -155,9 +156,12 @@ void argument_analize(t_argc *params, va_list ap)
 	else if ((*params).specifier == 'C' || ((*params).specifier == 'c'
 		&& (*params).length[0] == 'l'))
 		C_analizator(params, ap);
-	/*else if ((*params).specifier == 'n')
-		*n_value = va_arg(ap, int *);
-		**n_value = (*params).res;*/
+	else if ((*params).specifier == 'n')
+	{
+		n_value = va_arg(ap, int *);
+		*n_value = (*params).res;
+	}
+
 
 }
 
@@ -784,19 +788,21 @@ int ft_printf(const char *format, ...)
 
 	/*printf("NUMBER %d\n", printf("%hhhllzlhjlu", 1178955456));
 	printf("NUMBER %d\n", ft_printf("%hhhllzjlhlu",1178955456));*/
-	/*int d;
-	int f;
-	printf("NUMBER %d\n", printf("real   %%%010.20ls dsfdsfdsf %c %+d %+i %u %S|%n", L"string", 'c', 156, 651, 54646, L"abcdef", &d));
-	printf("NUMBER %d\n", ft_printf("real   %010.20ls dsfdsfdsf %c %+d %+i %u %S|%n", L"string", 'c', 156, 651, 54646, L"abcdef", &f));
-	printf("%010.20s\n", "string");
-	ft_printf("%010.20s\n", "string");
+	//int d;
+	//int f;
+	//printf("NUMBER %d\n", printf("real   %%%010.20ls dsfdsfdsf %c %+d %+i %u %S|%n", L"string", 'c', 156, 651, 54646, L"abcdef", &d));
+	//printf("NUMBER %d\n", ft_printf("real   %010.20ls dsfdsfdsf %c %+d %+i %u %S|%n", L"string", 'c', 156, 651, 54646, L"abcdef", &f));
+	//printf("%010.20s\n", "string");
+	//ft_printf("%010.20s\n", "string");
 
+	//printf("NUMBER %d\n", printf("%lu %n", -42, &d));
+  //printf("NUMBER %d\n", ft_printf("%lu %n", -42, &f));
 	//ft_printf("%c\n", 'c');
 	//ft_printf("%+d\n", 156);
 	//ft_printf("%+i\n", 651);
 	//ft_printf("%u\n", 54646);
-	//ft_printf("%S\n", L"abcdef");
+	//ft_printf("%S\n", L"abcdef");*/
 
-	printf("%d\n", d);
+	/*printf("%d\n", d);
 	printf("%d\n", f);
 }*/
