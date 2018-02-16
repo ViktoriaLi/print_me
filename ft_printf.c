@@ -22,6 +22,7 @@
 //перевести все в итоа, для ансайнд - сайз т, для сайнд - интмакс, но внутри привести к сайз т без минуса, а минус сохранить
 //не указана тип, но есть буква - выводится она, если есть только число - это считается шириной - проверить остельные флаги без типа
 // Большас С - нужно ли приводить к винт_т?
+//проверить, если спецификаторов больше чем аргументов, не вылетает ли мой принтф, сделать проверку
 
 int check_specifier(char type)
 {
@@ -330,8 +331,8 @@ int ft_printf(const char *format, ...)
 	return (params.res);
 }
 
-int main(void)
-{
+//int main(void)
+//{
 	/*разный вывод
 	printf("NUMBER %d\n", printf("% +0-5.15d", -2147483648));
 	printf("NUMBER %d\n", ft_printf("% +-05.15d", -2147483648));
@@ -783,7 +784,7 @@ int main(void)
 
 	/*printf("NUMBER %d\n", printf("%hhhllzlhjlu", 1178955456));
 	printf("NUMBER %d\n", ft_printf("%hhhllzjlhlu",1178955456));*/
-	int d;
+	/*int d;
 	int f;
 	printf("NUMBER %d\n", printf("real   %%%010.20ls dsfdsfdsf %c %+d %+i %u %S|%n", L"string", 'c', 156, 651, 54646, L"abcdef", &d));
 	printf("NUMBER %d\n", ft_printf("real   %010.20ls dsfdsfdsf %c %+d %+i %u %S|%n", L"string", 'c', 156, 651, 54646, L"abcdef", &f));
@@ -798,4 +799,4 @@ int main(void)
 
 	printf("%d\n", d);
 	printf("%d\n", f);
-}
+}*/

@@ -115,10 +115,101 @@ char *print_hex_ind(uintmax_t nbr, unsigned int base, int count)
 int main(void)
 {
 	//setlocale (LC_ALL, "");
-	wchar_t test;
-	test = L'®';
-	wchar_t t = 24;
-	write(1, &test, 1);
-	write(1, &t, 1);
-	write(1, "\n", 1);
+	int i;
+	int j;
+	int bytes_count;
+	int code;
+
+	i = 0;
+	j = 0;
+	code = 0;
+	bytes_count = 0;
+	unsigned char *test;
+	test = "а";
+	wchar_t res[20];
+	//res = (wchar_t *)malloc(sizeof(wchar_t) * 20);
+	//res = NULL;
+
+	printf("%s %s \n", print_hex_ind(test[0], 2, 20), print_hex_ind(test[1], 2, 20));
+	printf("%s %s \n", print_hex_ind(test[0] >> 5, 2, 20), print_hex_ind(test[1], 2, 20));
+	while (test[i] != 0)
+	{
+		res[j] = 0;
+		if (test[0] <= 127)
+			res[j] = test[i];
+		else
+		{
+			bytes_count = 0;
+			if ((test[0] >> 5) == 6)
+			{
+				bytes_count = 2;
+				printf("%d %d \n", test[0], test[1]);
+			}
+			else
+			{
+				if ((test[0] >> 4) == 14)
+				{
+					bytes_count = 3;
+				}
+				else
+					bytes_count = 4;
+			}
+			if (bytes_count == 2)
+				res[j] &= 11111;
+			else if (bytes_count == 3)
+				res[j] &= 1111;
+			else if (bytes_count == 4)
+				res[j] &= 111;
+			while (bytes_count > 0)
+			{
+				printf("code1 %d\n", res[j]);
+				res[j] <<= 6;
+				res[j] |= test[i];
+				i++;
+				bytes_count--;
+			}
+		}
+		j++;
+	}
+
+	printf("code2 %d\n", res[j]);
+
+	//test[0] = test[0] >> 5;
+	//printf("%d \n", test[0]);
+	/*while (test[i] != 0)
+	{
+		bytes_count = 0;
+		if (test[i] <= 127)
+			res[j] = test[i];
+		else
+		{
+			if (test[i] >> 5 == 11)
+				bytes_count = 2;
+			else if (test[i] >> 4 == 111)
+				bytes_count = 3;
+			else if (test[i] >> 3 == 1111)
+				bytes_count = 4;
+			if (bytes_count == 2)
+				res[j] &= 11111;
+			else if (bytes_count == 3)
+				res[j] &= 1111;
+			else if (bytes_count == 4)
+				res[j] &= 111;
+			bytes_count--;
+			i++;
+			while (bytes_count > 0)
+			{
+				printf("code %d", res[j]);
+				res[j] <<= 6;
+				res[j] |= test[i];
+				i++;
+				bytes_count--;
+			}
+		}
+		j++;
+	}*/
+	//printf("S\n", res);
+	//write(1, &test, 1);
+	//write(1, &t, 1);
+	//write(1, "\n", 1);
 }
