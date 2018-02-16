@@ -29,5 +29,5 @@ fclean: clean
 
 re: fclean all
 
-$(OFILES): %.o:%.c
-	gcc -c -Wall -Wextra -Werror $(SFILES)
+%.o : %.c
+	gcc -Wall -Wextra -Werror -c $<
