@@ -119,62 +119,88 @@ int main(void)
 	int j;
 	int bytes_count;
 	int code;
-
+	char res[5];
 	i = 0;
 	j = 0;
 	code = 0;
 	bytes_count = 0;
-	unsigned char *test;
-	test = "а";
-	wchar_t res[20];
+	wchar_t *test;
+	test = L"а";
+	while (i < 5)
+	{
+		res[i] = 0;
+		i++;
+	}
+	i = 0;
 	//res = (wchar_t *)malloc(sizeof(wchar_t) * 20);
 	//res = NULL;
 
-	printf("%s %s \n", print_hex_ind(test[0], 2, 20), print_hex_ind(test[1], 2, 20));
-	printf("%s %s \n", print_hex_ind(test[0] >> 5, 2, 20), print_hex_ind(test[1], 2, 20));
+	//printf("%s %s \n", print_hex_ind(test[0], 2, 20), print_hex_ind(test[1], 2, 20));
+	//printf("%s %s \n", print_hex_ind(test[0] >> 5, 2, 20), print_hex_ind(test[1], 2, 20));
 	while (test[i] != 0)
 	{
-		res[j] = 0;
-		if (test[0] <= 127)
-			res[j] = test[i];
+		if (test[i] <= 127)
+		{
+			write(1, &test[i], 1);
+		}
 		else
 		{
+			while (i < 5)
+			{
+				res[i] = 0;
+				i++;
+			}
 			bytes_count = 0;
-			if ((test[0] >> 5) == 6)
+			if (test[i] > 127 && test[i] <= 2047)
 			{
 				bytes_count = 2;
-				printf("%d %d \n", test[0], test[1]);
+				res[0] = test[i] >> 6;
+				res[0] = res[0] & 31;
+				res[0] += 192;
+				i++;
+				res[1] = res[1] & 63;
+				res[1] += 128;
+				write(1, res, bytes_count);
 			}
-			else
+			else if (test[i] > 2047 && test[i] <= 65535)
 			{
-				if ((test[0] >> 4) == 14)
-				{
-					bytes_count = 3;
-				}
-				else
-					bytes_count = 4;
+				bytes_count = 3;
+				res[0] = test[i] >> 12;
+				res[0] = res[0] & 15;
+				res[0] += 224;
+				i++;
+				res[1] = test[i] >> 6;
+				res[1] = res[1] & 63;
+				res[1] += 128;
+				i++;
+				res[2] = res[2] & 63;
+				res[2] += 128;
+				write(1, res, bytes_count);
+			}
+			else if (test[i] > 65535 && test[i] <= 1114111)
+			{
+				bytes_count = 4;
+				res[0] = test[i] >> 18;
+				res[0] = res[0] & 7;
+				res[0] += 240;
+				i++;
+				res[1] = test[i] >> 12;
+				res[1] = res[1] & 63;
+				res[1] += 128;
+				i++;
+				res[2] = test[i] >> 6;
+				res[2] = res[2] & 63;
+				res[2] += 128;
+				i++;
+				res[3] = res[2] & 63;
+				res[3] += 128;
+				write(1, res, bytes_count);
 			}
 			printf("BYTE %d\n", bytes_count);
-			if (bytes_count == 2)
-				res[j] = test[i] & 31;
-			else if (bytes_count == 3)
-				res[j] = test[i] & 15;
-			else if (bytes_count == 4)
-				res[j] = test[i] & 7;
-			printf("code1 %d\n", res[j]);
-			bytes_count--;
-			i++;
-			while (bytes_count > 0)
-			{
-				res[j] += test[i] << 6;
-				i++;
-				bytes_count--;
-			}
 		}
+		i++;
 		j++;
 	}
-
-	printf("code2 %d\n", res[j]);
 
 	//test[0] = test[0] >> 5;
 	//printf("%d \n", test[0]);
