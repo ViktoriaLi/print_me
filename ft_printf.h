@@ -65,7 +65,7 @@ void print_params_right(char *s, t_argc *params, int zeros, int spaces);
 void long_print_params_right(uintmax_t d, t_argc *params, int zeros, int spaces);
 void long_print_params_left(uintmax_t d, t_argc *params, int zeros, int spaces);
 void print_left(t_argc *params);
-void print_unicode(wchar_t *test, int len);
+int print_unicode(wchar_t *test, int len);
 
 int		ft_strcmp(const char *s1, const char *s2);
 int			ft_atoi(const char *str);

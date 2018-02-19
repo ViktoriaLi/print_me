@@ -120,13 +120,14 @@ void long_print_params_right(uintmax_t d, t_argc *params, int zeros, int spaces)
 	     write(1, "0", 1);
 }
 
-void print_unicode(wchar_t *test, int len)
+int print_unicode(wchar_t *test, int len)
 {
 	//setlocale (LC_ALL, "");
 	int i;
 	int j;
 	int bytes_count;
 	int code;
+	int count;
 	char res[4];
 	unsigned int first[4];
 	int shift;
@@ -135,15 +136,23 @@ void print_unicode(wchar_t *test, int len)
 	j = 0;
 	code = 0;
 	bytes_count = 0;
-
+	count = 0;
+	printf("1LEN %d\n", len);
 	//wchar_t *test;
 	//test = L"l䀥dⱢfdаd䋃fsf‣sd偤a";
 
-	while (test[i] && i < len)
+	while (test[i])
 	{
 		if (test[i] <= 127)
 		{
-			write(1, &test[i], 1);
+			if ((count + 1) <= len)
+			{
+				write(1, &test[i], 1);
+				count++;
+				printf("2LEN %d\n", count);
+			}
+			/*else
+				break;*/
 		}
 		else
 		{
@@ -176,7 +185,14 @@ void print_unicode(wchar_t *test, int len)
 					shift -= 6;
 					j++;
 				}
-				write(1, res, bytes_count);
+				if ((count + bytes_count) <= len)
+				{
+					write(1, res, bytes_count);
+					count += 2;
+					printf("3LEN %d\n", count);
+				}
+				/*else
+					break;*/
 			}
 			else if (test[i] > 2047 && test[i] <= 65535)
 			{
@@ -205,7 +221,14 @@ void print_unicode(wchar_t *test, int len)
 					shift -= 6;
 					j++;
 				}
-				write(1, res, bytes_count);
+				if ((count + bytes_count) <= len)
+				{
+					write(count, res, bytes_count);
+					count += 3;
+					printf("4LEN %d\n", count);
+				}
+				/*else
+					break;*/
 			}
 			else if (test[i] > 65535 && test[i] <= 1114111)
 			{
@@ -234,9 +257,18 @@ void print_unicode(wchar_t *test, int len)
 					shift -= 6;
 					j++;
 				}
-				write(1, res, bytes_count);
+				if ((count + bytes_count) <= len)
+				{
+					write(1, res, bytes_count);
+					count += 4;
+					printf("5LEN %d\n", count);
+				}
+				/*else
+					break;*/
 			}
 		}
 		i++;
 	}
+	printf("6LEN %d\n", count);
+	return (len - count);
 }
