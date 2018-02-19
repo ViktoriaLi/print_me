@@ -1,5 +1,7 @@
 #include "ft_printf.h"
 #include <stdio.h>
+# include <locale.h>
+
 	//sSpdDioOuUxXcC
 	//%%
 	//flags #0-+ and space
@@ -151,7 +153,7 @@ void argument_analize(t_argc *params, va_list ap)
 	else if ((*params).specifier == 'x' || (*params).specifier == 'X'
 		|| (*params).specifier == 'p')
 		x_analizator(params, ap);
-	else if ((*params).specifier == 'c')
+	else if ((*params).specifier == 'c' && (*params).length[0] != 'l')
 		c_analizator(params, ap);
 	else if ((*params).specifier == 'C' || ((*params).specifier == 'c'
 		&& (*params).length[0] == 'l'))
@@ -335,8 +337,9 @@ int ft_printf(const char *format, ...)
 	return (params.res);
 }
 
-//int main(void)
-//{
+/*int main(void)
+{
+	setlocale (LC_ALL, "");*/
 	/*разный вывод
 	printf("NUMBER %d\n", printf("% +0-5.15d", -2147483648));
 	printf("NUMBER %d\n", ft_printf("% +-05.15d", -2147483648));
@@ -804,5 +807,38 @@ int ft_printf(const char *format, ...)
 	//ft_printf("%S\n", L"abcdef");*/
 
 	/*printf("%d\n", d);
-	printf("%d\n", f);
-}*/
+	printf("%d\n", f);*/
+	/*printf("NUMBER %d\n", printf("%S", L"з±≥"));
+  printf("NUMBER %d\n", ft_printf("%S", L"з±≥"));
+	printf("NUMBER %d\n", printf("{%30S}", L"жM-M-^QжM-^XѓдЄM-еM-^O™зM-^LЂгM-M-^B"));
+  printf("NUMBER %d\n", ft_printf("{%30S}", L"жM-M-^QжM-^XѓдЄM-еM-^O™зM-^LЂгM-M-^B"));
+	printf("NUMBER %d\n", printf("{%030S}", L"жM-M-^QжM-^XѓдЄM-еM-^O™зM-^LЂгM-M-^B"));
+  printf("NUMBER %d\n", ft_printf("{%030S}", L"жM-M-^QжM-^XѓдЄM-еM-^O™зM-^LЂгM-M-^B"));
+	printf("NUMBER %d\n", printf("%.4S", L"жM-M-^QжM-^XѓдЄM-еM-^O™зM-^LЂгM-M-^B"));
+  printf("NUMBER %d\n", ft_printf("%.4S", L"жM-M-^QжM-^XѓдЄM-еM-^O™зM-^LЂгM-M-^B"));*/
+	//printf("NUMBER %d\n", printf("%S", L"з±≥"));*/
+  //printf("NUMBER %d\n", ft_printf("%S", L"з±≥"));
+	/*printf("NUMBER %d\n", printf("%S", L"米"));
+  printf("NUMBER %d\n", ft_printf("%S", L"米"));
+	printf("NUMBER %d\n", printf("{%30S}", L"我是一只猫。"));
+  printf("NUMBER %d\n", ft_printf("{%30S}", L"我是一只猫。"));
+	printf("NUMBER %d\n", printf("{%030S}", L"我是一只猫。"));
+  printf("NUMBER %d\n", ft_printf("{%030S}", L"我是一只猫。"));
+	printf("NUMBER %d\n", printf("%.4S", L"我是一只猫。"));
+  printf("NUMBER %d\n", ft_printf("%.4S", L"我是一只猫。"));*/
+	/*printf("NUMBER %d\n", printf("%C", 'c'));
+  printf("NUMBER %d\n", ft_printf("%C", 'c'));
+	printf("NUMBER %d\n", printf("%s %C %d %p %x %% %S", "bonjour ", L'該', 42, &free, 42, L"لحم خنزير"));
+  printf("NUMBER %d\n", ft_printf("%s %C %d %p %x %% %S", "bonjour ", L'該', 42, &free, 42, L"لحم خنزير"));
+	printf("NUMBER %d\n", printf("%lc, %lc", L'暖', L'ح'));
+  printf("NUMBER %d\n", ft_printf("%lc, %lc", L'暖', L'ح'));
+	printf("NUMBER %d\n", printf("%hhC, %hhC", 0, L'米'));
+  printf("NUMBER %d\n", ft_printf("%hhC, %hhC", 0, L'米'));
+	printf("NUMBER %d\n", printf("{% C}", 0));
+  printf("NUMBER %d\n", ft_printf("{% C}", 0));
+	printf("NUMBER %d\n", printf("%.5C", 42));
+  printf("NUMBER %d\n", ft_printf("%.5C", 42));
+
+
+}
+*/

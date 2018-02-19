@@ -65,6 +65,7 @@ void print_params_right(char *s, t_argc *params, int zeros, int spaces);
 void long_print_params_right(uintmax_t d, t_argc *params, int zeros, int spaces);
 void long_print_params_left(uintmax_t d, t_argc *params, int zeros, int spaces);
 void print_left(t_argc *params);
+void print_unicode(wchar_t *test);
 
 int		ft_strcmp(const char *s1, const char *s2);
 int			ft_atoi(const char *str);
@@ -76,5 +77,6 @@ char	*ft_strncpy(char *dst, const char *src, size_t len);
 char			*ft_uns_itoa(uintmax_t n);
 char	*ft_len_strnstr(char *big, char *little, size_t len);
 void	ft_strdel(char **as);
+size_t		ft_strlen_wide(wchar_t *s);
 
 #endif

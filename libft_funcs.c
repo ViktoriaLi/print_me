@@ -75,6 +75,28 @@ size_t		ft_strlen(const char *s)
 	return (i);
 }
 
+size_t		ft_strlen_wide(wchar_t *s)
+{
+	size_t i;
+	size_t res;
+
+	i = 0;
+	res = 0;
+	while (s[i] != 0)
+	{
+		if (s[i] <= 127)
+			res++;
+		else if (s[i] > 127 && s[i] <= 2047)
+			res += 2;
+		else if (s[i] > 2047 && s[i] <= 65535)
+			res += 3;
+		else if (s[i] > 65535 && s[i] <= 1114111)
+			res += 4;
+		i++;
+	}
+	return (res);
+}
+
 void	ft_putstr(char const *s)
 {
 	int i;

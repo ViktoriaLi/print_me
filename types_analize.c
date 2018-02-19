@@ -364,10 +364,10 @@ void S_analizator(t_argc *params, va_list ap)
   if (S == NULL)
     len = 6;
   else if (!if_flag((*params).flag, '0', FLAG_LIMIT))
-      while(S[len])
-        len++;
+    len = ft_strlen_wide(S);
   if ((*params).precision > 0 && (*params).precision < len)
     len = (*params).precision;
+  //printf("LEN %d\n", len);
   (*params).res += len;
   spaces = (*params).width - len;
   if (spaces > 0)
@@ -377,8 +377,7 @@ void S_analizator(t_argc *params, va_list ap)
     if (S == NULL)
       write(1, "(null)", 6);
     else if (!if_flag((*params).flag, '0', FLAG_LIMIT))
-      while(S[j])
-        write(1, &S[j++], 1);
+      print_unicode(S);
     if ((*params).width > len)
       while (spaces--)
         write(1, " ", 1);
@@ -394,8 +393,7 @@ void S_analizator(t_argc *params, va_list ap)
     if (S == NULL)
       write(1, "(null)", 6);
     else if (!if_flag((*params).flag, '0', FLAG_LIMIT))
-        while(S[j])
-          write(1, &S[j++], 1);
+      print_unicode(S);
   }
   print_left(params);
 }
@@ -708,33 +706,41 @@ void c_analizator(t_argc *params, va_list ap)
 void C_analizator(t_argc *params, va_list ap)
 {
   int spaces;
+  int len;
   wchar_t C;
 
+  len = 0;
   spaces = 0;
   check_stars(params, ap);
   C = va_arg(ap, wchar_t);
-  (*params).res += 1;
-  if ((*params).width > 1)
+  if (C <= 127)
+    len = 1;
+  else
+    len = ft_strlen_wide(&C);
+  (*params).res += len;
+  if ((*params).width > len)
   {
-    spaces = (*params).width - 1;
+    spaces = (*params).width - len;
     (*params).res += spaces;
   }
   if (if_flag((*params).flag, '-', FLAG_LIMIT))
   {
-    write(1, &C, 1);
-    if ((*params).width > 1)
+    print_unicode(&C);
+    //write(1, &C, 1);
+    if ((*params).width > len)
       while (spaces--)
         write(1, " ", 1);
   }
   else
   {
-    if ((*params).width > 1 && !if_flag((*params).flag, '0', FLAG_LIMIT))
+    if ((*params).width > len && !if_flag((*params).flag, '0', FLAG_LIMIT))
       while (spaces--)
         write(1, " ", 1);
-    else if ((*params).width > 1 && if_flag((*params).flag, '0', FLAG_LIMIT))
+    else if ((*params).width > len && if_flag((*params).flag, '0', FLAG_LIMIT))
       while (spaces--)
         write(1, "0", 1);
-    write(1, &C, 1);
+    print_unicode(&C);
+    //write(1, &C, 1);
   }
   print_left(params);
 }

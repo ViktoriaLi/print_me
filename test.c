@@ -7,7 +7,7 @@
 
 #include "ft_printf.h"
 
-char *print_hex_ind(uintmax_t nbr, unsigned int base, int count)
+/*char *print_hex_ind(uintmax_t nbr, unsigned int base, int count)
 {
 	static char *res;
 	static int i;
@@ -25,7 +25,7 @@ char *print_hex_ind(uintmax_t nbr, unsigned int base, int count)
 	else
 		res[i++] = (nbr % base) - 10 + 65;
 	return (res);
-}
+}*/
 
 /*int main()
 {
