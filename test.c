@@ -129,7 +129,7 @@ int main(void)
 	bytes_count = 0;
 
 	wchar_t *test;
-	test = L"l䀥dfdаdfsf‣";
+	test = L"l䀥dⱢfdаd䋃fsf‣sd偤a";
 
 	while (test[i] != 0)
 	{
@@ -166,22 +166,9 @@ int main(void)
 						res[j] += 128;
 					}
 					shift -= 6;
-					i++;
 					j++;
 				}
-				i--;
-
-				/*res[j] = first[j] >> shift;
-				res[j] = res[0] & 31;
-				res[j] += 192;
-				shift -= 6;
-				i++;
-				j++;
-				res[j] = first[j] >> shift;
-				res[j] = first[j] & 63;
-				res[j] += 128;*/
 				write(1, res, bytes_count);
-				continue ;
 			}
 			else if (test[i] > 2047 && test[i] <= 65535)
 			{
@@ -208,27 +195,9 @@ int main(void)
 						res[j] += 128;
 					}
 					shift -= 6;
-					i++;
 					j++;
 				}
-				i--;
-				/*res[j] = first[j] >> shift;
-				res[j] = res[0] & 15;
-				res[j] += 224;
-				shift -= 6;
-				i++;
-				j++;
-				res[j] = first[j] >> shift;
-				res[j] = res[1] & 63;
-				res[j] += 128;
-				shift -= 6;
-				i++;
-				j++;
-				res[j] = first[j] >> shift;
-				res[j] = first[j] & 63;
-				res[j] += 128;*/
 				write(1, res, bytes_count);
-				continue ;
 			}
 			else if (test[i] > 65535 && test[i] <= 1114111)
 			{
@@ -255,33 +224,9 @@ int main(void)
 						res[j] += 128;
 					}
 					shift -= 6;
-					i++;
 					j++;
 				}
-				i--;
-				/*res[j] = first[j] >> shift;
-				res[j] = res[j] & 7;
-				res[j] += 240;
-				shift -= 6;
-				j++;
-				i++;
-				res[j] = first[j] >> shift;
-				res[j] = res[j] & 63;
-				res[j] += 128;
-				shift -= 6;
-				i++;
-				j++;
-				res[j] = first[j] >> shift;
-				res[j] = res[j] & 63;
-				res[j] += 128;
-				shift -= 6;
-				i++;
-				j++;
-				res[j] = first[j] >> shift;
-				res[j] = first[j] & 63;
-				res[j] += 128;*/
 				write(1, res, bytes_count);
-				continue ;
 			}
 		}
 		i++;
