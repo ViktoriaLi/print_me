@@ -354,7 +354,9 @@ void S_analizator(t_argc *params, va_list ap)
   long len;
   int spaces;
   wchar_t *S;
+  int zeros;
 
+  zeros = 0;
   j = 0;
   spaces = 0;
   len = 0;
@@ -363,37 +365,48 @@ void S_analizator(t_argc *params, va_list ap)
   S = va_arg(ap, wchar_t *);
   if (S == NULL)
     len = 6;
-  else if (!if_flag((*params).flag, '0', FLAG_LIMIT))
+  else
     len = ft_strlen_wide(S);
-  if ((*params).precision > 0 && (*params).precision < len)
+  if ((*params).precision >= 0)
     len = (*params).precision;
   //printf("LEN %d\n", len);
   (*params).res += len;
-  spaces = (*params).width - len;
+  if (if_flag((*params).flag, '0', FLAG_LIMIT))
+    zeros = (*params).width - len;
+  spaces = (*params).width - len - zeros;
   if (spaces > 0)
     (*params).res += spaces;
+  if (zeros > 0)
+    (*params).res += zeros;
   if (if_flag((*params).flag, '-', FLAG_LIMIT))
   {
+    if (zeros > 0)
+    {
+      while (zeros--)
+        write(1, "0", 1);
+    }
     if (S == NULL)
       write(1, "(null)", 6);
-    else if (!if_flag((*params).flag, '0', FLAG_LIMIT))
-      print_unicode(S);
-    if ((*params).width > len)
+    else
+      print_unicode(S, len);
+    if (spaces > 0)
       while (spaces--)
         write(1, " ", 1);
   }
   else
   {
-    if ((*params).width > len && !if_flag((*params).flag, '0', FLAG_LIMIT))
+    if (spaces > 0)
       while (spaces--)
         write(1, " ", 1);
-    else if ((*params).width > len && if_flag((*params).flag, '0', FLAG_LIMIT))
-      while (spaces--)
+    if (zeros > 0)
+    {
+      while (zeros--)
         write(1, "0", 1);
+    }
     if (S == NULL)
       write(1, "(null)", 6);
-    else if (!if_flag((*params).flag, '0', FLAG_LIMIT))
-      print_unicode(S);
+    else
+      print_unicode(S, len);
   }
   print_left(params);
 }
@@ -609,7 +622,7 @@ void x_analizator(t_argc *params, va_list ap)
   if ((if_flag((*params).flag, '#', FLAG_LIMIT) && d != 0) || (*params).specifier == 'p')
   {
     spaces -= 2;
-    if (if_flag((*params).flag, '0', FLAG_LIMIT) && (*params).specifier != 'p')
+    if (if_flag((*params).flag, '0', FLAG_LIMIT))
       zeros -= 2;
   }
   if (zeros > 0)
@@ -725,7 +738,7 @@ void C_analizator(t_argc *params, va_list ap)
   }
   if (if_flag((*params).flag, '-', FLAG_LIMIT))
   {
-    print_unicode(&C);
+    print_unicode(&C, len);
     //write(1, &C, 1);
     if ((*params).width > len)
       while (spaces--)
@@ -739,7 +752,7 @@ void C_analizator(t_argc *params, va_list ap)
     else if ((*params).width > len && if_flag((*params).flag, '0', FLAG_LIMIT))
       while (spaces--)
         write(1, "0", 1);
-    print_unicode(&C);
+    print_unicode(&C, len);
     //write(1, &C, 1);
   }
   print_left(params);

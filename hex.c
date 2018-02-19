@@ -120,7 +120,7 @@ void long_print_params_right(uintmax_t d, t_argc *params, int zeros, int spaces)
 	     write(1, "0", 1);
 }
 
-void print_unicode(wchar_t *test)
+void print_unicode(wchar_t *test, int len)
 {
 	//setlocale (LC_ALL, "");
 	int i;
@@ -139,7 +139,7 @@ void print_unicode(wchar_t *test)
 	//wchar_t *test;
 	//test = L"l䀥dⱢfdаd䋃fsf‣sd偤a";
 
-	while (test[i] != 0)
+	while (test[i] && i < len)
 	{
 		if (test[i] <= 127)
 		{
