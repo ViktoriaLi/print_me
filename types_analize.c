@@ -369,9 +369,13 @@ void S_analizator(t_argc *params, va_list ap)
     len = ft_strlen_wide(S);
   if ((*params).precision >= 0)
     len = (*params).precision;
+  //printf("LEN %d\n", len);
+  //if ((*params).precision > 0)
+    //len = count_uni_symbols(S, len);
 /*  else if ((*params).precision == 0)
     len = 0;*/
   //printf("LEN %d\n", len);
+
   (*params).res += len;
   if (if_flag((*params).flag, '0', FLAG_LIMIT))
     zeros = (*params).width - len;

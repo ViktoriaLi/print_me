@@ -40,62 +40,75 @@ int check_specifier(char type)
 		return (0);
 }
 
+void check_length_hhll(int h_count, int l_count, char **dest)
+{
+	if (h_count % 2 != 0 && (*dest)[0] != 'l' && (*dest)[0] != 'z'
+		&& (*dest)[0] != 'j')
+		{
+			(*dest)[0] = 'h';
+			(*dest)[1] = 0;
+		}
+	if (l_count % 2 != 0 && (*dest)[0] != 'l' && (*dest)[0] != 'z'
+		&& (*dest)[0] != 'j')
+		{
+			(*dest)[0] = 'l';
+			(*dest)[1] = 0;
+		}
+}
+
+void check_length_hlzj(int *j, int len, char *length, char **dest)
+{
+	int h_count;
+	int l_count;
+
+	h_count = 0;
+	l_count = 0;
+	while (*j < len)
+	{
+		if (length[*j] == 'z')
+		{
+			(*dest)[0] = 'z';
+			(*dest)[1] = 0;
+		}
+		if (length[*j] == 'j' && (*dest)[0] != 'z')
+		{
+			(*dest)[0] = 'j';
+			(*dest)[1] = 0;
+		}
+		if (length[*j] == 'h')
+			h_count++;
+		if (length[*j] == 'l')
+			l_count++;
+		(*j)++;
+	}
+	check_length_hhll(h_count, l_count, dest);
+}
+
 void check_length(char *length, int *i, char *dest)
 {
 	int j;
 	int len;
-	int h_count;
-	int l_count;
 
 	j = 0;
 	len = 0;
-	h_count = 0;
-	l_count = 0;
-	while (length[j] == 'h' || length[j] == 'l' || length[j] == 'j' || length[j] == 'z')
+	while (length[len] == 'h' || length[len] == 'l' || length[len] == 'j'
+		|| length[len] == 'z')
 	{
-		j++;
+		len++;
 		(*i)++;
 	}
-	len = j;
-	j = 0;
 	if (ft_len_strnstr(length, "ll", len) && dest[0] != 'z' && dest[0] != 'j')
 	{
 		dest[0] = 'l';
 		dest[1] = 'l';
 	}
-	if (ft_len_strnstr(length, "hh", len) && dest[0] != 'l' && dest[0] != 'z' && dest[0] != 'j')
+	if (ft_len_strnstr(length, "hh", len) && dest[0] != 'l' &&
+		dest[0] != 'z' && dest[0] != 'j')
 	{
 		dest[0] = 'h';
 		dest[1] = 'h';
 	}
-	while (j < len)
-	{
-		if (length[j] == 'z')
-		{
-			dest[0] = 'z';
-			dest[1] = 0;
-		}
-		if (length[j] == 'j' && dest[0] != 'z')
-		{
-			dest[0] = 'j';
-			dest[1] = 0;
-		}
-		if (length[j] == 'h')
-			h_count++;
-		if (length[j] == 'l')
-			l_count++;
-		j++;
-	}
-	if (h_count % 2 != 0 && dest[0] != 'l' && dest[0] != 'z' && dest[0] != 'j')
-		{
-			dest[0] = 'h';
-			dest[1] = 0;
-		}
-	if (l_count % 2 != 0 && dest[0] != 'l' && dest[0] != 'z' && dest[0] != 'j')
-		{
-			dest[0] = 'l';
-			dest[1] = 0;
-		}
+	check_length_hlzj(&j, len, length, &dest);
 }
 
 void check_flags(char *str, int *i, int *flag)
@@ -165,8 +178,6 @@ void argument_analize(t_argc *params, va_list ap)
 		n_value = va_arg(ap, int *);
 		*n_value = (*params).res;
 	}
-
-
 }
 
 void check_star_anywhere(char c, int *i, int *param)
@@ -178,15 +189,65 @@ void check_star_anywhere(char c, int *i, int *param)
 	}
 }
 
+void specifier_finder(t_argc *params, char *argv, int *i, va_list ap)
+{
+	int len;
+	int j;
+
+	j = 0;
+	len = 0;
+	if (check_specifier(argv[*i]))
+	{
+		(*params).specifier = argv[(*i)++];
+		len = *i;
+		while (argv[*i])
+			(*i)++;
+		(*params).left = (char *)malloc(*i - len + 1);
+		(*params).left[*i - len] = 0;
+		j = *i - len;
+		(*params).left_len = j;
+		while (*i >= len)
+			(*params).left[j--] = argv[(*i)--];
+		argument_analize(params, ap);
+		(*i)++;
+	}
+	else if ((*params).specifier == '%' || ((argv[*i] >= 65
+		&& argv[*i] <= 90) || (argv[*i] >= 97 && argv[*i] <= 122)))
+	{
+		if ((*params).specifier != '%')
+			(*params).specifier = argv[(*i)++];
+		c_analizator(params, ap);
+	}
+}
+
+void precision_finder(char *argv, int *i, t_argc *params)
+{
+	if (argv[*i] == '.')
+	{
+		(*params).precision = 0;
+		(*i)++;
+		check_star_anywhere(argv[*i], i, &params->precision);
+		if (argv[*i] >= '0' && argv[*i] <= '9')
+		{
+			if ((*params).precision != '*')
+				(*params).precision = ft_atoi(&argv[*i]);
+			else if ((*params).width != '*')
+				(*params).width = ft_atoi(&argv[*i]);
+		}
+		while ((argv[*i] >= '0' && argv[*i] <= '9'))
+			(*i)++;
+	}
+	else if (argv[*i] == '.')
+		(*i)++;
+}
+
 void argument_save(char *argv, t_argc *params, va_list ap)
 {
 	int i;
 	int j;
-	int len;
 
 	i = 0;
 	j = 0;
-	len = 0;
 	check_star_anywhere(argv[i], &i, &params->width);
 	check_flags(argv, &i, (*params).flag);
 	check_star_anywhere(argv[i], &i, &params->width);
@@ -198,49 +259,11 @@ void argument_save(char *argv, t_argc *params, va_list ap)
 			i++;
 	}
 	check_star_anywhere(argv[i], &i, &params->width);
-	if (argv[i] == '.')
-	{
-		(*params).precision = 0;
-		i++;
-		check_star_anywhere(argv[i], &i, &params->precision);
-		if (argv[i] >= '0' && argv[i] <= '9')
-		{
-			if ((*params).precision != '*')
-				(*params).precision = ft_atoi(&argv[i]);
-			else if ((*params).width != '*')
-				(*params).width = ft_atoi(&argv[i]);
-		}
-		while ((argv[i] >= '0' && argv[i] <= '9'))
-			i++;
-	}
-	else if (argv[i] == '.')
-		i++;
+	precision_finder(argv, &i, params);
 	check_star_anywhere(argv[i], &i, &params->width);
 	check_length(&argv[i], &i, (*params).length);
 	check_star_anywhere(argv[i], &i, &params->width);
-	if (check_specifier(argv[i]))
-	{
-		(*params).specifier = argv[i++];
-		len = i;
-		while (argv[i])
-			i++;
-		(*params).left = (char *)malloc(i - len + 1);
-		(*params).left[i - len] = 0;
-		j = i - len;
-		(*params).left_len = j;
-		while (i >= len)
-			(*params).left[j--] = argv[i--];
-		argument_analize(params, ap);
-		i++;
-	}
-	else if ((*params).specifier == '%' || ((argv[i] >= 65
-		&& argv[i] <= 90) || (argv[i] >= 97 && argv[i] <= 122)))
-	{
-		if ((*params).specifier != '%')
-			(*params).specifier = argv[i];
-		c_analizator(params, ap);
-		i++;
-	}
+	specifier_finder(params, argv, &i, ap);
 	if (!(*params).left)
 		while (argv[i])
 		{
@@ -268,18 +291,47 @@ void struct_init(t_argc *params)
 	(*params).left_len = 0;
 	(*params).reserve = NULL;
 	(*params).sign = 0;
+	ft_strdel(&params->left);
+	ft_strdel(&params->one_arg);
+}
+
+int if_percent_found(const char *format, t_argc *params, int *i)
+{
+	int j;
+	int len;
+
+	j = 0;
+	len = 0;
+	struct_init(params);
+	if (format[++(*i)] == '%')
+	{
+		write(1, &format[(*i)++], 1);
+		(*params).res++;
+		return (0);
+	}
+	while (format[*i] && format[*i] != '%')
+	{
+		(*i)++;
+		j++;
+	}
+	if (format[*i] == '%')
+		(*params).specifier = '%';
+	len = (*i)--;
+	(*params).one_arg = (char *)malloc(j + 1);
+	(*params).one_arg[j--] = 0;
+	while (j >= 0)
+		(*params).one_arg[j--] = format[(*i)--];
+	(*i) = len;
+	return (1);
 }
 
 int ft_printf(const char *format, ...)
 {
 	t_argc params;
 	int i;
-	int j;
-	int len;
 	va_list ap;
 
 	i = 0;
-	len = 0;
 	params.res = 0;
 	va_start(ap, format);
 	while (format[i] && format[i] != '%')
@@ -289,38 +341,14 @@ int ft_printf(const char *format, ...)
 	}
 	while (format[i])
 	{
-		if (format[i] == '%')
-		{
-			struct_init(&params);
-			if (format[++i] == '%')
-			{
-				write(1, &format[i++], 1);
-				params.res++;
+		if (format[i] == '%' && !if_percent_found(format, &params, &i))
 				continue;
-			}
-			j = 0;
-			while (format[i] && format[i] != '%')
-			{
-				i++;
-				j++;
-			}
-			if (format[i] == '%')
-				params.specifier = '%';
-			len = i--;
-			params.one_arg = (char *)malloc(j + 1);
-			params.one_arg[j--] = 0;
-			while (j >= 0)
-				params.one_arg[j--] = format[i--];
-			i = len;
-		}
 		else
-		{
 			while (format[i] && format[i] != '%')
 			{
 				write(1, &format[i++], 1);
 				params.res++;
 			}
-		}
 		if (params.one_arg)
 			argument_save(params.one_arg, &params, ap);
 		/*printf("ARGUMENT %s\n", params.one_arg);
@@ -332,8 +360,6 @@ int ft_printf(const char *format, ...)
 		printf("SPECIFIER %c\n", params.specifier);
 		printf("LEFT %s\n", params.left);*/
 		/*printf("RETURN %d\n", params.res);*/
-		ft_strdel(&params.left);
-		ft_strdel(&params.one_arg);
 	}
 	va_end(ap);
 	return (params.res);
@@ -341,7 +367,7 @@ int ft_printf(const char *format, ...)
 
 /*int main(void)
 {
-	setlocale (LC_ALL, "");*/ 
+	setlocale (LC_ALL, "");*/
 	/*разный вывод
 	printf("NUMBER %d\n", printf("% +0-5.15d", -2147483648));
 	printf("NUMBER %d\n", ft_printf("% +-05.15d", -2147483648));
@@ -874,16 +900,23 @@ int ft_printf(const char *format, ...)
 	printf("NUMBER %d\n", printf("%+C", 0));
   printf("NUMBER %d\n", ft_printf("%+C", 0));
 
-	printf("NUMBER %d\n", printf("{% C}", 0));
-  printf("NUMBER %d\n", ft_printf("{% C}", 0));
+
 
 	printf("NUMBER %d\n", printf("%.C", 0));
   printf("NUMBER %d\n", ft_printf("%.C", 0));*/
 
-	/*printf("NUMBER %d\n", printf("%15.4S", L"ÊM-M-^QÊM-^XØ‰∏M-ÂM-^O™ÁM-^L´„M-M-^B"));
-	printf("NUMBER %d\n", ft_printf("%15.4S", L"ÊM-M-^QÊM-^XØ‰∏M-ÂM-^O™ÁM-^L´„M-M-^B"));
-	printf("NUMBER %d\n", printf("%15.4S", L"我是一只猫。"));
-	printf("NUMBER %d\n", ft_printf("%15.4S", L"我是一只猫。"));
+	/*
+	printf("NUMBER %d\n", printf("%hhC, %hhC", 0, L'米'));
+  printf("NUMBER %d\n", ft_printf("%hhC, %hhC", 0, L'米'));
 
+	printf("NUMBER %d\n", printf("%15.4S", L"ÊM-M-^QÊM-^XØ‰∏M-ÂM-^O™ÁM-^L´„M-M-^B"));
+	printf("NUMBER %d\n", ft_printf("%15.4S", L"ÊM-M-^QÊM-^XØ‰∏M-ÂM-^O™ÁM-^L´„M-M-^B"));*/
+
+	/*printf("NUMBER %d\n", printf("%15.4S", L"我是一只猫。"));
+	printf("NUMBER %d\n", ft_printf("%15.4S", L"我是一只猫。"));*/
+	//printf("NUMBER %d\n", printf("%hhC, %hhC", 0, L'з±≥'));
+  //printf("NUMBER %d\n", ft_printf("%hhC, %hhC", 0, L'з±≥'));
+	/*printf("NUMBER %d\n", printf("{% C}", 0));
+  printf("NUMBER %d\n", ft_printf("{% C}", 0));
 
 }*/

@@ -130,7 +130,7 @@ int main(void)
 
 	wchar_t *test;
 	//test = L"l䀥dⱢfdаd䋃fsf‣sd偤a";
-	test = L"≥";
+	test = L"我";
 
 	while (test[i] != 0)
 	{

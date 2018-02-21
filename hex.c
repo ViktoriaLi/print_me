@@ -270,6 +270,66 @@ void long_print_params_right(uintmax_t d, t_argc *params, int zeros, int spaces)
 	return (0);
 }*/
 
+/*int count_uni_symbols(wchar_t *test, int len)
+{
+	int i;
+	int j;
+	int bytes_count;
+	int code;
+	int count;
+	printf("6LEN %d\n", len);
+
+	i = 0;
+	j = 0;
+	code = 0;
+	bytes_count = 0;
+	count = 0;
+	while (test[i] && i < len)
+	{
+		if (test[i] <= 127)
+		{
+			if ((count + 1) <= len)
+				count++;
+			else
+				break;
+		}
+		else
+		{
+			j = 0;
+			bytes_count = 0;
+			if (test[i] > 127 && test[i] <= 2047)
+			{
+				if ((count + bytes_count) <= len)
+				{
+					count += 2;
+				}
+				else
+					break;
+			}
+			else if (test[i] > 2047 && test[i] <= 65535)
+			{
+				if ((count + bytes_count) <= len)
+				{
+					count += 3;
+				}
+				else
+					break;
+			}
+			else if (test[i] > 65535 && test[i] <= 1114111)
+			{
+				if ((count + bytes_count) <= len)
+				{
+					count += 4;
+				}
+				else
+					break;
+			}
+		}
+		i++;
+	}
+	return (count);
+}*/
+
 int print_unicode(wchar_t *test, int len, t_argc *params)
 {
 	int i;
