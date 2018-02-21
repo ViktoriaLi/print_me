@@ -120,9 +120,8 @@ void long_print_params_right(uintmax_t d, t_argc *params, int zeros, int spaces)
 	     write(1, "0", 1);
 }
 
-int print_unicode(wchar_t *test, int len)
+/*int print_unicode(wchar_t *test, int len)
 {
-	//setlocale (LC_ALL, "");
 	int i;
 	int j;
 	int bytes_count;
@@ -137,11 +136,157 @@ int print_unicode(wchar_t *test, int len)
 	code = 0;
 	bytes_count = 0;
 	count = 0;
-	printf("1LEN %d\n", len);
-	//wchar_t *test;
-	//test = L"l䀥dⱢfdаd䋃fsf‣sd偤a";
 
-	while (test[i])
+	//printf("1LEN %d\n", len);
+	while (test[i] && i < len)
+	{
+		if (test[i] <= 127)
+		{
+			//if ((count + 1) <= len)
+			//{
+				write(1, &test[i], 1);
+				count++;
+				//printf("2LEN %d\n", count);
+			//}
+		//else
+    //  break;
+		}
+		else
+		{
+			j = 0;
+			bytes_count = 0;
+			if (test[i] > 127 && test[i] <= 2047)
+			{
+				j = 0;
+				bytes_count = 2;
+				shift = 6;
+				while (j < bytes_count)
+				{
+					first[j] = test[i];
+					j++;
+				}
+				j = 0;
+				while (j < bytes_count)
+				{
+					res[j] = first[j] >> shift;
+					if (j == 0)
+						{
+							res[j] = res[j] & 31;
+							res[j] += 192;
+						}
+					else
+					{
+						res[j] = res[j] & 63;
+						res[j] += 128;
+					}
+					shift -= 6;
+					j++;
+				}
+				//if ((count + bytes_count) <= len)
+				//{
+					write(1, res, bytes_count);
+					count += bytes_count;
+					//printf("3LEN %d\n", count);
+				//}
+				//else
+		    //  break;
+			}
+			else if (test[i] > 2047 && test[i] <= 65535)
+			{
+				j = 0;
+				bytes_count = 3;
+				shift = 12;
+				while (j < bytes_count)
+				{
+					first[j] = test[i];
+					j++;
+				}
+				j = 0;
+				while (j < bytes_count)
+				{
+					res[j] = first[j] >> shift;
+					if (j == 0)
+						{
+							res[j] = res[j] & 15;
+							res[j] += 224;
+						}
+					else
+					{
+						res[j] = res[j] & 63;
+						res[j] += 128;
+					}
+					shift -= 6;
+					j++;
+				}
+				//if ((count + bytes_count) <= len)
+				//{
+				write(count, res, bytes_count);
+				count += bytes_count;
+					//printf("4LEN %d\n", count);
+			//	}
+			//	else
+		    //  break;
+			}
+			else if (test[i] > 65535 && test[i] <= 1114111)
+			{
+				j = 0;
+				bytes_count = 4;
+				shift = 18;
+				while (j < bytes_count)
+				{
+					first[j] = test[i];
+					j++;
+				}
+				j = 0;
+				while (j < bytes_count)
+				{
+					res[j] = first[j] >> shift;
+					if (j == 0)
+						{
+							res[j] = res[j] & 7;
+							res[j] += 240;
+						}
+					else
+					{
+						res[j] = res[j] & 63;
+						res[j] += 128;
+					}
+					shift -= 6;
+					j++;
+				}
+				//if ((count + bytes_count) <= len)
+				//{
+					write(1, res, bytes_count);
+					count += bytes_count;
+					//printf("5LEN %d\n", count);
+				//}
+				//else
+		     // break;
+			}
+		}
+		i++;
+}
+	//printf("6LEN %d\n", count);
+	return (0);
+}*/
+
+int print_unicode(wchar_t *test, int len, t_argc *params)
+{
+	int i;
+	int j;
+	int bytes_count;
+	int code;
+	int count;
+	char res[4];
+	unsigned int first[4];
+	int shift;
+
+	i = 0;
+	j = 0;
+	code = 0;
+	bytes_count = 0;
+	count = 0;
+	while (test[i] && i < len)
 	{
 		if (test[i] <= 127)
 		{
@@ -149,10 +294,7 @@ int print_unicode(wchar_t *test, int len)
 			{
 				write(1, &test[i], 1);
 				count++;
-				printf("2LEN %d\n", count);
 			}
-			/*else
-				break;*/
 		}
 		else
 		{
@@ -189,10 +331,7 @@ int print_unicode(wchar_t *test, int len)
 				{
 					write(1, res, bytes_count);
 					count += 2;
-					printf("3LEN %d\n", count);
 				}
-				/*else
-					break;*/
 			}
 			else if (test[i] > 2047 && test[i] <= 65535)
 			{
@@ -223,12 +362,9 @@ int print_unicode(wchar_t *test, int len)
 				}
 				if ((count + bytes_count) <= len)
 				{
-					write(count, res, bytes_count);
+					write(1, res, bytes_count);
 					count += 3;
-					printf("4LEN %d\n", count);
 				}
-				/*else
-					break;*/
 			}
 			else if (test[i] > 65535 && test[i] <= 1114111)
 			{
@@ -261,14 +397,16 @@ int print_unicode(wchar_t *test, int len)
 				{
 					write(1, res, bytes_count);
 					count += 4;
-					printf("5LEN %d\n", count);
 				}
-				/*else
-					break;*/
 			}
 		}
 		i++;
 	}
-	printf("6LEN %d\n", count);
-	return (len - count);
+	if ((*params).specifier != 'C' && (*params).specifier != 'c')
+		(*params).res -= count - len;
+	//else
+		//(*params).res -= i - len;
+	//printf("LEN %d\n", count);
+	//printf("LEN %d\n", len);
+	return (0);
 }

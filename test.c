@@ -129,13 +129,15 @@ int main(void)
 	bytes_count = 0;
 
 	wchar_t *test;
-	test = L"l䀥dⱢfdаd䋃fsf‣sd偤a";
+	//test = L"l䀥dⱢfdаd䋃fsf‣sd偤a";
+	test = L"≥";
 
 	while (test[i] != 0)
 	{
 		if (test[i] <= 127)
 		{
 			write(1, &test[i], 1);
+			printf("1LEN %d\n", 1);
 		}
 		else
 		{
@@ -169,6 +171,7 @@ int main(void)
 					j++;
 				}
 				write(1, res, bytes_count);
+				printf("2LEN %d\n", 2);
 			}
 			else if (test[i] > 2047 && test[i] <= 65535)
 			{
@@ -198,6 +201,7 @@ int main(void)
 					j++;
 				}
 				write(1, res, bytes_count);
+				printf("3LEN %d\n", 3);
 			}
 			else if (test[i] > 65535 && test[i] <= 1114111)
 			{
@@ -227,6 +231,7 @@ int main(void)
 					j++;
 				}
 				write(1, res, bytes_count);
+				printf("4LEN %d\n", 4);
 			}
 		}
 		i++;
