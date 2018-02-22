@@ -52,14 +52,6 @@ void check_stars(t_argc *params, va_list ap)
 
 void print_int_depend_length(intmax_t *d, char *length, t_argc *params)
 {
-  /*if ((*params).specifier == 'o' || (*params).specifier == 'O' || (*params).specifier == 'u' || (*params).specifier == 'U'
-  || (*params).specifier == 'x' || (*params).specifier == 'X')
-    *d = (uintmax_t)*d;*/
-  /*if (*d >= -9223372036854775807 && *d <= 9223372036854775807)
-  {
-    printf("ok\n");
-    *d = (unsigned long long)*d;
-  }*/
   if ((ft_strcmp(length, "hh") == 0) && ((*params).specifier == 'd' || (*params).specifier == 'i'))
     *d = (signed char)*d;
   else if ((ft_strcmp(length, "hh") == 0) && ((*params).specifier == 'u' ||
@@ -109,9 +101,6 @@ void print_int_depend_length(intmax_t *d, char *length, t_argc *params)
 
 void print_uint_depend_length(uintmax_t *d, char *length, t_argc *params)
 {
-  /*if ((*params).specifier == 'o' || (*params).specifier == 'O' || (*params).specifier == 'u' || (*params).specifier == 'U'
-  || (*params).specifier == 'x' || (*params).specifier == 'X')
-    *d = (uintmax_t)*d;*/
   if ((ft_strcmp(length, "hh") == 0) && ((*params).specifier == 'd' || (*params).specifier == 'i' || (*params).specifier == 'D'))
     *d = (signed char)*d;
   else if ((ft_strcmp(length, "hh") == 0) && ((*params).specifier == 'u' ||
@@ -169,7 +158,8 @@ void print_params_left(char *s, t_argc *params, int zeros, int spaces)
     write(1, " ", 1);
     spaces -= 1;
   }
-  if ((*params).sign != '-' && if_flag((*params).flag, '+', FLAG_LIMIT) && (*params).specifier != 'o' && (*params).specifier != 'O'
+  if ((*params).sign != '-' && if_flag((*params).flag, '+', FLAG_LIMIT) &&
+  (*params).specifier != 'o' && (*params).specifier != 'O'
   && (*params).specifier != 'u' && (*params).specifier != 'U')
   {
     (*params).res += 1;
@@ -231,10 +221,11 @@ void print_params_right(char *s, t_argc *params, int zeros, int spaces)
     (*params).res += 1;
     write(1, " ", 1);
     spaces -= 1;
-    if (if_flag((*params).flag, '0', FLAG_LIMIT))
+    if (if_flag((*params).flag, '0', FLAG_LIMIT) && (*params).width > 0 && (*params).precision <= 0)
       zeros -= 1;
   }
-  if ((*params).sign != '-' && if_flag((*params).flag, '+', FLAG_LIMIT) && (*params).specifier != 'o' && (*params).specifier != 'O')
+  if ((*params).sign != '-' && if_flag((*params).flag, '+', FLAG_LIMIT) &&
+  (*params).specifier != 'o' && (*params).specifier != 'O')
   {
     spaces -= 1;
     if ((*params).precision <= 0)
@@ -248,13 +239,6 @@ void print_params_right(char *s, t_argc *params, int zeros, int spaces)
     while (spaces--)
       write(1, " ", 1);
   }
-  if ((*params).sign != '-' && if_flag((*params).flag, '+', FLAG_LIMIT)
-      && (*params).specifier != 'o' && (*params).specifier != 'O'
-      && (*params).specifier != 'u' && (*params).specifier != 'U')
-  {
-    (*params).res += 1;
-    write(1, "+", 1);
-  }
   if (spaces > 0 && zeros <= 0)
   {
     if ((*params).sign == '-' && zeros > 0)
@@ -266,10 +250,18 @@ void print_params_right(char *s, t_argc *params, int zeros, int spaces)
   if ((*params).sign == '-' && zeros > 0)
   {
       write(1, "-", 1);
-      (*params).sign = 0;
+      (*params).sign = 1;
       //d = d * (-1);
       if ((*params).precision > 0 && !if_flag((*params).flag, '0', FLAG_LIMIT))
         zeros += 1;
+  }
+  //printf("HHH %c\n", (*params).sign);
+  if ((*params).sign != '-' && (*params).sign != 1 && if_flag((*params).flag, '+', FLAG_LIMIT)
+      && (*params).specifier != 'o' && (*params).specifier != 'O'
+      && (*params).specifier != 'u' && (*params).specifier != 'U')
+  {
+    (*params).res += 1;
+    write(1, "+", 1);
   }
   if (zeros > 0)
   {
@@ -277,16 +269,13 @@ void print_params_right(char *s, t_argc *params, int zeros, int spaces)
     while (zeros--)
       write(1, "0", 1);
   }
-  if (((*params).specifier == 'o' || (*params).specifier == 'O') && if_flag((*params).flag, '#', FLAG_LIMIT) &&
+  if (((*params).specifier == 'o' || (*params).specifier == 'O') &&
+   if_flag((*params).flag, '#', FLAG_LIMIT) &&
    (s[0] != '0' || (*params).precision != -1))
     write(1, "0", 1);
   //printf("DDD %jud\n", d);
   if (s[0] != '0')
   {
-    /*if (d >= -9223372036854775807 && d <= 9223372036854775807)
-      ft_put_long_nbr(d);
-    else
-      ft_put_uns_long_nbr(d);*/
     if ((*params).sign == '-' && s[0] != '-')
       write(1, "-", 1);
     ft_putstr(s);
@@ -443,8 +432,8 @@ void d_analizator(t_argc *params, va_list ap)
  // printf("LEFT %s\n", params.left);
   check_stars(params, ap);
   d = va_arg(ap, intmax_t);
-  //printf("DDD %jud\n", d);
   print_int_depend_length(&d, (*params).length, params);
+  //printf("DDD %d\n", d);
   if (d < 0)
   {
     (*params).sign = '-';
@@ -469,9 +458,11 @@ void d_analizator(t_argc *params, va_list ap)
   (*params).res += len;
   if ((*params).precision > 0)
     zeros = (*params).precision - len;
+  //printf("DDD %d\n", zeros);
   if (zeros <= 0 && if_flag((*params).flag, '0', FLAG_LIMIT)
-    && !if_flag((*params).flag, '-', FLAG_LIMIT))
+    && !if_flag((*params).flag, '-', FLAG_LIMIT) && (*params).precision != 0)
     zeros = (*params).width - len;
+  //printf("DDD %d\n", zeros);
   if (zeros > 0 && (*params).width > 1)
     spaces = (*params).width - len - zeros;
   if (zeros <= 0 && (*params).width > 1)
@@ -482,6 +473,7 @@ void d_analizator(t_argc *params, va_list ap)
   else
     print_params_right(s, params, zeros, spaces);
   print_left(params);
+  ft_strdel(&s);
 }
 
 void o_analizator(t_argc *params, va_list ap)
@@ -511,7 +503,7 @@ void o_analizator(t_argc *params, va_list ap)
     else
       len = 0;
   }
-  //printf("DDD %jd\n", len);
+
   (*params).res += len;
   if ((*params).precision > 0)
     zeros = (*params).precision - len;
@@ -521,11 +513,18 @@ void o_analizator(t_argc *params, va_list ap)
     spaces = (*params).width - len - zeros;
   if (zeros <= 0 && (*params).width > 1)
     spaces = (*params).width - len;
+  //printf("DDD %jd\n", zeros);
   if (if_flag((*params).flag, '#', FLAG_LIMIT))
   {
     zeros--;
-    spaces--;
-    if (d != 0 || (*params).precision != -1)
+    if (d != 0 || (*params).precision != 0)
+    {
+      if ((*params).precision <= 0)
+      spaces--;
+      if (d != 0 || (*params).precision > 0)
+        (*params).res += 1;
+    }
+    else if (d == 0 && (*params).precision <= 0)
       (*params).res += 1;
   }
   //printf("FLAG %d% d\n", 12345, if_flag(params.flag, '-', FLAG_LIMIT));
@@ -534,19 +533,22 @@ void o_analizator(t_argc *params, va_list ap)
   else
     print_params_right(s, params, zeros, spaces);
   print_left(params);
+  ft_strdel(&s);
 }
 
 void u_analizator(t_argc *params, va_list ap)
 {
   uintmax_t d;
-  uintmax_t tmp;
+  //uintmax_t tmp;
   uintmax_t len;
   int spaces;
   int zeros;
   zeros = 0;
   spaces = 0;
   len = 1;
-  tmp = 0;
+  //tmp = 0;
+  char *s;
+  s = NULL;
   //printf("FLAG %c %c %c %c %c\n", (char)params.flag[0], (char)params.flag[1],
    // (char)params.flag[2], (char)params.flag[3], (char)params.flag[4]);
   //printf("WIDTH %d\n", params.width);
@@ -557,19 +559,23 @@ void u_analizator(t_argc *params, va_list ap)
   check_stars(params, ap);
   d = va_arg(ap, uintmax_t);
   print_uint_depend_length(&d, (*params).length, params);
-  tmp = d;
-  //printf("DDD %lld\n", d);
+  s = ft_uns_itoa(d);
+  //tmp = d;
+  //printf("DDD %ju\n", d);
+  //printf("DDD %s\n", s);
   //printf("FLAG %d% d\n", 12345, if_flag(params.flag, '-', FLAG_LIMIT));
-  if (d > 0)
+
+  if (d != 0)
   {
     /*if (d == 18446744073709551615)
       len = 20;
     else*/
-      while (tmp > 9)
+      /*while (tmp > 9)
       {
         tmp = tmp / 10;
         len++;
-      }
+      }*/
+    len = ft_strlen(s);
     //len = ft_strlen(ft_itoa(d));
     //printf("DDD %d\n", len);
   }
@@ -593,9 +599,9 @@ void u_analizator(t_argc *params, va_list ap)
     spaces = (*params).width - len;
   //printf("FLAG %d% d\n", 12345, if_flag(params.flag, '-', FLAG_LIMIT));
   if (if_flag((*params).flag, '-', FLAG_LIMIT))
-    long_print_params_left(d, params, zeros, spaces);
+    print_params_left(s, params, zeros, spaces);
   else
-    long_print_params_right(d, params, zeros, spaces);
+    print_params_right(s, params, zeros, spaces);
   print_left(params);
 }
 
