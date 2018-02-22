@@ -37,6 +37,16 @@ typedef struct	s_argc
 	char sign;
 }				       t_argc;
 
+typedef struct	s_forprint
+{
+	int len;
+  int spaces;
+	int zeros;
+	char *s;
+	wchar_t *S;
+}				       t_forprint;
+
+
 int ft_printf(const char *format, ...);
 int check_specifier(char type);
 void check_length(char *length, int *i, char *dest);
@@ -64,8 +74,9 @@ void C_analizator(t_argc *params, va_list ap);
 int if_flag(int *all_flags, int flag, int j);
 char *print_hex(uintmax_t nbr, t_argc params, unsigned int base, int count);
 void check_stars(t_argc *params, va_list ap);
-void print_int_depend_length(intmax_t *d, char *length, t_argc *params);
-void print_uint_depend_length(uintmax_t *d, char *length, t_argc *params);
+void int_depend_length(intmax_t *d, char *length, t_argc *params);
+void ox_depend_length(intmax_t *d, char *length, t_argc *params);
+void u_depend_length(uintmax_t *d, char *length, t_argc *params);
 void print_params_left(char *s, t_argc *params, int zeros, int spaces);
 void print_params_right(char *s, t_argc *params, int zeros, int spaces);
 void long_print_params_right(uintmax_t d, t_argc *params, int zeros, int spaces);

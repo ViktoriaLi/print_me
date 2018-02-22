@@ -50,47 +50,25 @@ void check_stars(t_argc *params, va_list ap)
     (*params).precision = va_arg(ap, int);
 }
 
-void print_int_depend_length(intmax_t *d, char *length, t_argc *params)
+void ox_depend_length(intmax_t *d, char *length, t_argc *params)
 {
-  if ((ft_strcmp(length, "hh") == 0) && ((*params).specifier == 'd' || (*params).specifier == 'i'))
-    *d = (signed char)*d;
-  else if ((ft_strcmp(length, "hh") == 0) && ((*params).specifier == 'u' ||
-    (*params).specifier == 'o' || (*params).specifier == 'x' || (*params).specifier == 'X'))
+  if ((ft_strcmp(length, "hh") == 0) && ((*params).specifier == 'o' ||
+  (*params).specifier == 'x' || (*params).specifier == 'X'))
     *d = (unsigned char)*d;
-  else if ((ft_strcmp(length, "ll") == 0) && ((*params).specifier == 'd' || (*params).specifier == 'i' || (*params).specifier == 'D'))
-    *d = (long long)*d;
-  else if ((ft_strcmp(length, "ll") == 0) && ((*params).specifier == 'u' || (*params).specifier == 'U' ||
-  (*params).specifier == 'o' || (*params).specifier == 'O' || (*params).specifier == 'x' || (*params).specifier == 'X'))
+  else if (ft_strcmp(length, "ll") == 0)
     *d = (unsigned long long)*d;
-  else if ((length[0] == 'h') && ((*params).specifier == 'd' || (*params).specifier == 'i'))
-    *d = (short)*d;
-  else if ((length[0] == 'h') && ((*params).specifier == 'u' ||
-  (*params).specifier == 'o' || (*params).specifier == 'O' || (*params).specifier == 'x' || (*params).specifier == 'X'))
+  else if (length[0] == 'h')
     *d = (unsigned short)*d;
-  else if ((length[0] == 'l') && ((*params).specifier == 'd' || (*params).specifier == 'i' || (*params).specifier == 'D'))
-    *d = (long)*d;
-  else if ((length[0] == 'l') && ((*params).specifier == 'u' || (*params).specifier == 'U' ||
-  (*params).specifier == 'o' || (*params).specifier == 'O' || (*params).specifier == 'x' || (*params).specifier == 'X'))
+  else if (length[0] == 'l')
     *d = (unsigned long)*d;
-  else if ((length[0] == 'z') && ((*params).specifier == 'd' || (*params).specifier == 'i' || (*params).specifier == 'D'))
-    *d = (ssize_t)*d;
-  else if ((length[0] == 'z') && ((*params).specifier == 'u' || (*params).specifier == 'U' ||
-  (*params).specifier == 'o' || (*params).specifier == 'O' || (*params).specifier == 'x' || (*params).specifier == 'X'))
+  else if (length[0] == 'z')
     *d = (size_t)*d;
   else if (length[0] == 'j')
-  {
-    if ((*params).specifier == 'o' || (*params).specifier == 'O' || (*params).specifier == 'u' || (*params).specifier == 'U'
-    || (*params).specifier == 'x' || (*params).specifier == 'X')
-      *d = (uintmax_t)*d;
-  }
+    *d = (uintmax_t)*d;
   else
   {
-    if ((*params).specifier == 'O' || (*params).specifier == 'U')
+    if ((*params).specifier == 'O')
       *d = (unsigned long)*d;
-    else if ((*params).specifier == 'D')
-      *d = (long)*d;
-    else if ((*params).specifier == 'd' || (*params).specifier == 'i')
-      *d = (int)*d;
     else
     {
       if ((*params).specifier != 'p')
@@ -99,52 +77,47 @@ void print_int_depend_length(intmax_t *d, char *length, t_argc *params)
   }
 }
 
-void print_uint_depend_length(uintmax_t *d, char *length, t_argc *params)
+void int_depend_length(intmax_t *d, char *length, t_argc *params)
 {
-  if ((ft_strcmp(length, "hh") == 0) && ((*params).specifier == 'd' || (*params).specifier == 'i' || (*params).specifier == 'D'))
+  if ((ft_strcmp(length, "hh") == 0) && ((*params).specifier == 'd' || (*params).specifier == 'i'))
     *d = (signed char)*d;
-  else if ((ft_strcmp(length, "hh") == 0) && ((*params).specifier == 'u' ||
-  (*params).specifier == 'o' || (*params).specifier == 'x' || (*params).specifier == 'X'))
-    *d = (unsigned char)*d;
-  else if ((ft_strcmp(length, "ll") == 0) && ((*params).specifier == 'd' || (*params).specifier == 'i' || (*params).specifier == 'D'))
+  else if (ft_strcmp(length, "ll") == 0)
     *d = (long long)*d;
-  else if ((ft_strcmp(length, "ll") == 0) && ((*params).specifier == 'u' || (*params).specifier == 'U' ||
-  (*params).specifier == 'o' || (*params).specifier == 'O' || (*params).specifier == 'x' || (*params).specifier == 'X'))
-    *d = (unsigned long long)*d;
-  else if ((length[0] == 'h') && ((*params).specifier == 'd' || (*params).specifier == 'i' || (*params).specifier == 'D'))
+  else if ((length[0] == 'h') && ((*params).specifier == 'd' || (*params).specifier == 'i'))
     *d = (short)*d;
-  else if ((length[0] == 'h') && ((*params).specifier == 'u' ||
-  (*params).specifier == 'o' || (*params).specifier == 'O' || (*params).specifier == 'x' || (*params).specifier == 'X'))
-    *d = (unsigned short)*d;
-  else if ((length[0] == 'l') && ((*params).specifier == 'd' || (*params).specifier == 'i' || (*params).specifier == 'D'))
+  else if (length[0] == 'l')
     *d = (long)*d;
-  else if ((length[0] == 'l') && ((*params).specifier == 'u' || (*params).specifier == 'U' ||
-  (*params).specifier == 'o' || (*params).specifier == 'O' || (*params).specifier == 'x' || (*params).specifier == 'X'))
-    *d = (unsigned long)*d;
-  else if ((length[0] == 'z') && ((*params).specifier == 'd' || (*params).specifier == 'i' || (*params).specifier == 'D'))
+  else if (length[0] == 'z')
     *d = (ssize_t)*d;
-  else if ((length[0] == 'z') && ((*params).specifier == 'u' || (*params).specifier == 'U' ||
-  (*params).specifier == 'o' || (*params).specifier == 'O' || (*params).specifier == 'x' || (*params).specifier == 'X'))
+  else if (length[0] != 'j')
+  {
+    if ((*params).specifier == 'D')
+      *d = (long)*d;
+    else
+      *d = (int)*d;
+  }
+}
+
+void u_depend_length(uintmax_t *d, char *length, t_argc *params)
+{
+  if ((ft_strcmp(length, "hh") == 0) && (*params).specifier == 'u')
+    *d = (unsigned char)*d;
+  else if (ft_strcmp(length, "ll") == 0)
+    *d = (unsigned long long)*d;
+  else if (length[0] == 'h' && (*params).specifier == 'u')
+    *d = (unsigned short)*d;
+  else if (length[0] == 'l')
+    *d = (unsigned long)*d;
+  else if (length[0] == 'z')
     *d = (size_t)*d;
   else if (length[0] == 'j')
-  {
-    if ((*params).specifier == 'o' || (*params).specifier == 'O' || (*params).specifier == 'u' || (*params).specifier == 'U'
-    || (*params).specifier == 'x' || (*params).specifier == 'X')
-      *d = (uintmax_t)*d;
-  }
+    *d = (uintmax_t)*d;
   else
   {
-    if ((*params).specifier == 'O' || (*params).specifier == 'U')
+    if ((*params).specifier == 'U')
       *d = (unsigned long)*d;
-    else if ((*params).specifier == 'D')
-      *d = (long)*d;
-    else if ((*params).specifier == 'd' || (*params).specifier == 'i')
-      *d = (int)*d;
     else
-    {
-      if ((*params).specifier != 'p')
-        *d = (unsigned int)*d;
-    }
+      *d = (unsigned int)*d;
   }
 }
 
@@ -164,7 +137,6 @@ void print_params_left(char *s, t_argc *params, int zeros, int spaces)
   {
     (*params).res += 1;
     spaces -= 1;
-    //zeros -= 1;
     write(1, "+", 1);
   }
   if ((*params).sign == '-' && zeros > 0)
@@ -172,9 +144,7 @@ void print_params_left(char *s, t_argc *params, int zeros, int spaces)
       (*params).sign = 0;
       spaces--;
       write(1, "-", 1);
-      //d = d * (-1);
       zeros += 1;
-      //(*params).res += 1;
   }
   if (zeros > 0)
   {
@@ -188,10 +158,6 @@ void print_params_left(char *s, t_argc *params, int zeros, int spaces)
     write(1, "0", 1);
   if (s[0] != '0')
   {
-    /*if (d >= -9223372036854775807 && d <= 9223372036854775807)
-      ft_put_long_nbr(d);
-    else
-      ft_put_uns_long_nbr(d);*/
     if ((*params).sign == '-' && s[0] != '-')
       write(1, "-", 1);
     ft_putstr(s);
@@ -213,8 +179,8 @@ void print_params_left(char *s, t_argc *params, int zeros, int spaces)
 
 void print_params_right(char *s, t_argc *params, int zeros, int spaces)
 {
-  if (if_flag((*params).flag, ' ', FLAG_LIMIT) && (*params).sign != '-' /*&&
-    !if_flag((*params).flag, '0', FLAG_LIMIT)*/ && !if_flag((*params).flag, '+', FLAG_LIMIT)
+  if (if_flag((*params).flag, ' ', FLAG_LIMIT) && (*params).sign != '-'
+  && !if_flag((*params).flag, '+', FLAG_LIMIT)
   && (*params).specifier != 'u' && (*params).specifier != 'U' &&
   (*params).specifier != 'o' && (*params).specifier != 'O')
   {
@@ -251,11 +217,9 @@ void print_params_right(char *s, t_argc *params, int zeros, int spaces)
   {
       write(1, "-", 1);
       (*params).sign = 1;
-      //d = d * (-1);
       if ((*params).precision > 0 && !if_flag((*params).flag, '0', FLAG_LIMIT))
         zeros += 1;
   }
-  //printf("HHH %c\n", (*params).sign);
   if ((*params).sign != '-' && (*params).sign != 1 && if_flag((*params).flag, '+', FLAG_LIMIT)
       && (*params).specifier != 'o' && (*params).specifier != 'O'
       && (*params).specifier != 'u' && (*params).specifier != 'U')
@@ -273,7 +237,6 @@ void print_params_right(char *s, t_argc *params, int zeros, int spaces)
    if_flag((*params).flag, '#', FLAG_LIMIT) &&
    (s[0] != '0' || (*params).precision != -1))
     write(1, "0", 1);
-  //printf("DDD %jud\n", d);
   if (s[0] != '0')
   {
     if ((*params).sign == '-' && s[0] != '-')
@@ -287,52 +250,75 @@ void print_params_right(char *s, t_argc *params, int zeros, int spaces)
       write(1, "0", 1);
 }
 
+void	elems_init(t_forprint *elems)
+{
+	(*elems).len = 0;
+	(*elems).spaces = 0;
+	(*elems).zeros = 0;
+	(*elems).s = NULL;
+  (*elems).S = NULL;
+}
+
+void count_spaces_and_zeros(t_forprint *elems, t_argc *params)
+{
+  if ((*params).specifier == 's')
+  {
+    if (if_flag((*params).flag, '0', FLAG_LIMIT))
+      (*elems).spaces = (*params).width - (*elems).len;
+    else
+      (*elems).spaces = (*params).width - 1;
+  }
+  if ((*params).specifier == 'S')
+  {
+    if (if_flag((*params).flag, '0', FLAG_LIMIT))
+      (*elems).zeros = (*params).width - (*elems).len;
+    (*elems).spaces = (*params).width - (*elems).len - (*elems).zeros;
+  }
+}
+
 void s_analizator(t_argc *params, va_list ap)
 {
-  char *s;
-  long len;
-  int spaces;
+  t_forprint elems;
 
-  spaces = 0;
-  len = 0;
-  s = NULL;
+  elems_init(&elems);
   check_stars(params, ap);
   if ((*params).specifier == 's' || (*params).specifier == 'S')
-    s = va_arg(ap, char *);
+    elems.s = va_arg(ap, char *);
   else
-    s = (*params).reserve;
-  if (s == NULL)
-    s = "(null)";
-  len = ft_strlen(s);
-  if ((*params).precision > 0 && (*params).precision < len)
-    len = (*params).precision;
+    elems.s = (*params).reserve;
+  if (elems.s == NULL)
+    elems.s = "(null)";
+  elems.len = ft_strlen(elems.s);
+  if ((*params).precision > 0 && (*params).precision < elems.len)
+    elems.len = (*params).precision;
   else if ((*params).precision == 0)
-    len = 0;
-  (*params).res += len;
+    elems.len = 0;
+  (*params).res += elems.len;
+  //count_spaces_and_zeros(&elems, params);
   if ((*params).specifier == 's' || (*params).specifier == 'S' || if_flag((*params).flag, '0', FLAG_LIMIT))
-    spaces = (*params).width - len;
+    elems.spaces = (*params).width - elems.len;
   else
-    spaces = (*params).width - 1;
-  if (spaces > 0)
-    (*params).res += spaces;
+    elems.spaces = (*params).width - 1;
+  if (elems.spaces > 0)
+    (*params).res += elems.spaces;
   if (if_flag((*params).flag, '-', FLAG_LIMIT))
   {
     if ((*params).precision != 0)
-      write(1, s, len);
-    if ((*params).width > len)
-      while (spaces--)
+      write(1, elems.s, elems.len);
+    if ((*params).width > elems.len)
+      while (elems.spaces--)
         write(1, " ", 1);
   }
   else
   {
-    if ((*params).width > len && !if_flag((*params).flag, '0', FLAG_LIMIT))
-      while (spaces--)
+    if ((*params).width > elems.len && !if_flag((*params).flag, '0', FLAG_LIMIT))
+      while (elems.spaces--)
         write(1, " ", 1);
-    else if ((*params).width > len && if_flag((*params).flag, '0', FLAG_LIMIT))
-      while (spaces--)
+    else if ((*params).width > elems.len && if_flag((*params).flag, '0', FLAG_LIMIT))
+      while (elems.spaces--)
         write(1, "0", 1);
     if ((*params).precision != 0)
-      write(1, s, len);
+      write(1, elems.s, elems.len);
   }
   print_left(params);
 }
@@ -340,73 +326,59 @@ void s_analizator(t_argc *params, va_list ap)
 void S_analizator(t_argc *params, va_list ap)
 {
   int j;
-  long len;
-  int spaces;
-  wchar_t *S;
-  int zeros;
+  t_forprint elems;
 
-  zeros = 0;
   j = 0;
-  spaces = 0;
-  len = 0;
-  S = NULL;
+  elems_init(&elems);
   check_stars(params, ap);
-  S = va_arg(ap, wchar_t *);
-  if (S == NULL)
-    len = 6;
+  elems.S = va_arg(ap, wchar_t *);
+  if (elems.S == NULL)
+    elems.len = 6;
   else
-    len = ft_strlen_wide(S);
+    elems.len = ft_strlen_wide(elems.S);
   if ((*params).precision >= 0)
-    len = (*params).precision;
-  //printf("LEN %d\n", len);
-  //if ((*params).precision > 0)
-    //len = count_uni_symbols(S, len);
-/*  else if ((*params).precision == 0)
-    len = 0;*/
-  //printf("LEN %d\n", len);
-
-  (*params).res += len;
+    elems.len = (*params).precision;
+  (*params).res += elems.len;
+  //count_spaces_and_zeros(&elems, params);
   if (if_flag((*params).flag, '0', FLAG_LIMIT))
-    zeros = (*params).width - len;
-  spaces = (*params).width - len - zeros;
-  if (spaces > 0)
-    (*params).res += spaces;
-  if (zeros > 0)
-    (*params).res += zeros;
+    elems.zeros = (*params).width - elems.len;
+  elems.spaces = (*params).width - elems.len - elems.zeros;
+  if (elems.spaces > 0)
+    (*params).res += elems.spaces;
+  if (elems.zeros > 0)
+    (*params).res += elems.zeros;
   if (if_flag((*params).flag, '-', FLAG_LIMIT))
   {
-    if (zeros > 0)
+    if (elems.zeros > 0)
     {
-      while (zeros--)
+      while (elems.zeros--)
         write(1, "0", 1);
     }
-    if (S == NULL)
+    if (elems.S == NULL)
       write(1, "(null)", 6);
     else
     {
-      //print_unicode(S, len);
-      print_unicode(S, len, params);
+      print_unicode(elems.S, elems.len, params);
     }
-    if (spaces > 0)
-      while (spaces--)
+    if (elems.spaces > 0)
+      while (elems.spaces--)
         write(1, " ", 1);
   }
   else
   {
-    if (spaces > 0)
-      while (spaces--)
+    if (elems.spaces > 0)
+      while (elems.spaces--)
         write(1, " ", 1);
-    if (zeros > 0)
+    if (elems.zeros > 0)
     {
-      while (zeros--)
+      while (elems.zeros--)
         write(1, "0", 1);
     }
-    if (S == NULL)
+    if (elems.S == NULL)
       write(1, "(null)", 6);
     else
     {
-      //print_unicode(S, len);
-      print_unicode(S, len, params);
+      print_unicode(elems.S, elems.len, params);
     }
   }
   print_left(params);
@@ -415,239 +387,169 @@ void S_analizator(t_argc *params, va_list ap)
 void d_analizator(t_argc *params, va_list ap)
 {
   intmax_t d;
-  intmax_t len;
-  int spaces;
-  int zeros;
-  zeros = 0;
-  spaces = 0;
-  len = 1;
-  char *s;
-  s = NULL;
-  //printf("FLAG %c %c %c %c %c\n", (char)params.flag[0], (char)params.flag[1],
-   // (char)params.flag[2], (char)params.flag[3], (char)params.flag[4]);
-  //printf("WIDTH %d\n", params.width);
-  //printf("PRECISION %d\n", params.precision);
- // printf("LENGTH %s\n", params.length);
- // printf("SPECIFIER %c\n", params.specifier);
- // printf("LEFT %s\n", params.left);
+  t_forprint elems;
+
+  elems_init(&elems);
+  elems.len = 1;
   check_stars(params, ap);
   d = va_arg(ap, intmax_t);
-  print_int_depend_length(&d, (*params).length, params);
-  //printf("DDD %d\n", d);
+  int_depend_length(&d, (*params).length, params);
   if (d < 0)
   {
     (*params).sign = '-';
     d = -1 * d;
   }
-  s = ft_itoa(d);
+  elems.s = ft_itoa(d);
   if (d != 0)
   {
-    len = ft_strlen(s);
+    elems.len = ft_strlen(elems.s);
     if ((*params).sign == '-')
-      len++;
-  //len = ft_strlen(ft_itoa(d));
-  //printf("DDD %d\n", len);
+      elems.len++;
   }
     else
     {
       if ((*params).precision != 0)
-        len = 1;
+        elems.len = 1;
       else
-        len = 0;
+        elems.len = 0;
     }
-  (*params).res += len;
+  (*params).res += elems.len;
   if ((*params).precision > 0)
-    zeros = (*params).precision - len;
-  //printf("DDD %d\n", zeros);
-  if (zeros <= 0 && if_flag((*params).flag, '0', FLAG_LIMIT)
+    elems.zeros = (*params).precision - elems.len;
+  if (elems.zeros <= 0 && if_flag((*params).flag, '0', FLAG_LIMIT)
     && !if_flag((*params).flag, '-', FLAG_LIMIT) && (*params).precision != 0)
-    zeros = (*params).width - len;
-  //printf("DDD %d\n", zeros);
-  if (zeros > 0 && (*params).width > 1)
-    spaces = (*params).width - len - zeros;
-  if (zeros <= 0 && (*params).width > 1)
-    spaces = (*params).width - len;
-  //printf("FLAG %d% d\n", 12345, if_flag(params.flag, '-', FLAG_LIMIT));
+    elems.zeros = (*params).width - elems.len;
+  if (elems.zeros > 0 && (*params).width > 1)
+    elems.spaces = (*params).width - elems.len - elems.zeros;
+  if (elems.zeros <= 0 && (*params).width > 1)
+    elems.spaces = (*params).width - elems.len;
   if (if_flag((*params).flag, '-', FLAG_LIMIT))
-    print_params_left(s, params, zeros, spaces);
+    print_params_left(elems.s, params, elems.zeros, elems.spaces);
   else
-    print_params_right(s, params, zeros, spaces);
+    print_params_right(elems.s, params, elems.zeros, elems.spaces);
   print_left(params);
-  ft_strdel(&s);
+  ft_strdel(&elems.s);
 }
 
 void o_analizator(t_argc *params, va_list ap)
 {
   intmax_t d;
-  intmax_t len;
-  int spaces;
-  int zeros;
-  char *s;
+  t_forprint elems;
 
-  len = 1;
-  spaces = 0;
-  zeros = 0;
-  s = NULL;
+  elems_init(&elems);
+  elems.len = 1;
   check_stars(params, ap);
   d = va_arg(ap, intmax_t);
-  //printf("DDD %jd\n", d);
-  print_int_depend_length(&d, (*params).length, params);
-  //printf("DDD %jd\n", d);
-  s = print_hex(d, *params, 8, 30);
+  ox_depend_length(&d, (*params).length, params);
+  elems.s = print_hex(d, *params, 8, 30);
   if (d != 0)
-    len = ft_strlen(s);
+    elems.len = ft_strlen(elems.s);
   else
   {
     if ((*params).precision != 0)
-      len = 1;
+      elems.len = 1;
     else
-      len = 0;
+      elems.len = 0;
   }
-
-  (*params).res += len;
+  (*params).res += elems.len;
   if ((*params).precision > 0)
-    zeros = (*params).precision - len;
+    elems.zeros = (*params).precision - elems.len;
   else if (if_flag((*params).flag, '0', FLAG_LIMIT) && !if_flag((*params).flag, '-', FLAG_LIMIT))
-    zeros = (*params).width - len;
-  if (zeros > 0 && (*params).width > 1)
-    spaces = (*params).width - len - zeros;
-  if (zeros <= 0 && (*params).width > 1)
-    spaces = (*params).width - len;
-  //printf("DDD %jd\n", zeros);
+    elems.zeros = (*params).width - elems.len;
+  if (elems.zeros > 0 && (*params).width > 1)
+    elems.spaces = (*params).width - elems.len - elems.zeros;
+  if (elems.zeros <= 0 && (*params).width > 1)
+    elems.spaces = (*params).width - elems.len;
   if (if_flag((*params).flag, '#', FLAG_LIMIT))
   {
-    zeros--;
+    elems.zeros--;
     if (d != 0 || (*params).precision != 0)
     {
       if ((*params).precision <= 0)
-      spaces--;
+      elems.spaces--;
       if (d != 0 || (*params).precision > 0)
         (*params).res += 1;
     }
     else if (d == 0 && (*params).precision <= 0)
       (*params).res += 1;
   }
-  //printf("FLAG %d% d\n", 12345, if_flag(params.flag, '-', FLAG_LIMIT));
   if (if_flag((*params).flag, '-', FLAG_LIMIT))
-    print_params_left(s, params, zeros, spaces);
+    print_params_left(elems.s, params, elems.zeros, elems.spaces);
   else
-    print_params_right(s, params, zeros, spaces);
+    print_params_right(elems.s, params, elems.zeros, elems.spaces);
   print_left(params);
-  ft_strdel(&s);
+  ft_strdel(&elems.s);
 }
 
 void u_analizator(t_argc *params, va_list ap)
 {
   uintmax_t d;
-  //uintmax_t tmp;
-  uintmax_t len;
-  int spaces;
-  int zeros;
-  zeros = 0;
-  spaces = 0;
-  len = 1;
-  //tmp = 0;
-  char *s;
-  s = NULL;
-  //printf("FLAG %c %c %c %c %c\n", (char)params.flag[0], (char)params.flag[1],
-   // (char)params.flag[2], (char)params.flag[3], (char)params.flag[4]);
-  //printf("WIDTH %d\n", params.width);
-  //printf("PRECISION %d\n", params.precision);
- // printf("LENGTH %s\n", params.length);
- // printf("SPECIFIER %c\n", params.specifier);
- // printf("LEFT %s\n", params.left);
+  t_forprint elems;
+
+  elems_init(&elems);
+  elems.len = 1;
   check_stars(params, ap);
   d = va_arg(ap, uintmax_t);
-  print_uint_depend_length(&d, (*params).length, params);
-  s = ft_uns_itoa(d);
-  //tmp = d;
-  //printf("DDD %ju\n", d);
-  //printf("DDD %s\n", s);
-  //printf("FLAG %d% d\n", 12345, if_flag(params.flag, '-', FLAG_LIMIT));
-
+  u_depend_length(&d, (*params).length, params);
+  elems.s = ft_uns_itoa(d);
   if (d != 0)
-  {
-    /*if (d == 18446744073709551615)
-      len = 20;
-    else*/
-      /*while (tmp > 9)
-      {
-        tmp = tmp / 10;
-        len++;
-      }*/
-    len = ft_strlen(s);
-    //len = ft_strlen(ft_itoa(d));
-    //printf("DDD %d\n", len);
-  }
+    elems.len = ft_strlen(elems.s);
   else
   {
     if ((*params).precision != 0)
-      len = 1;
+      elems.len = 1;
     else
-      len = 0;
+      elems.len = 0;
   }
-  //printf("FLAG %d% d\n", 12345, if_flag(params.flag, '-', FLAG_LIMIT));
-  (*params).res += len;
-  //printf("LLLEN %d\n", (*params).res);
+  (*params).res += elems.len;
   if ((*params).precision > 0)
-    zeros = (*params).precision - len;
+    elems.zeros = (*params).precision - elems.len;
   else if (if_flag((*params).flag, '0', FLAG_LIMIT) && !if_flag((*params).flag, '-', FLAG_LIMIT))
-    zeros = (*params).width - len;
-  if (zeros > 0 && (*params).width > 1)
-    spaces = (*params).width - len - zeros;
-  if (zeros <= 0 && (*params).width > 1)
-    spaces = (*params).width - len;
-  //printf("FLAG %d% d\n", 12345, if_flag(params.flag, '-', FLAG_LIMIT));
+    elems.zeros = (*params).width - elems.len;
+  if (elems.zeros > 0 && (*params).width > 1)
+    elems.spaces = (*params).width - elems.len - elems.zeros;
+  if (elems.zeros <= 0 && (*params).width > 1)
+    elems.spaces = (*params).width - elems.len;
   if (if_flag((*params).flag, '-', FLAG_LIMIT))
-    print_params_left(s, params, zeros, spaces);
+    print_params_left(elems.s, params, elems.zeros, elems.spaces);
   else
-    print_params_right(s, params, zeros, spaces);
+    print_params_right(elems.s, params, elems.zeros, elems.spaces);
   print_left(params);
 }
 
 void x_analizator(t_argc *params, va_list ap)
 {
   intmax_t d;
-  intmax_t len;
-  int spaces;
-  int zeros;
-  char *s;
+  t_forprint elems;
 
-  len = 0;
-  spaces = 0;
-  zeros = 0;
-  s = NULL;
+  elems_init(&elems);
   check_stars(params, ap);
   d = va_arg(ap, intmax_t);
-  //printf("DDD1 %d\n", d);
-  print_int_depend_length(&d, (*params).length, params);
-  //printf("DDD2 %d\n", d);
-  s = print_hex(d, *params, 16, 16);
-  //printf("%s\n", s);
+  ox_depend_length(&d, (*params).length, params);
+  elems.s = print_hex(d, *params, 16, 16);
   if (d != 0)
-     len = ft_strlen(s);
+     elems.len = ft_strlen(elems.s);
   if (d == 0 && (*params).precision != 0)
-      len = 1;
-  (*params).res += len;
+      elems.len = 1;
+  (*params).res += elems.len;
   if ((*params).precision > 0)
-    zeros = (*params).precision - len;
+    elems.zeros = (*params).precision - elems.len;
   else if (if_flag((*params).flag, '0', FLAG_LIMIT) && !if_flag((*params).flag, '-', FLAG_LIMIT))
-    zeros = (*params).width - len;
-  if (zeros > 0 && (*params).width > 1)
-    spaces = (*params).width - len - zeros;
-  if (zeros <= 0 && (*params).width > 1)
-    spaces = (*params).width - len;
+    elems.zeros = (*params).width - elems.len;
+  if (elems.zeros > 0 && (*params).width > 1)
+    elems.spaces = (*params).width - elems.len - elems.zeros;
+  if (elems.zeros <= 0 && (*params).width > 1)
+    elems.spaces = (*params).width - elems.len;
   if ((if_flag((*params).flag, '#', FLAG_LIMIT) && d != 0) || (*params).specifier == 'p')
   {
-    spaces -= 2;
+    elems.spaces -= 2;
     if (if_flag((*params).flag, '0', FLAG_LIMIT))
-      zeros -= 2;
+      elems.zeros -= 2;
   }
-  if (zeros > 0)
-    (*params).res += zeros;
-  //printf("LEN %d\n", zeros);
-  if (spaces > 0)
-    (*params).res += spaces;
+  if (elems.zeros > 0)
+    (*params).res += elems.zeros;
+  if (elems.spaces > 0)
+    (*params).res += elems.spaces;
   if (if_flag((*params).flag, '-', FLAG_LIMIT))
   {
     if ((if_flag((*params).flag, '#', FLAG_LIMIT) && d != 0) || (*params).specifier == 'p')
@@ -659,21 +561,21 @@ void x_analizator(t_argc *params, va_list ap)
       else
         write(1, "X", 1);
     }
-    if (zeros > 0)
-      while (zeros--)
+    if (elems.zeros > 0)
+      while (elems.zeros--)
         write(1, "0", 1);
     if (d != 0)
-      ft_putstr(s);
+      ft_putstr(elems.s);
     else if ((*params).precision != 0)
       write(1, "0", 1);
-    if (spaces > 0)
-      while (spaces--)
+    if (elems.spaces > 0)
+      while (elems.spaces--)
         write(1, " ", 1);
   }
   else
   {
-    if (spaces > 0)
-      while (spaces--)
+    if (elems.spaces > 0)
+      while (elems.spaces--)
         write(1, " ", 1);
     if ((if_flag((*params).flag, '#', FLAG_LIMIT) && d != 0) || (*params).specifier == 'p')
     {
@@ -684,50 +586,49 @@ void x_analizator(t_argc *params, va_list ap)
       else
         write(1, "X", 1);
     }
-    if (zeros > 0)
-      while (zeros--)
+    if (elems.zeros > 0)
+      while (elems.zeros--)
         write(1, "0", 1);
     if (d != 0)
-      ft_putstr(s);
+      ft_putstr(elems.s);
     else if ((*params).precision != 0)
       write(1, "0", 1);
   }
   print_left(params);
-  ft_strdel(&s);
+  ft_strdel(&elems.s);
 }
 
 void c_analizator(t_argc *params, va_list ap)
 {
   unsigned char c;
-  int spaces;
+  t_forprint elems;
 
-  spaces = 0;
+  elems_init(&elems);
   check_stars(params, ap);
   if ((*params).specifier == 'c')
     c = va_arg(ap, int);
   else
     c = (*params).specifier;
-  //printf("CCC %c\n", c);
   (*params).res += 1;
   if ((*params).width > 1)
   {
-    spaces = (*params).width - 1;
-    (*params).res += spaces;
+    elems.spaces = (*params).width - 1;
+    (*params).res += elems.spaces;
   }
   if (if_flag((*params).flag, '-', FLAG_LIMIT))
   {
     write(1, &c, 1);
     if ((*params).width > 1)
-      while (spaces--)
+      while (elems.spaces--)
         write(1, " ", 1);
   }
   else
    {
      if ((*params).width > 1 && !if_flag((*params).flag, '0', FLAG_LIMIT))
-       while (spaces--)
+       while (elems.spaces--)
          write(1, " ", 1);
      else if ((*params).width > 1 && if_flag((*params).flag, '0', FLAG_LIMIT))
-       while (spaces--)
+       while (elems.spaces--)
          write(1, "0", 1);
     write(1, &c, 1);
   }
@@ -736,45 +637,38 @@ void c_analizator(t_argc *params, va_list ap)
 
 void C_analizator(t_argc *params, va_list ap)
 {
-  int spaces;
-  int len;
+  t_forprint elems;
   wchar_t C;
 
-  len = 0;
-  spaces = 0;
+  elems_init(&elems);
   check_stars(params, ap);
   C = va_arg(ap, wchar_t);
   if (C <= 127)
-    len = 1;
+    elems.len = 1;
   else
-    len = ft_strlen_wide(&C);
-  (*params).res += len;
-  if ((*params).width > len)
+    elems.len = ft_strlen_wide(&C);
+  (*params).res += elems.len;
+  if ((*params).width > elems.len)
   {
-    spaces = (*params).width - len;
-    (*params).res += spaces;
+    elems.spaces = (*params).width - elems.len;
+    (*params).res += elems.spaces;
   }
   if (if_flag((*params).flag, '-', FLAG_LIMIT))
   {
-    print_unicode(&C, len, params);
-    //(*params).res -= print_unicode(&C, len);
-    //print_unicode(&C, len);
-    //write(1, &C, 1);
-    if ((*params).width > len)
-      while (spaces--)
+    print_unicode(&C, elems.len, params);
+    if ((*params).width > elems.len)
+      while (elems.spaces--)
         write(1, " ", 1);
   }
   else
   {
-    if ((*params).width > len && !if_flag((*params).flag, '0', FLAG_LIMIT))
-      while (spaces--)
+    if ((*params).width > elems.len && !if_flag((*params).flag, '0', FLAG_LIMIT))
+      while (elems.spaces--)
         write(1, " ", 1);
-    else if ((*params).width > len && if_flag((*params).flag, '0', FLAG_LIMIT))
-      while (spaces--)
+    else if ((*params).width > elems.len && if_flag((*params).flag, '0', FLAG_LIMIT))
+      while (elems.spaces--)
         write(1, "0", 1);
-    //(*params).res -= print_unicode(&C, len);
-    print_unicode(&C, len, params);
-    //write(1, &C, 1);
+    print_unicode(&C, elems.len, params);
   }
   print_left(params);
 }
