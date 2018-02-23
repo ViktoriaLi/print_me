@@ -23,7 +23,7 @@ void	argument_analize(t_argc *params, va_list ap)
 		s_analizator(params, ap);
 	else if ((*params).specifier == 'S' || ((*params).specifier == 's'
 		&& (*params).length[0] == 'l'))
-		S_analizator(params, ap);
+		us_analizator(params, ap);
 	else if ((*params).specifier == 'd' || (*params).specifier == 'i'
 		|| (*params).specifier == 'D')
 		d_analizator(params, ap);
@@ -38,7 +38,7 @@ void	argument_analize(t_argc *params, va_list ap)
 		c_analizator(params, ap);
 	else if ((*params).specifier == 'C' || ((*params).specifier == 'c'
 		&& (*params).length[0] == 'l'))
-		C_analizator(params, ap);
+		uc_analizator(params, ap);
 	else if ((*params).specifier == 'n')
 	{
 		n_value = va_arg(ap, int *);

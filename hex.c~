@@ -1,0 +1,179 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   hex.c                                              :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: vlikhotk <marvin@42.fr>                    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2018/02/22 16:53:20 by vlikhotk          #+#    #+#             */
+/*   Updated: 2018/02/22 16:54:41 by vlikhotk         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
+#include "ft_printf.h"
+
+char	*print_hex(uintmax_t nbr, t_argc params, unsigned int base)
+{
+	char				*res;
+	int					i;
+	int					len;
+	uintmax_t		d;
+
+	d = nbr;
+	len = 1;
+	i = 0;
+	res = NULL;
+	while (d > base - 1)
+	{
+		d = d / base;
+		len++;
+	}
+	if (!(res = (char *)malloc((len + 1))))
+		return (NULL);
+	res[len--] = 0;
+	while (len >= 0)
+	{
+		if ((nbr % base) < 10)
+			res[len--] = (nbr % base) + 48;
+		else if (params.specifier == 'x' || params.specifier == 'p')
+			res[len--] = (nbr % base) - 10 + 97;
+		else if (params.specifier == 'X')
+			res[len--] = (nbr % base) - 10 + 65;
+		nbr = nbr / base;
+	}
+	return (res);
+}
+
+void		print_unicode2(int bytes_count, wchar_t s, int *count, int len)
+{
+	int							j;
+	int							shift;
+	char						res[4];
+	unsigned int		first[4];
+
+	j = 0;
+	shift = 6;
+	while (j < bytes_count)
+		first[j++] = s;
+	j = 0;
+	while (j < bytes_count)
+	{
+		res[j] = first[j] >> shift;
+		if (j == 0)
+		{
+			res[j] = res[j] & 31;
+			res[j] += 192;
+		}
+		else
+		{
+			res[j] = res[j] & 63;
+			res[j] += 128;
+		}
+		shift -= 6;
+		j++;
+	}
+	if (((*count) + bytes_count) <= len)
+	{
+		write(1, res, bytes_count);
+		(*count) += bytes_count;
+	}
+}
+
+void		print_unicode3(int bytes_count, wchar_t s, int *count, int len)
+{
+	int							j;
+	int							shift;
+	char						res[4];
+	unsigned int		first[4];
+
+	j = 0;
+	shift = 12;
+	while (j < bytes_count)
+		first[j++] = s;
+	j = 0;
+	while (j < bytes_count)
+	{
+		res[j] = first[j] >> shift;
+		if (j == 0)
+		{
+			res[j] = res[j] & 15;
+			res[j] += 224;
+		}
+		else
+		{
+			res[j] = res[j] & 63;
+			res[j] += 128;
+		}
+		shift -= 6;
+		j++;
+	}
+	if (((*count) + bytes_count) <= len)
+	{
+		write(1, res, bytes_count);
+		(*count) += bytes_count;
+	}
+}
+
+void		print_unicode4(int bytes_count, wchar_t s, int *count, int len)
+{
+	int							j;
+	int							shift;
+	char						res[4];
+	unsigned int		first[4];
+
+	j = 0;
+	shift = 18;
+	while (j < bytes_count)
+		first[j++] = s;
+	j = 0;
+	while (j < bytes_count)
+	{
+		res[j] = first[j] >> shift;
+		if (j == 0)
+		{
+			res[j] = res[j] & 7;
+			res[j] += 240;
+		}
+		else
+		{
+			res[j] = res[j] & 63;
+			res[j] += 128;
+		}
+		shift -= 6;
+		j++;
+	}
+	if (((*count) + bytes_count) <= len)
+	{
+		write(1, res, bytes_count);
+		*count += 4;
+	}
+}
+
+void		print_unicode(wchar_t *test, int len, t_argc *params)
+{
+	int i;
+	int count;
+
+	i = 0;
+	count = 0;
+	while (test[i] && i < len)
+	{
+		if (test[i] <= 127 && (count + 1) <= len)
+		{
+			write(1, &test[i], 1);
+			count++;
+		}
+		else
+		{
+			if (test[i] > 127 && test[i] <= 2047)
+				print_unicode2(2, test[i], &count, len);
+			else if (test[i] > 2047 && test[i] <= 65535)
+				print_unicode3(3, test[i], &count, len);
+			else if (test[i] > 65535 && test[i] <= 1114111)
+				print_unicode3(4, test[i], &count, len);
+		}
+		i++;
+	}
+	if ((*params).specifier != 'C' && (*params).specifier != 'c')
+		(*params).res -= count - len;
+}

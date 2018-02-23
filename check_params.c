@@ -38,7 +38,7 @@ void	check_flags(char *str, int *i, int *flag)
 	int j;
 	int k;
 	int *tmp;
-	
+
 	j = 0;
 	k = 0;
 	tmp = NULL;
@@ -127,11 +127,10 @@ int		if_percent_found(const char *format, t_argc *params, int *i)
 		(*params).res++;
 		return (0);
 	}
+	j = (*i);
 	while (format[*i] && format[(*i)] != '%')
-	{
 		(*i)++;
-		j++;
-	}
+	j = (*i) - j;
 	if (format[*i] == '%')
 		(*params).specifier = '%';
 	len = (*i)--;

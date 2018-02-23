@@ -13,10 +13,10 @@
 NAME = libftprintf.a
 
 SFILES = libft_funcs.c ft_printf.c types_analize.c hex.c \
- 				check_params.c length_analize.c
+ 				check_params.c length_analize.c unicode.c
 
 OFILES = libft_funcs.o ft_printf.o types_analize.o hex.o \
-	check_params.o length_analize.o
+	check_params.o length_analize.o unicode.o
 
 all: $(NAME)
 

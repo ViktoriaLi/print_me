@@ -12,20 +12,6 @@ int		ft_strcmp(const char *s1, const char *s2)
 	return (0);
 }
 
-char	*ft_strcpy(char *dst, const char *src)
-{
-	int i;
-
-	i = 0;
-	while (src[i] != 0)
-	{
-		dst[i] = (char)src[i];
-		i++;
-	}
-	dst[i] = (char)src[i];
-	return (dst);
-}
-
 static int	main_atoi(const char *str, int i, int sign)
 {
 	long long	tmp;
@@ -117,53 +103,6 @@ void	ft_putchar(char c)
 	write(1, &c, 1);
 }
 
-char	*ft_strncpy(char *dst, const char *src, size_t len)
-{
-	size_t	i;
-
-	i = 0;
-	while (i < len && src[i] != 0)
-	{
-		dst[i] = src[i];
-		i++;
-	}
-	if (i < len && src[i] == 0)
-	{
-		while (i < len)
-		{
-			dst[i] = 0;
-			i++;
-		}
-	}
-	return (dst);
-}
-
-static char		*min_int(intmax_t n, char *dest)
-{
-	intmax_t		len;
-
-	len = 3;
-	n = 214748364;
-	while (n > 9)
-	{
-		n = n / 10;
-		len++;
-	}
-	n = 214748364;
-	if (!(dest = (char *)malloc((len + 1))))
-		return (NULL);
-	dest[len--] = 0;
-	dest[len--] = '8';
-	while (len >= 2)
-	{
-		dest[len--] = n % 10 + '0';
-		n = n / 10;
-	}
-	dest[len--] = '2';
-	dest[len] = '-';
-	return (dest);
-}
-
 static char		*ft_negative_itoa(intmax_t n, char *dest)
 {
 	size_t	d;
@@ -196,9 +135,7 @@ char			*ft_itoa(intmax_t n)
 	char	*dest;
 
 	dest = NULL;
-	if (n == -2147483648)
-		return (min_int(n, dest));
-	if (n < 0 && n != -2147483648)
+	if (n < 0)
 		return (ft_negative_itoa(n, dest));
 	len = 1;
 	d = n;

@@ -6,168 +6,167 @@
 /*   By: vlikhotk <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/02/22 16:53:20 by vlikhotk          #+#    #+#             */
-/*   Updated: 2018/02/22 16:54:41 by vlikhotk         ###   ########.fr       */
+/*   Updated: 2018/02/23 17:11:25 by vlikhotk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_printf.h"
-#include <stdio.h>
 
-char	*print_hex(uintmax_t nbr, t_argc params, unsigned int base, int count)
+void	print_hex(char **res, uintmax_t nbr, t_argc params, unsigned int base)
 {
-	static char		*res;
-	static int		i;
+	int			i;
+	int			len;
+	uintmax_t	d;
 
+	d = nbr;
+	len = 1;
 	i = 0;
-	res = NULL;
-	res = (char *)malloc(count + 1);
-	while (i < count)
-		res[i++] = 0;
-	i = 0;
-	if (nbr >= base)
-		print_hex(nbr / base, params, base, count);
-	if ((nbr % base) < 10)
-		res[i++] = (nbr % base) + 48;
-	else if (params.specifier == 'x' || params.specifier == 'p')
-		res[i++] = (nbr % base) - 10 + 97;
-	else if (params.specifier == 'X')
-		res[i++] = (nbr % base) - 10 + 65;
-	return (res);
+	while (d > base - 1)
+	{
+		d = d / base;
+		len++;
+	}
+	(*res) = (char *)malloc((len + 1));
+	(*res)[len--] = 0;
+	while (len >= 0)
+	{
+		if ((nbr % base) < 10)
+			(*res)[len--] = (nbr % base) + 48;
+		else if (params.specifier == 'x' || params.specifier == 'p')
+			(*res)[len--] = (nbr % base) - 10 + 97;
+		else if (params.specifier == 'X')
+			(*res)[len--] = (nbr % base) - 10 + 65;
+		nbr = nbr / base;
+	}
 }
 
-int		print_unicode(wchar_t *test, int len, t_argc *params)
+void x_analizator(t_argc *params, va_list ap)
 {
-	int i;
-	int j;
-	int bytes_count;
-	int code;
-	int count;
-	char res[4];
-	unsigned int first[4];
-	int shift;
+  intmax_t d;
+  t_forprint elems;
 
-	i = 0;
-	j = 0;
-	code = 0;
-	bytes_count = 0;
-	count = 0;
-	while (test[i] && i < len)
-	{
-		if (test[i] <= 127)
-		{
-			if ((count + 1) <= len)
-			{
-				write(1, &test[i], 1);
-				count++;
-			}
-		}
-		else
-		{
-			j = 0;
-			bytes_count = 0;
-			if (test[i] > 127 && test[i] <= 2047)
-			{
-				j = 0;
-				bytes_count = 2;
-				shift = 6;
-				while (j < bytes_count)
-				{
-					first[j] = test[i];
-					j++;
-				}
-				j = 0;
-				while (j < bytes_count)
-				{
-					res[j] = first[j] >> shift;
-					if (j == 0)
-						{
-							res[j] = res[j] & 31;
-							res[j] += 192;
-						}
-					else
-					{
-						res[j] = res[j] & 63;
-						res[j] += 128;
-					}
-					shift -= 6;
-					j++;
-				}
-				if ((count + bytes_count) <= len)
-				{
-					write(1, res, bytes_count);
-					count += 2;
-				}
-			}
-			else if (test[i] > 2047 && test[i] <= 65535)
-			{
-				j = 0;
-				bytes_count = 3;
-				shift = 12;
-				while (j < bytes_count)
-				{
-					first[j] = test[i];
-					j++;
-				}
-				j = 0;
-				while (j < bytes_count)
-				{
-					res[j] = first[j] >> shift;
-					if (j == 0)
-						{
-							res[j] = res[j] & 15;
-							res[j] += 224;
-						}
-					else
-					{
-						res[j] = res[j] & 63;
-						res[j] += 128;
-					}
-					shift -= 6;
-					j++;
-				}
-				if ((count + bytes_count) <= len)
-				{
-					write(1, res, bytes_count);
-					count += 3;
-				}
-			}
-			else if (test[i] > 65535 && test[i] <= 1114111)
-			{
-				j = 0;
-				bytes_count = 4;
-				shift = 18;
-				while (j < bytes_count)
-				{
-					first[j] = test[i];
-					j++;
-				}
-				j = 0;
-				while (j < bytes_count)
-				{
-					res[j] = first[j] >> shift;
-					if (j == 0)
-						{
-							res[j] = res[j] & 7;
-							res[j] += 240;
-						}
-					else
-					{
-						res[j] = res[j] & 63;
-						res[j] += 128;
-					}
-					shift -= 6;
-					j++;
-				}
-				if ((count + bytes_count) <= len)
-				{
-					write(1, res, bytes_count);
-					count += 4;
-				}
-			}
-		}
-		i++;
-	}
-	if ((*params).specifier != 'C' && (*params).specifier != 'c')
-		(*params).res -= count - len;
-	return (0);
+  elems_init(&elems);
+  check_stars(params, ap);
+  d = va_arg(ap, intmax_t);
+  ox_depend_length(&d, (*params).length, params);
+  print_hex(&elems.s, d, *params, 16);
+  if (d != 0)
+     elems.len = ft_strlen(elems.s);
+  if (d == 0 && (*params).precision != 0)
+      elems.len = 1;
+  (*params).res += elems.len;
+  if ((*params).precision > 0)
+    elems.zeros = (*params).precision - elems.len;
+  else if (if_flag((*params).flag, '0', FLAG_LIMIT) && !if_flag((*params).flag, '-', FLAG_LIMIT))
+    elems.zeros = (*params).width - elems.len;
+  if (elems.zeros > 0 && (*params).width > 1)
+    elems.spaces = (*params).width - elems.len - elems.zeros;
+  if (elems.zeros <= 0 && (*params).width > 1)
+    elems.spaces = (*params).width - elems.len;
+  if ((if_flag((*params).flag, '#', FLAG_LIMIT) && d != 0) || (*params).specifier == 'p')
+  {
+    elems.spaces -= 2;
+    if (if_flag((*params).flag, '0', FLAG_LIMIT))
+      elems.zeros -= 2;
+  }
+  if (elems.zeros > 0)
+    (*params).res += elems.zeros;
+  if (elems.spaces > 0)
+    (*params).res += elems.spaces;
+  if (if_flag((*params).flag, '-', FLAG_LIMIT))
+  {
+    if ((if_flag((*params).flag, '#', FLAG_LIMIT) && d != 0) || (*params).specifier == 'p')
+    {
+      (*params).res += 2;
+      write(1, "0", 1);
+      if ((*params).specifier == 'x' || (*params).specifier == 'p')
+        write(1, "x", 1);
+      else
+        write(1, "X", 1);
+    }
+    if (elems.zeros > 0)
+      while (elems.zeros--)
+        write(1, "0", 1);
+    if (d != 0)
+      write(1, elems.s, elems.len);
+    else if ((*params).precision != 0)
+      write(1, "0", 1);
+    if (elems.spaces > 0)
+      while (elems.spaces--)
+        write(1, " ", 1);
+  }
+  else
+  {
+    if (elems.spaces > 0)
+      while (elems.spaces--)
+        write(1, " ", 1);
+    if ((if_flag((*params).flag, '#', FLAG_LIMIT) && d != 0) || (*params).specifier == 'p')
+    {
+      (*params).res += 2;
+      write(1, "0", 1);
+      if ((*params).specifier == 'x' || (*params).specifier == 'p')
+        write(1, "x", 1);
+      else
+        write(1, "X", 1);
+    }
+    if (elems.zeros > 0)
+      while (elems.zeros--)
+        write(1, "0", 1);
+    if (d != 0)
+      write(1, elems.s, elems.len);
+    else if ((*params).precision != 0)
+      write(1, "0", 1);
+  }
+  print_left(params);
+  ft_strdel(&elems.s);
+}
+
+void o_analizator(t_argc *params, va_list ap)
+{
+  intmax_t d;
+  t_forprint elems;
+
+  elems_init(&elems);
+  elems.len = 1;
+  check_stars(params, ap);
+  d = va_arg(ap, intmax_t);
+  ox_depend_length(&d, (*params).length, params);
+  print_hex(&elems.s, d, *params, 8);
+  if (d != 0)
+    elems.len = ft_strlen(elems.s);
+  else
+  {
+    if ((*params).precision != 0)
+      elems.len = 1;
+    else
+      elems.len = 0;
+  }
+  (*params).res += elems.len;
+  if ((*params).precision > 0)
+    elems.zeros = (*params).precision - elems.len;
+  else if (if_flag((*params).flag, '0', FLAG_LIMIT) && !if_flag((*params).flag, '-', FLAG_LIMIT))
+    elems.zeros = (*params).width - elems.len;
+  if (elems.zeros > 0 && (*params).width > 1)
+    elems.spaces = (*params).width - elems.len - elems.zeros;
+  if (elems.zeros <= 0 && (*params).width > 1)
+    elems.spaces = (*params).width - elems.len;
+  if (if_flag((*params).flag, '#', FLAG_LIMIT))
+  {
+    elems.zeros--;
+    if (d != 0 || (*params).precision != 0)
+    {
+      if ((*params).precision <= 0)
+      elems.spaces--;
+      if (d != 0 || (*params).precision > 0)
+        (*params).res += 1;
+    }
+    else if (d == 0 && (*params).precision <= 0)
+      (*params).res += 1;
+  }
+  if (if_flag((*params).flag, '-', FLAG_LIMIT))
+    print_params_left(elems.s, params, elems.zeros, elems.spaces);
+  else
+    print_params_right(elems.s, params, elems.zeros, elems.spaces);
+  print_left(params);
+  ft_strdel(&elems.s);
 }
