@@ -6,7 +6,7 @@
 /*   By: vlikhotk <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/02/22 16:15:35 by vlikhotk          #+#    #+#             */
-/*   Updated: 2018/02/22 16:16:07 by vlikhotk         ###   ########.fr       */
+/*   Updated: 2018/02/24 16:39:50 by vlikhotk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,4 +81,27 @@ void	check_length(char *length, int *i, char *dest)
 		dest[1] = 'h';
 	}
 	check_length_hlzj(&j, len, length, &dest);
+}
+
+void	u_depend_length(uintmax_t *d, char *length, t_argc *params)
+{
+	if ((ft_strcmp(length, "hh") == 0) && (*params).specifier == 'u')
+		*d = (unsigned char)*d;
+	else if (ft_strcmp(length, "ll") == 0)
+		*d = (unsigned long long)*d;
+	else if (length[0] == 'h' && (*params).specifier == 'u')
+		*d = (unsigned short)*d;
+	else if (length[0] == 'l')
+		*d = (unsigned long)*d;
+	else if (length[0] == 'z')
+		*d = (size_t)*d;
+	else if (length[0] == 'j')
+		*d = (uintmax_t)*d;
+	else
+	{
+		if ((*params).specifier == 'U')
+			*d = (unsigned long)*d;
+		else
+			*d = (unsigned int)*d;
+	}
 }

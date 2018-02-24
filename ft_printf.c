@@ -11,8 +11,6 @@
 /* ************************************************************************** */
 
 #include "ft_printf.h"
-#include <stdio.h>
-#include <locale.h>
 
 void	argument_analize(t_argc *params, va_list ap)
 {
@@ -128,12 +126,11 @@ int		ft_printf(const char *format, ...)
 	{
 		if (format[i] == '%' && !if_percent_found(format, &params, &i))
 			continue;
-		else
-			while (format[i] && format[i] != '%')
-			{
-				write(1, &format[i++], 1);
-				params.res++;
-			}
+		while (format[i] && format[i] != '%')
+		{
+			write(1, &format[i++], 1);
+			params.res++;
+		}
 		if (params.one_arg)
 			argument_save(params.one_arg, &params, ap);
 	}

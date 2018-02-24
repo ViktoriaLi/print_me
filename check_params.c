@@ -33,43 +33,6 @@ void	precision_finder(char *argv, int *i, t_argc *params)
 		(*i)++;
 }
 
-void	check_flags(char *str, int *i, int *flag)
-{
-	int j;
-	int k;
-	int *tmp;
-
-	j = 0;
-	k = 0;
-	tmp = NULL;
-	while (str[*i] == '+' || str[*i] == '#' || str[*i] == '0' ||
-		str[*i] == '-' || str[*i] == ' ' || str[*i] == '\'')
-	{
-		j++;
-		(*i)++;
-	}
-	tmp = (int *)malloc(sizeof(int) * (j + 1));
-	tmp[j] = 0;
-	*i = 0;
-	while (k < j)
-		tmp[k++] = str[(*i)++];
-	k = 0;
-	if (if_flag(tmp, '+', j))
-		flag[k++] = '+';
-	if (if_flag(tmp, '#', j))
-		flag[k++] = '#';
-	if (if_flag(tmp, '0', j))
-		flag[k++] = '0';
-	if (if_flag(tmp, '-', j))
-		flag[k++] = '-';
-	if (if_flag(tmp, ' ', j))
-		flag[k++] = ' ';
-	if (if_flag(tmp, '\'', j))
-		flag[k++] = '\'';
-	if (tmp)
-		free(tmp);
-}
-
 int		check_specifier(char type)
 {
 	if (type == 's' || type == 'S' || type == 'p' || type == 'd' || type == 'D'
@@ -95,12 +58,10 @@ void	specifier_finder(t_argc *params, char *argv, int *i, va_list ap)
 		len = *i;
 		while (argv[*i])
 			(*i)++;
-		(*params).left = (char *)malloc(*i - len + 1);
-		(*params).left[*i - len] = 0;
 		j = *i - len;
+		ft_strsub(argv, *i, j);
+		params->left = ft_strsub(argv, len, j);
 		(*params).left_len = j;
-		while (*i >= len)
-			(*params).left[j--] = argv[(*i)--];
 		argument_analize(params, ap);
 		(*i)++;
 	}

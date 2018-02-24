@@ -6,7 +6,7 @@
 /*   By: vlikhotk <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/02/23 17:25:05 by vlikhotk          #+#    #+#             */
-/*   Updated: 2018/02/23 17:25:09 by vlikhotk         ###   ########.fr       */
+/*   Updated: 2018/02/24 17:09:24 by vlikhotk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -120,4 +120,26 @@ void	print_unicode(wchar_t *test, int len, t_argc *params)
 	}
 	if ((*params).specifier != 'C' && (*params).specifier != 'c')
 		(*params).res -= count - len;
+}
+
+size_t	ft_strlen_wide(wchar_t *s)
+{
+	size_t i;
+	size_t res;
+
+	i = 0;
+	res = 0;
+	while (s[i] != 0)
+	{
+		if (s[i] <= 127)
+			res++;
+		else if (s[i] > 127 && s[i] <= 2047)
+			res += 2;
+		else if (s[i] > 2047 && s[i] <= 65535)
+			res += 3;
+		else if (s[i] > 65535 && s[i] <= 1114111)
+			res += 4;
+		i++;
+	}
+	return (res);
 }

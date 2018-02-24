@@ -82,6 +82,11 @@ void		specifier_finder(t_argc *params, char *argv, int *i, va_list ap);
 void		precision_finder(char *argv, int *i, t_argc *params);
 void		print_left(t_argc *params);
 void		elems_init(t_forprint *elems);
+void	o_printing(char *s, t_argc *params, int zeros, int spaces);
+void	o_elems_count(t_argc *params, t_forprint *elems, intmax_t d);
+void if_space_flag(t_argc *params, int *zeros, int *spaces);
+void print_spaces(t_argc *params, int *zeros, int *spaces);
+void save_flags(int *tmp, int **flag, int j);
 
 int			ft_strcmp(const char *s1, const char *s2);
 int			ft_atoi(const char *str);
@@ -92,5 +97,6 @@ void		ft_putstr(char const *s);
 char		*ft_itoa(intmax_t n);
 char		*ft_uns_itoa(uintmax_t n);
 char		*ft_len_strnstr(char *big, char *little, size_t len);
+char	*ft_strsub(char const *s, unsigned int start, size_t len);
 
 #endif
