@@ -90,22 +90,26 @@ void	print_hex_left_align(t_argc *params, t_forprint *elems, intmax_t d)
 
 void	x_elems_count(t_argc *params, t_forprint *elems, intmax_t d)
 {
-	if ((*params).precision > 0)
+	//printf("DDD %d\n", (*elems).zeros);
+	if ((*params).precision > -1)
 		(*elems).zeros = (*params).precision - (*elems).len;
 	else if (if_flag((*params).flag, '0', FLAG_LIMIT) &&
 	!if_flag((*params).flag, '-', FLAG_LIMIT))
 		(*elems).zeros = (*params).width - (*elems).len;
+	//printf("DDD %d\n", (*elems).zeros);
 	if ((*elems).zeros > 0 && (*params).width > 1)
 		(*elems).spaces = (*params).width - (*elems).len - (*elems).zeros;
 	if ((*elems).zeros <= 0 && (*params).width > 1)
 		(*elems).spaces = (*params).width - (*elems).len;
+	//printf("DDD %d\n", (*elems).zeros);
 	if ((if_flag((*params).flag, '#', FLAG_LIMIT) && d != 0)
 	|| (*params).specifier == 'p')
 	{
 		(*elems).spaces -= 2;
-		if (if_flag((*params).flag, '0', FLAG_LIMIT))
+		if (if_flag((*params).flag, '0', FLAG_LIMIT) && ((*params).precision < 0 || (*params).specifier == 'p'))
 			(*elems).zeros -= 2;
 	}
+	//printf("DDD %d\n", (*elems).zeros);
 	if ((*elems).zeros > 0)
 		(*params).res += (*elems).zeros;
 	if ((*elems).spaces > 0)

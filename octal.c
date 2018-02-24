@@ -53,18 +53,22 @@ void	o_elems_count(t_argc *params, t_forprint *elems, intmax_t d)
 	if ((*params).precision > 0)
 		(*elems).zeros = (*params).precision - (*elems).len;
 	else if (if_flag((*params).flag, '0', FLAG_LIMIT) &&
-	!if_flag((*params).flag, '-', FLAG_LIMIT))
+	!if_flag((*params).flag, '-', FLAG_LIMIT) &&
+	(*params).precision == -1)
 		(*elems).zeros = (*params).width - (*elems).len;
+	//printf(" 1 %d\n", (*elems).zeros);
 	if ((*elems).zeros > 0 && (*params).width > 1)
 		(*elems).spaces = (*params).width - (*elems).len - (*elems).zeros;
 	if ((*elems).zeros <= 0 && (*params).width > 1)
 		(*elems).spaces = (*params).width - (*elems).len;
 	if (if_flag((*params).flag, '#', FLAG_LIMIT))
 	{
-		(*elems).zeros--;
+		//if (!if_flag((*params).flag, '0', FLAG_LIMIT))
+		if ((*params).precision != -1)
+			(*elems).zeros--;
 		if (d != 0 || (*params).precision != 0)
 		{
-			if ((*params).precision <= 0)
+			if ((*params).precision <= 0 && d != 0)
 				(*elems).spaces--;
 			if (d != 0 || (*params).precision > 0)
 				(*params).res += 1;

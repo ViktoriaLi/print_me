@@ -139,8 +139,8 @@ int		ft_printf(const char *format, ...)
 }
 
 /*int		main(void)
-{
-	setlocale (LC_ALL, "");*/
+{*/
+	//setlocale (LC_ALL, "");
 	/*разный вывод
 	printf("NUMBER %d\n", printf("% +0-5.15d", -2147483648));
 	printf("NUMBER %d\n", ft_printf("% +-05.15d", -2147483648));
@@ -192,4 +192,17 @@ int		ft_printf(const char *format, ...)
   printf("NUMBER %d\n", ft_printf("%lu", -42));
 	printf("NUMBER %d\n", printf("%lu", -42));
   printf("NUMBER %d\n", ft_printf("%lu", -42));*/
-//}
+
+	/*printf("NUMBER %d\n", printf("|%05.1d|", 25));
+  printf("NUMBER %d\n", ft_printf("|%05.1d|", 25));
+
+	printf("NUMBER %d\n", printf("|%05.0d|", 25));
+  printf("NUMBER %d\n", ft_printf("|%05.0d|", 25));
+
+	printf("NUMBER %d\n", printf("%03.3d", -1));
+  printf("NUMBER %d\n", ft_printf("%03.3d", -1));
+	//printf("NUMBER %d\n", printf("%#08x", 42));
+  //printf("NUMBER %d\n", ft_printf("%#08x", 42));
+
+
+}*/
