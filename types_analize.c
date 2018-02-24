@@ -53,7 +53,6 @@ void	int_elems_count(t_argc *params, t_forprint *elems)
 	else
 		print_params_right((*elems).s, params, (*elems).zeros, (*elems).spaces);
 	print_left(params);
-	ft_strdel(&elems->s);
 }
 
 void	d_analizator(t_argc *params, va_list ap)
@@ -83,6 +82,7 @@ void	d_analizator(t_argc *params, va_list ap)
 	else
 		elems.len = 0;
 	int_elems_count(params, &elems);
+	ft_strdel(&elems.s);
 }
 
 void	u_elems_count(t_argc *params, t_forprint *elems)
@@ -125,4 +125,5 @@ void	u_analizator(t_argc *params, va_list ap)
 	}
 	(*params).res += elems.len;
 	u_elems_count(params, &elems);
+	ft_strdel(&elems.s);
 }

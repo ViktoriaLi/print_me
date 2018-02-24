@@ -59,7 +59,6 @@ void	specifier_finder(t_argc *params, char *argv, int *i, va_list ap)
 		while (argv[*i])
 			(*i)++;
 		j = *i - len;
-		ft_strsub(argv, *i, j);
 		params->left = ft_strsub(argv, len, j);
 		(*params).left_len = j;
 		argument_analize(params, ap);
@@ -95,10 +94,7 @@ int		if_percent_found(const char *format, t_argc *params, int *i)
 	if (format[*i] == '%')
 		(*params).specifier = '%';
 	len = (*i)--;
-	(*params).one_arg = (char *)malloc(j + 1);
-	(*params).one_arg[j--] = 0;
-	while (j >= 0)
-		(*params).one_arg[j--] = format[(*i)--];
+	(*params).one_arg = ft_strsub(format, ((*i) - j + 1), j);
 	(*i) = len;
 	return (1);
 }

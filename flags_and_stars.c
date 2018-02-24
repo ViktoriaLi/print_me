@@ -38,8 +38,6 @@ void	save_flags(int *tmp, int **flag, int j)
 		(*flag)[k++] = ' ';
 	if (if_flag(tmp, '\'', j))
 		(*flag)[k++] = '\'';
-	if (tmp)
-		free(tmp);
 }
 
 void	check_flags(char *str, int *i, int *flag)
@@ -63,6 +61,8 @@ void	check_flags(char *str, int *i, int *flag)
 	while (k < j)
 		tmp[k++] = str[(*i)++];
 	save_flags(tmp, &flag, j);
+	if (tmp)
+		free(tmp);
 }
 
 int		if_flag(int *all_flags, int flag, int j)

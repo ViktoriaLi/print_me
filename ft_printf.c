@@ -104,8 +104,6 @@ void	struct_init(t_argc *params)
 	(*params).left_len = 0;
 	(*params).reserve = NULL;
 	(*params).sign = 0;
-	ft_strdel(&params->left);
-	ft_strdel(&params->one_arg);
 }
 
 int		ft_printf(const char *format, ...)
@@ -133,6 +131,8 @@ int		ft_printf(const char *format, ...)
 		}
 		if (params.one_arg)
 			argument_save(params.one_arg, &params, ap);
+		ft_strdel(&params.left);
+		ft_strdel(&params.one_arg);
 	}
 	va_end(ap);
 	return (params.res);
