@@ -15,9 +15,11 @@
 void	elems_init(t_forprint *elems)
 {
 	(*elems).len = 0;
+	(*elems).lenf = 0;
 	(*elems).spaces = 0;
 	(*elems).zeros = 0;
 	(*elems).s = NULL;
+	(*elems).sf = NULL;
 	(*elems).us = NULL;
 }
 

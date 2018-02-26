@@ -39,9 +39,11 @@ typedef struct		s_argc
 typedef struct		s_forprint
 {
 	int			len;
+	int			lenf;
 	int			spaces;
 	int			zeros;
 	char		*s;
+	char		*sf;
 	wchar_t	*us;
 }									t_forprint;
 
@@ -67,6 +69,7 @@ void		u_analizator(t_argc *params, va_list ap);
 void		x_analizator(t_argc *params, va_list ap);
 void		c_analizator(t_argc *params, va_list ap);
 void		uc_analizator(t_argc *params, va_list ap);
+void		f_analizator(t_argc *params, va_list ap);
 
 int			if_flag(int *all_flags, int flag, int j);
 void		print_hex(char **res, uintmax_t nbr, t_argc params, unsigned int base);
@@ -87,6 +90,8 @@ void	o_elems_count(t_argc *params, t_forprint *elems, intmax_t d);
 void if_space_flag(t_argc *params, int *zeros, int *spaces);
 void print_spaces(t_argc *params, int *zeros, int *spaces);
 void save_flags(int *tmp, int **flag, int j);
+
+void	fif_space_flag(t_argc *params, int *zeros, int *spaces);
 
 int			ft_strcmp(const char *s1, const char *s2);
 int			ft_atoi(const char *str);

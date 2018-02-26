@@ -37,6 +37,8 @@ void	argument_analize(t_argc *params, va_list ap)
 	else if ((*params).specifier == 'C' || ((*params).specifier == 'c'
 		&& (*params).length[0] == 'l'))
 		uc_analizator(params, ap);
+	else if ((*params).specifier == 'f' || (*params).specifier == 'F')
+		f_analizator(params, ap);
 	else if ((*params).specifier == 'n')
 	{
 		n_value = va_arg(ap, int *);
@@ -138,8 +140,8 @@ int		ft_printf(const char *format, ...)
 	return (params.res);
 }
 
-/*int		main(void)
-{*/
+int		main(void)
+{
 	//setlocale (LC_ALL, "");
 	/*разный вывод
 	printf("NUMBER %d\n", printf("% +0-5.15d", -2147483648));
@@ -202,7 +204,33 @@ int		ft_printf(const char *format, ...)
 	printf("NUMBER %d\n", printf("%03.3d", -1));
   printf("NUMBER %d\n", ft_printf("%03.3d", -1));
 	//printf("NUMBER %d\n", printf("%#08x", 42));
-  //printf("NUMBER %d\n", ft_printf("%#08x", 42));
+  //printf("NUMBER %d\n", ft_printf("%#08x", 42));*/
+
+	/*printf("NUMBER %d\n", printf("%f", 5.1234567));
+  printf("NUMBER %d\n", ft_printf("%f", 5.1234567));
+	printf("NUMBER %d\n", printf("%f", 5.1234561));
+  printf("NUMBER %d\n", ft_printf("%f", 5.1234561));
+	printf("NUMBER %d\n", printf("%f", 5.123456));
+  printf("NUMBER %d\n", ft_printf("%f", 5.123456));
+	printf("NUMBER %d\n", printf("%f", 5.12));
+  printf("NUMBER %d\n", ft_printf("%f", 5.12));
+	printf("NUMBER %d\n", printf("% f", 5.1234567));
+  printf("NUMBER %d\n", ft_printf("% f", 5.1234567));
+	printf("NUMBER %d\n", printf("%-20f", 5.1234567));
+  printf("NUMBER %d\n", ft_printf("%-20f", 5.1234567));
+	printf("NUMBER %d\n", printf("%20f", 5.1234567));
+  printf("NUMBER %d\n", ft_printf("%20f", 5.1234567));
+
+	printf("NUMBER %d\n", printf("%f", 5));
+  printf("NUMBER %d\n", ft_printf("%f", 5));*/
 
 
-}*/
+	printf("NUMBER %d\n", printf("%20.10f", 5.1234567));
+  printf("NUMBER %d\n", ft_printf("%20.10f", 5.1234567));
+	printf("NUMBER %d\n", printf("%-20.10f", 5.1234567));
+  printf("NUMBER %d\n", ft_printf("%-20.10f", 5.1234567));
+	printf("NUMBER %d\n", printf("{%f}{%F}", 1.42, 1.42));
+	printf("NUMBER %d\n", ft_printf("{%f}{%F}", 1.42, 1.42));
+	//printf("NUMBER %d\n", printf("%20.100f", 5.12345678910123456789101234567891012345678910123456789101234567891012345678910123456789101234567891012345678910));
+	//printf("NUMBER %d\n", ft_printf("%20.100f", 5.12345678910123456789101234567891012345678910123456789101234567891012345678910123456789101234567891012345678910));
+}

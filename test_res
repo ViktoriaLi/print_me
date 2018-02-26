@@ -26,3 +26,4 @@
 // Main results: [ 28540///// 30812] Bonus results: [  3807// 28734] 29335
 printf("NUMBER %d\n", printf("%3.2d", -1));
 printf("NUMBER %d\n", ft_printf("%3.2d", -1));
+// проверить чтоб не было запрещенных функций

@@ -38,21 +38,12 @@ void	int_depend_length(intmax_t *d, char *length, t_argc *params)
 void	int_elems_count(t_argc *params, t_forprint *elems)
 {
 	(*params).res += (*elems).len;
-	/*if ((*params).precision > 0)
-		(*elems).zeros = (*params).precision - (*elems).len;
-	if ((*elems).zeros <= 0 && if_flag((*params).flag, '0', FLAG_LIMIT)
-		&& !if_flag((*params).flag, '-', FLAG_LIMIT)
-		&& (*params).precision != 0)
-		(*elems).zeros = (*params).width - (*elems).len;*/
-
 	if ((*params).precision > 0)
 		(*elems).zeros = (*params).precision - (*elems).len;
-	//printf("DDD %d\n", (*elems).zeros);
 	if ((*elems).zeros <= 0 && if_flag((*params).flag, '0', FLAG_LIMIT)
 		&& !if_flag((*params).flag, '-', FLAG_LIMIT)
 		&& (*params).precision != 0)
 		(*elems).zeros = (*params).width - (*elems).len;
-	//printf("DDD %d\n", (*elems).zeros);
 	if ((*elems).zeros > 0 && (*params).width > 1)
 		(*elems).spaces = (*params).width - (*elems).len - (*elems).zeros;
 	if ((*elems).zeros <= 0 && (*params).width > 1)
