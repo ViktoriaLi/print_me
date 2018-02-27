@@ -28,7 +28,7 @@ void	ox_depend_length(intmax_t *d, char *length, t_argc *params)
 		*d = (unsigned char)*d;
 	else if (ft_strcmp(length, "ll") == 0)
 		*d = (unsigned long long)*d;
-	else if (length[0] == 'h')
+	else if (length[0] == 'h' && length[1] != 'h' && (*params).specifier != 'O')
 		*d = (unsigned short)*d;
 	else if (length[0] == 'l')
 		*d = (unsigned long)*d;
@@ -36,6 +36,8 @@ void	ox_depend_length(intmax_t *d, char *length, t_argc *params)
 		*d = (size_t)*d;
 	else if (length[0] == 'j')
 		*d = (uintmax_t)(*d);
+	else if (length[0] == 't')
+		*d = (intmax_t)*d;
 	else
 	{
 		if ((*params).specifier == 'O')
@@ -56,19 +58,17 @@ void	o_elems_count(t_argc *params, t_forprint *elems, intmax_t d)
 	!if_flag((*params).flag, '-', FLAG_LIMIT) &&
 	(*params).precision == -1)
 		(*elems).zeros = (*params).width - (*elems).len;
-	//printf(" 1 %d\n", (*elems).zeros);
-	if ((*elems).zeros > 0 && (*params).width > 1)
+	if (((*elems).zeros > 0 && (*params).width > 1))
 		(*elems).spaces = (*params).width - (*elems).len - (*elems).zeros;
-	if ((*elems).zeros <= 0 && (*params).width > 1)
+	if (((*elems).zeros <= 0 && (*params).width > 1))
 		(*elems).spaces = (*params).width - (*elems).len;
 	if (if_flag((*params).flag, '#', FLAG_LIMIT))
 	{
-		//if (!if_flag((*params).flag, '0', FLAG_LIMIT))
 		if ((*params).precision != -1)
 			(*elems).zeros--;
 		if (d != 0 || (*params).precision != 0)
 		{
-			if ((*params).precision <= 0 && d != 0)
+			if (d != 0 && ((*params).precision <= 0 || (*elems).zeros < 0))
 				(*elems).spaces--;
 			if (d != 0 || (*params).precision > 0)
 				(*params).res += 1;
@@ -97,6 +97,7 @@ void	o_analizator(t_argc *params, va_list ap)
 		elems.len = 0;
 	(*params).res += elems.len;
 	o_elems_count(params, &elems, d);
+	if_space_flag(params, &elems.zeros, &elems.spaces);
 	if (if_flag((*params).flag, '-', FLAG_LIMIT))
 		print_params_left(elems.s, params, elems.zeros, elems.spaces);
 	else

@@ -19,14 +19,14 @@ void	int_depend_length(intmax_t *d, char *length, t_argc *params)
 		*d = (signed char)*d;
 	else if (ft_strcmp(length, "ll") == 0)
 		*d = (long long)*d;
-	else if ((length[0] == 'h') && ((*params).specifier == 'd' ||
-	(*params).specifier == 'i'))
+	else if (length[0] == 'h' && length[1] != 'h' && ((*params).specifier
+		== 'd' || (*params).specifier == 'i'))
 		*d = (short)*d;
 	else if (length[0] == 'l')
 		*d = (long)*d;
 	else if (length[0] == 'z')
 		*d = (ssize_t)(*d);
-	else if (length[0] != 'j')
+	else if (length[0] != 'j' && length[0] != 't')
 	{
 		if ((*params).specifier == 'D')
 			*d = (long)*d;
@@ -39,15 +39,21 @@ void	int_elems_count(t_argc *params, t_forprint *elems)
 {
 	(*params).res += (*elems).len;
 	if ((*params).precision > 0)
+	{
 		(*elems).zeros = (*params).precision - (*elems).len;
-	if ((*elems).zeros <= 0 && if_flag((*params).flag, '0', FLAG_LIMIT)
-		&& !if_flag((*params).flag, '-', FLAG_LIMIT)
-		&& (*params).precision != 0)
+		if ((if_flag((*params).flag, '0', FLAG_LIMIT) || if_flag((*params).flag,
+		'-', FLAG_LIMIT)) && (*params).sign == '-' && (*params).precision > 0)
+			(*elems).zeros++;
+	}
+	if ((((*elems).zeros < 0 && (*params).precision <= 0) || ((*elems).zeros
+	== 0 && (*params).precision != 0)) && if_flag((*params).flag, '0',
+	FLAG_LIMIT) && !if_flag((*params).flag, '-', FLAG_LIMIT))
 		(*elems).zeros = (*params).width - (*elems).len;
 	if ((*elems).zeros > 0 && (*params).width > 1)
 		(*elems).spaces = (*params).width - (*elems).len - (*elems).zeros;
 	if ((*elems).zeros <= 0 && (*params).width > 1)
 		(*elems).spaces = (*params).width - (*elems).len;
+	if_space_flag(params, &elems->zeros, &elems->spaces);
 	if (if_flag((*params).flag, '-', FLAG_LIMIT))
 		print_params_left((*elems).s, params, (*elems).zeros, (*elems).spaces);
 	else
@@ -77,9 +83,7 @@ void	d_analizator(t_argc *params, va_list ap)
 		if ((*params).sign == '-')
 			elems.len++;
 	}
-	else if ((*params).precision != 0)
-		elems.len = 1;
-	else
+	else if ((*params).precision == 0)
 		elems.len = 0;
 	int_elems_count(params, &elems);
 	ft_strdel(&elems.s);
@@ -97,6 +101,7 @@ void	u_elems_count(t_argc *params, t_forprint *elems)
 		(*elems).spaces = (*params).width - (*elems).len - (*elems).zeros;
 	if ((*elems).zeros <= 0 && (*params).width > 1)
 		(*elems).spaces = (*params).width - (*elems).len;
+	if_space_flag(params, &elems->zeros, &elems->spaces);
 	if (if_flag((*params).flag, '-', FLAG_LIMIT))
 		print_params_left((*elems).s, params, (*elems).zeros, (*elems).spaces);
 	else

@@ -15,13 +15,13 @@
 void	check_length_hhll(int h_count, int l_count, char **dest)
 {
 	if (h_count % 2 != 0 && (*dest)[0] != 'l' && (*dest)[0] != 'z'
-		&& (*dest)[0] != 'j')
+		&& (*dest)[0] != 'j' && (*dest)[0] != 't')
 	{
 		(*dest)[0] = 'h';
 		(*dest)[1] = 0;
 	}
 	if (l_count % 2 != 0 && (*dest)[0] != 'l' && (*dest)[0] != 'z'
-		&& (*dest)[0] != 'j')
+		&& (*dest)[0] != 'j' && (*dest)[0] != 't')
 	{
 		(*dest)[0] = 'l';
 		(*dest)[1] = 0;
@@ -38,21 +38,19 @@ void	check_length_hlzj(int *j, int len, char *length, char **dest)
 	while (*j < len)
 	{
 		if (length[*j] == 'z')
-		{
 			(*dest)[0] = 'z';
-			(*dest)[1] = 0;
-		}
-		if (length[*j] == 'j' && (*dest)[0] != 'z')
-		{
+		if (length[*j] == 't' && (*dest)[0] != 'z')
+			(*dest)[0] = 't';
+		if (length[*j] == 'j' && (*dest)[0] != 'z' && (*dest)[0] != 't')
 			(*dest)[0] = 'j';
-			(*dest)[1] = 0;
-		}
 		if (length[*j] == 'h')
 			h_count++;
 		if (length[*j] == 'l')
 			l_count++;
 		(*j)++;
 	}
+	if ((*dest)[0] == 'z' || (*dest)[0] == 't' || (*dest)[0] == 'j')
+		(*dest)[1] = 0;
 	check_length_hhll(h_count, l_count, dest);
 }
 
@@ -64,12 +62,12 @@ void	check_length(char *length, int *i, char *dest)
 	j = 0;
 	len = 0;
 	while (length[len] == 'h' || length[len] == 'l' || length[len] == 'j'
-		|| length[len] == 'z')
+		|| length[len] == 'z' || length[len] == 'L' || length[len] == 't')
 	{
 		len++;
 		(*i)++;
 	}
-	if (ft_len_strnstr(length, "ll", len) && dest[0] != 'z' && dest[0] != 'j')
+	if ((ft_len_strnstr(length, "ll", len)) && dest[0] != 'z' && dest[0] != 'j')
 	{
 		dest[0] = 'l';
 		dest[1] = 'l';
@@ -89,7 +87,7 @@ void	u_depend_length(uintmax_t *d, char *length, t_argc *params)
 		*d = (unsigned char)*d;
 	else if (ft_strcmp(length, "ll") == 0)
 		*d = (unsigned long long)*d;
-	else if (length[0] == 'h' && (*params).specifier == 'u')
+	else if (length[0] == 'h' && length[1] != 'h' && (*params).specifier == 'u')
 		*d = (unsigned short)*d;
 	else if (length[0] == 'l')
 		*d = (unsigned long)*d;
@@ -97,11 +95,34 @@ void	u_depend_length(uintmax_t *d, char *length, t_argc *params)
 		*d = (size_t)*d;
 	else if (length[0] == 'j')
 		*d = (uintmax_t)*d;
+	else if (length[0] == 't')
+		*d = (intmax_t)(*d);
 	else
 	{
 		if ((*params).specifier == 'U')
 			*d = (unsigned long)*d;
 		else
 			*d = (unsigned int)*d;
+	}
+}
+
+void	n_analizator(t_argc *params, va_list ap)
+{
+	int			*n_value;
+	intmax_t	*i_value;
+
+	n_value = NULL;
+	i_value = NULL;
+	if ((*params).specifier == 't')
+	{
+		i_value = va_arg(ap, intmax_t *);
+		if (i_value)
+			*i_value = (*params).res;
+	}
+	else
+	{
+		n_value = va_arg(ap, int *);
+		if (n_value)
+			*n_value = (*params).res;
 	}
 }

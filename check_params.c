@@ -38,9 +38,9 @@ int		check_specifier(char type)
 	if (type == 's' || type == 'S' || type == 'p' || type == 'd' || type == 'D'
 	|| type == 'i' || type == 'o' || type == 'O' || type == 'u' || type == 'U'
 	|| type == 'x' || type == 'X' || type == 'c' || type == 'C' || type == 'f'
-	|| type == 'F'/* || type == 'e'
+	|| type == 'F' || type == 'n'/* || type == 'e'
 	|| type == 'E'  || type == 'g' || type == 'G'
-	|| type == 'a' || type == 'A' || type == 'n'*/)
+	|| type == 'a' || type == 'A' */)
 		return (type);
 	else
 		return (0);

@@ -104,12 +104,10 @@ void	us_analizator(t_argc *params, va_list ap)
 	}
 	else
 		elems.len = ft_strlen_wide(elems.us);
-	if ((*params).precision >= 0)
-		elems.len = (*params).precision;
-	(*params).res += elems.len;
-	if (if_flag((*params).flag, '0', FLAG_LIMIT))
-		elems.zeros = (*params).width - elems.len;
-	elems.spaces = (*params).width - elems.len - elems.zeros;
+	check_spec_cond_us(params, &elems);
+	if (if_flag((*params).flag, '0', FLAG_LIMIT) && (*params).width > elems.len)
+		elems.zeros += (*params).width - elems.len;
+	elems.spaces += (*params).width - elems.len - elems.zeros;
 	if (elems.spaces > 0)
 		(*params).res += elems.spaces;
 	if (elems.zeros > 0)
@@ -118,27 +116,16 @@ void	us_analizator(t_argc *params, va_list ap)
 	print_left(params);
 }
 
-char	*ft_len_strnstr(char *big, char *little, size_t len)
+void	check_spec_cond_us(t_argc *params, t_forprint *elems)
 {
-	size_t	i;
-	size_t	j;
-	int		res;
-
-	i = 0;
-	if (little[i] == 0)
-		return (NULL);
-	while (i < len && big[i] != 0)
+	if ((*params).precision >= 0 && (*elems).len != 0)
 	{
-		res = i;
-		j = 0;
-		len = j + len;
-		while (i + j < len && big[i + j] == little[j] && little[j] != 0 &&
-			big[i + j] != 0)
-			j++;
-		if (little[j] == 0)
-			return (little);
-		else
-			i++;
+		if ((*params).precision > (*elems).len)
+		{
+			(*elems).spaces += (*params).precision - (*elems).len;
+			(*params).res -= ((*params).precision - (*elems).len) * 2;
+		}
+		(*elems).len = (*params).precision;
 	}
-	return (NULL);
+	(*params).res += (*elems).len;
 }

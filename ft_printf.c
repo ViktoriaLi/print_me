@@ -6,17 +6,15 @@
 /*   By: vlikhotk <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/02/22 16:26:19 by vlikhotk          #+#    #+#             */
-/*   Updated: 2018/02/22 16:26:23 by vlikhotk         ###   ########.fr       */
+/*   Updated: 2018/02/27 18:33:51 by vlikhotk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_printf.h"
+#include <locale.h>
 
 void	argument_analize(t_argc *params, va_list ap)
 {
-	int *n_value;
-
-	n_value = NULL;
 	if ((*params).specifier == 's' && (*params).length[0] != 'l')
 		s_analizator(params, ap);
 	else if ((*params).specifier == 'S' || ((*params).specifier == 's'
@@ -40,11 +38,7 @@ void	argument_analize(t_argc *params, va_list ap)
 	else if ((*params).specifier == 'f' || (*params).specifier == 'F')
 		f_analizator(params, ap);
 	else if ((*params).specifier == 'n')
-	{
-		n_value = va_arg(ap, int *);
-		if (n_value)
-			*n_value = (*params).res;
-	}
+		n_analizator(params, ap);
 }
 
 void	check_star_anywhere(char c, int *i, int *param)
@@ -59,10 +53,8 @@ void	check_star_anywhere(char c, int *i, int *param)
 void	argument_save(char *argv, t_argc *params, va_list ap)
 {
 	int i;
-	int j;
 
 	i = 0;
-	j = 0;
 	check_star_anywhere(argv[i], &i, &params->width);
 	check_flags(argv, &i, (*params).flag);
 	check_star_anywhere(argv[i], &i, &params->width);
@@ -110,7 +102,7 @@ void	struct_init(t_argc *params)
 
 int		ft_printf(const char *format, ...)
 {
-	int				i;
+	int			i;
 	va_list		ap;
 	t_argc		params;
 
@@ -118,10 +110,8 @@ int		ft_printf(const char *format, ...)
 	params.res = 0;
 	va_start(ap, format);
 	while (format[i] && format[i] != '%')
-	{
 		write(1, &format[i++], 1);
-		params.res++;
-	}
+	params.res += i;
 	while (format[i])
 	{
 		if (format[i] == '%' && !if_percent_found(format, &params, &i))
@@ -140,9 +130,9 @@ int		ft_printf(const char *format, ...)
 	return (params.res);
 }
 
-int		main(void)
+/*int		main(void)
 {
-	//setlocale (LC_ALL, "");
+	setlocale (LC_ALL, "");*/
 	/*разный вывод
 	printf("NUMBER %d\n", printf("% +0-5.15d", -2147483648));
 	printf("NUMBER %d\n", ft_printf("% +-05.15d", -2147483648));
@@ -225,12 +215,49 @@ int		main(void)
   printf("NUMBER %d\n", ft_printf("%f", 5));*/
 
 
-	printf("NUMBER %d\n", printf("%20.10f", 5.1234567));
+	/*printf("NUMBER %d\n", printf("%20.10f", 5.1234567));
   printf("NUMBER %d\n", ft_printf("%20.10f", 5.1234567));
 	printf("NUMBER %d\n", printf("%-20.10f", 5.1234567));
   printf("NUMBER %d\n", ft_printf("%-20.10f", 5.1234567));
 	printf("NUMBER %d\n", printf("{%f}{%F}", 1.42, 1.42));
-	printf("NUMBER %d\n", ft_printf("{%f}{%F}", 1.42, 1.42));
+	printf("NUMBER %d\n", ft_printf("{%f}{%F}", 1.42, 1.42));*/
 	//printf("NUMBER %d\n", printf("%20.100f", 5.12345678910123456789101234567891012345678910123456789101234567891012345678910123456789101234567891012345678910));
 	//printf("NUMBER %d\n", ft_printf("%20.100f", 5.12345678910123456789101234567891012345678910123456789101234567891012345678910123456789101234567891012345678910));
-}
+	/*printf("NUMBER %d\n", printf("|%05.1d|", 25)); //<=
+  printf("NUMBER %d\n", ft_printf("|%05.1d|", 25));
+	printf("NUMBER %d\n", printf("%03.2d", -1)); //!=
+  printf("NUMBER %d\n", ft_printf("%03.2d", -1));*/
+	/*int k = 0;
+
+	printf("NUMBER %d\n", printf("|%5.4td|%n", -25, &k));
+  printf("NUMBER %d\n", ft_printf("|%5.4td|%n", -25, &k));*/
+
+	/*printf("NUMBER %d\n", printf("|%lc|", 0));
+  printf("NUMBER %d\n", ft_printf("|%lc|", 0));
+	printf("NUMBER %d\n", printf("|%C|", 0));
+  printf("NUMBER %d\n", ft_printf("|%C|", 0));
+	printf("NUMBER %d\n", printf("|%lc|", 0));
+  printf("NUMBER %d\n", ft_printf("|%lc|", 0));
+	printf("NUMBER %d\n", printf("|%lc|", 0));
+  printf("NUMBER %d\n", ft_printf("|%lc|", 0));
+	printf("NUMBER %d\n", printf("|%lc|", 0));
+  printf("NUMBER %d\n", ft_printf("|%lc|", 0));*/
+
+
+	/*Fail test_b020.c[#0007]: printf("|%5.4Ld|%n", -25, &k);   printf("%d|", k); k = 0;
+	Your str : "|    %Ld|"
+	Corr str : "|-0025|7|"
+	Your ret : ""
+	Corr ret : ""
+	Extra code: ]
+	*/
+	//printf("NUMBER %d\n", printf("|%0-5.3d|", -25));
+  //printf("NUMBER %d\n", ft_printf("|%0-5.3d|", -25));
+
+	/*printf("NUMBER %d\n", printf("{%03.4d}", 0));
+  printf("NUMBER %d\n", ft_printf("{%03.4d}", 0));
+	printf("NUMBER %d\n", printf("{%03.4d}", 1));
+  printf("NUMBER %d\n", ft_printf("{%03.4d}", 1));*/
+
+
+//}

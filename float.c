@@ -1,4 +1,15 @@
-#include <stdio.h>
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   float.c                                            :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: vlikhotk <marvin@42.fr>                    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2018/02/27 18:18:10 by vlikhotk          #+#    #+#             */
+/*   Updated: 2018/02/27 18:18:42 by vlikhotk         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "ft_printf.h"
 
 void	fprint_zeros(t_argc *params, t_forprint *elems, char *s, double d)
@@ -145,7 +156,7 @@ void	float_elems_count(t_argc *params, t_forprint *elems, double d)
 	print_left(params);
 }
 
-void		f_analizator(t_argc *params, va_list ap)
+void	f_analizator(t_argc *params, va_list ap)
 {
   double d;
 	t_forprint	elems;
@@ -191,6 +202,5 @@ void		f_analizator(t_argc *params, va_list ap)
 	//printf("sss %s\n", elems.s);
 	//printf("sss %s\n", elems.sf);
 float_elems_count(params, &elems, d);
-
 
 }
