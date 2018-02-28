@@ -41,11 +41,17 @@ void	c_analizator(t_argc *params, va_list ap)
 
 	elems_init(&elems);
 	check_stars(params, ap);
+	elems.len = 1;
+
 	if ((*params).specifier == 'c')
 		c = va_arg(ap, int);
 	else
+	{
 		c = (*params).specifier;
-	(*params).res += 1;
+		if (c == 0)
+			elems.len = 0;
+	}
+	(*params).res += elems.len;
 	if ((*params).width > 1)
 	{
 		elems.spaces = (*params).width - 1;

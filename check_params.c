@@ -65,11 +65,13 @@ void	specifier_finder(t_argc *params, char *argv, int *i, va_list ap)
 		argument_analize(params, ap);
 		(*i)++;
 	}
-	else if ((*params).specifier == '%' || ((argv[*i] >= 65
-		&& argv[*i] <= 90) || (argv[*i] >= 97 && argv[*i] <= 122)))
+	else if ((*params).specifier == '%' || (*params).length[0] != 0 || (argv[*i] >= 65
+		&& argv[*i] <= 90) || (argv[*i] >= 97 && argv[*i] <= 122))
 	{
-		if ((*params).specifier != '%')
+		if (((argv[*i] >= 65 && argv[*i] <= 90) || (argv[*i] >= 97
+			&& argv[*i] <= 122)))
 			(*params).specifier = argv[(*i)++];
+		//printf("1%c\n", (*params).specifier);
 		c_analizator(params, ap);
 	}
 }
@@ -78,9 +80,11 @@ int		if_percent_found(const char *format, t_argc *params, int *i)
 {
 	int j;
 	int len;
+	char spec_symb;
 
 	j = 0;
 	len = 0;
+	spec_symb = 0;
 	struct_init(params);
 	if (format[++(*i)] == '%')
 	{
@@ -90,9 +94,16 @@ int		if_percent_found(const char *format, t_argc *params, int *i)
 	}
 	j = (*i);
 	while (format[*i] && format[(*i)] != '%')
+	{
+		if (format[*i] == '\r' || format[*i] == '\n' || format[*i] == '\v' ||
+		format[*i] == '\t' || format[*i] == '"' || format[*i] == '\'' ||
+		format[*i] == '\\' || format[*i] == '\0' || format[*i] == '?' ||
+		format[*i] == '\a')
+			spec_symb++;
 		(*i)++;
+	}
 	j = (*i) - j;
-	if (format[*i] == '%')
+	if (format[*i] == '%' && spec_symb == 0)
 		(*params).specifier = '%';
 	len = (*i)--;
 	(*params).one_arg = ft_strsub(format, ((*i) - j + 1), j);

@@ -29,6 +29,37 @@ printf("NUMBER %d\n", ft_printf("%3.2d", -1));
 // проверить чтоб не было запрещенных функций
 printf("NUMBER %d\n", printf("|%2.lc|", 129));
 printf("NUMBER %d\n", ft_printf("|%2.lc|", 129));
-1
+//заналить строку для юникода
 
 1, 42 = 1 * 10**0 + 4 * 10 ** -1 + 2 * 10 ** -2
+
+elems.len = 1;
+if ((*params).specifier == 'c')
+  c = va_arg(ap, int);
+else
+{
+  c = (*params).specifier;
+  if (c == 0)
+    elems.len = 0;
+}
+(*params).res += elems.len;
+if ((*params).width > elems.len)
+{
+  elems.spaces = (*params).width - 1;
+  (*params).res += elems.spaces;
+}
+
+
+else if ((*params).specifier == '%' || ((argv[*i] >= 65
+  && argv[*i] <= 90) || (argv[*i] >= 97 && argv[*i] <= 122)))
+{
+  if (((argv[*i] >= 65 && argv[*i] <= 90) || (argv[*i] >= 97
+    && argv[*i] <= 122)) && argv[*i] != 'h' && argv[*i] != 'l'
+   && argv[*i] != 'j' && argv[*i] != 'z' && argv[*i] != 'L'
+  && argv[*i] != 't'  && argv[*i] != 'h')
+    (*params).specifier = argv[(*i)++];
+  else
+    (*params).specifier = 0;
+  //printf("1%c\n", (*params).specifier);
+  c_analizator(params, ap);
+}
