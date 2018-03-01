@@ -45,15 +45,20 @@ void	int_elems_count(t_argc *params, t_forprint *elems)
 		'-', FLAG_LIMIT)) && (*params).sign == '-' && (*params).precision > 0)
 			(*elems).zeros++;
 	}
+	//printf("DDD %d", (*elems).len);
 	if ((((*elems).zeros < 0 && (*params).precision <= 0) || ((*elems).zeros
 	== 0 && (*params).precision != 0)) && if_flag((*params).flag, '0',
 	FLAG_LIMIT) && !if_flag((*params).flag, '-', FLAG_LIMIT))
 		(*elems).zeros = (*params).width - (*elems).len;
+	//printf("DDD %d", (*elems).spaces);
 	if ((*elems).zeros > 0 && (*params).width > 1)
 		(*elems).spaces = (*params).width - (*elems).len - (*elems).zeros;
+	//printf("DDD %d", (*elems).spaces);
 	if ((*elems).zeros <= 0 && (*params).width > 1)
 		(*elems).spaces = (*params).width - (*elems).len;
+	//printf("DDD %d", (*elems).spaces);
 	if_space_flag(params, &elems->zeros, &elems->spaces);
+	//printf("DDD %d", (*elems).spaces);
 	if (if_flag((*params).flag, '-', FLAG_LIMIT))
 		print_params_left((*elems).s, params, (*elems).zeros, (*elems).spaces);
 	else
@@ -80,8 +85,10 @@ void	d_analizator(t_argc *params, va_list ap)
 	if (d != 0)
 	{
 		elems.len = ft_strlen(elems.s);
-		if ((*params).sign == '-')
+		if ((*params).sign == '-' && elems.s[0] != '-')
 			elems.len++;
+		if (elems.s[0] == '-')
+			(*params).res++;
 	}
 	else if ((*params).precision == 0)
 		elems.len = 0;

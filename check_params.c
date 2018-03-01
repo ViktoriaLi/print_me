@@ -12,8 +12,11 @@
 
 #include "ft_printf.h"
 
-void	precision_finder(char *argv, int *i, t_argc *params)
+int	precision_finder(char *argv, int *i, t_argc *params)
 {
+	int j;
+
+	j = 0;
 	if (argv[*i] == '.')
 	{
 		(*params).precision = 0;
@@ -26,11 +29,25 @@ void	precision_finder(char *argv, int *i, t_argc *params)
 			else if ((*params).width != '*')
 				(*params).width = ft_atoi(&argv[*i]);
 		}
-		while ((argv[*i] >= '0' && argv[*i] <= '9'))
+		if (argv[*i] == '-')
+			{
+				(*i)++;
+				if (!if_flag((*params).flag, '-', FLAG_LIMIT))
+				{
+					while ((*params).flag[j] != 0)
+						j++;
+					(*params).flag[j] = '-';
+				}
+				if (argv[*i] >= '0' && argv[*i] <= '9')
+				{
+					(*params).width = ft_atoi(&argv[*i]);
+				}
+			}
+		while (((argv[*i] >= '0' && argv[*i] <= '9')))
 			(*i)++;
+		return (1);
 	}
-	else if (argv[*i] == '.')
-		(*i)++;
+	return (0);
 }
 
 int		check_specifier(char type)
@@ -53,6 +70,7 @@ void	specifier_finder(t_argc *params, char *argv, int *i, va_list ap)
 
 	j = 0;
 	len = 0;
+
 	if (check_specifier(argv[*i]))
 	{
 		(*params).specifier = argv[(*i)++];
@@ -65,13 +83,12 @@ void	specifier_finder(t_argc *params, char *argv, int *i, va_list ap)
 		argument_analize(params, ap);
 		(*i)++;
 	}
-	else if ((*params).specifier == '%' || (*params).length[0] != 0 || (argv[*i] >= 65
+	else if ((!argv[*i] && (*params).specifier == '%') || (*params).length[0] != 0 || (argv[*i] >= 65
 		&& argv[*i] <= 90) || (argv[*i] >= 97 && argv[*i] <= 122))
 	{
 		if (((argv[*i] >= 65 && argv[*i] <= 90) || (argv[*i] >= 97
 			&& argv[*i] <= 122)))
-			(*params).specifier = argv[(*i)++];
-		//printf("1%c\n", (*params).specifier);
+					(*params).specifier = argv[(*i)++];
 		c_analizator(params, ap);
 	}
 }

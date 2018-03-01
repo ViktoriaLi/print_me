@@ -52,33 +52,48 @@ void	check_length_hlzj(int *j, int len, char *length, char **dest)
 	if ((*dest)[0] == 'z' || (*dest)[0] == 't' || (*dest)[0] == 'j')
 		(*dest)[1] = 0;
 	check_length_hhll(h_count, l_count, dest);
+	ft_strdel(&length);
 }
 
 void	check_length(char *length, int *i, char *dest)
 {
 	int j;
 	int len;
+	char *tmp;
+	int k;
 
 	j = 0;
 	len = 0;
+	k = 0;
+	while (length[j] == 'h' || length[j] == 'l' || length[j] == 'j'
+		|| length[j] == 'z' || length[j] == 'L' || length[j] == 't' || length[j] == ' ')
+		j++;
+	tmp = (char *)malloc(j + 1);
+	j = 0;
 	while (length[len] == 'h' || length[len] == 'l' || length[len] == 'j'
-		|| length[len] == 'z' || length[len] == 'L' || length[len] == 't')
+		|| length[len] == 'z' || length[len] == 'L' || length[len] == 't' || length[len] == ' ')
 	{
+		if (length[len] != ' ')
+		{
+			tmp[j] = length[len];
+			j++;
+		}
 		len++;
 		(*i)++;
 	}
-	if ((ft_len_strnstr(length, "ll", len)) && dest[0] != 'z' && dest[0] != 'j')
+	tmp[j] = 0;
+	if ((ft_len_strnstr(tmp, "ll", j)) && dest[0] != 'z' && dest[0] != 'j')
 	{
 		dest[0] = 'l';
 		dest[1] = 'l';
 	}
-	if (ft_len_strnstr(length, "hh", len) && dest[0] != 'l' &&
+	if (ft_len_strnstr(tmp, "hh", j) && dest[0] != 'l' &&
 		dest[0] != 'z' && dest[0] != 'j')
 	{
 		dest[0] = 'h';
 		dest[1] = 'h';
 	}
-	check_length_hlzj(&j, len, length, &dest);
+	check_length_hlzj(&k, j, tmp, &dest);
 }
 
 void	u_depend_length(uintmax_t *d, char *length, t_argc *params)

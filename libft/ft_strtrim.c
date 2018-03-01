@@ -11,6 +11,7 @@
 /* ************************************************************************** */
 
 #include "includes/libft.h"
+#include <stdio.h>
 
 static char		*main_strtrim(char const *s, int i, int st, char *res)
 {

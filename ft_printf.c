@@ -53,8 +53,12 @@ void	check_star_anywhere(char c, int *i, int *param)
 void	argument_save(char *argv, t_argc *params, va_list ap)
 {
 	int i;
+	int j;
+	char tmp;
 
 	i = 0;
+	j = 0;
+	tmp = 0;
 	check_star_anywhere(argv[i], &i, &params->width);
 	check_flags(argv, &i, (*params).flag);
 	check_star_anywhere(argv[i], &i, &params->width);
@@ -65,8 +69,35 @@ void	argument_save(char *argv, t_argc *params, va_list ap)
 		while (argv[i] >= '0' && argv[i] <= '9')
 			i++;
 	}
+	if (argv[i] == '+' || argv[i] == '#' || argv[i] == '0' ||
+		argv[i] == '-' || argv[i] == ' ' || argv[i] == '\'')
+		{
+			tmp = argv[i];
+			if (!if_flag((*params).flag, argv[i], FLAG_LIMIT))
+			{
+				while ((*params).flag[j] != 0)
+					j++;
+				(*params).flag[j] = argv[i];
+			}
+			i++;
+		}
 	check_star_anywhere(argv[i], &i, &params->width);
-	precision_finder(argv, &i, params);
+	while (precision_finder(argv, &i, params))
+	{
+			;
+	}
+	if (argv[i] == '+' || argv[i] == '#' || argv[i] == '0' ||
+		argv[i] == '-' || argv[i] == ' ' || argv[i] == '\'')
+		{
+			tmp = argv[i];
+			if (!if_flag((*params).flag, argv[i], FLAG_LIMIT))
+			{
+				while ((*params).flag[j] != 0)
+					j++;
+				(*params).flag[j] = argv[i];
+			}
+			i++;
+		}
 	check_star_anywhere(argv[i], &i, &params->width);
 	check_length(&argv[i], &i, (*params).length);
 	check_star_anywhere(argv[i], &i, &params->width);

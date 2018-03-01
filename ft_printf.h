@@ -60,7 +60,6 @@ void				struct_init(t_argc *params);
 void				check_star_anywhere(char c, int *i, int *param);
 int					if_percent_found(const char *format, t_argc *params,
 					int *i);
-void				precision_finder(char *argv, int *i, t_argc *params);
 void				specifier_finder(t_argc *params, char *argv, int *i,
 					va_list ap);
 
@@ -92,7 +91,7 @@ int					if_percent_found(const char *format, t_argc *params,
 					int *i);
 void				specifier_finder(t_argc *params, char *argv, int *i,
 					va_list ap);
-void				precision_finder(char *argv, int *i, t_argc *params);
+int					precision_finder(char *argv, int *i, t_argc *params);
 void				print_left(t_argc *params);
 void				elems_init(t_forprint *elems);
 void				o_printing(char *s, t_argc *params, int zeros, int spaces);

@@ -39,6 +39,7 @@ void	c_analizator(t_argc *params, va_list ap)
 	unsigned char	c;
 	t_forprint		elems;
 
+	c = 0;
 	elems_init(&elems);
 	check_stars(params, ap);
 	elems.len = 1;
