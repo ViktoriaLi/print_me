@@ -31,8 +31,8 @@ void	argument_analize(t_argc *params, va_list ap)
 		x_analizator(params, ap);
 	else if ((*params).specifier == 'c' && (*params).length[0] != 'l')
 		c_analizator(params, ap);
-	else if (((*params).specifier == 'C' || ((*params).specifier == 'c'
-		&& (*params).length[0] == 'l')) && MB_CUR_MAX >= 1)
+	else if ((*params).specifier == 'C' || ((*params).specifier == 'c'
+		&& (*params).length[0] == 'l'))
 		uc_analizator(params, ap);
 	else if ((*params).specifier == 'n')
 		n_analizator(params, ap);

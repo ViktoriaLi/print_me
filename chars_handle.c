@@ -102,7 +102,8 @@ void	uc_analizator(t_argc *params, va_list ap)
 		elems.spaces = (*params).width - elems.len;
 		(*params).res += elems.spaces;
 	}
-	uc_printing(params, &elems, uc);
+	if (MB_CUR_MAX > 1)
+		uc_printing(params, &elems, uc);
 	print_left(params);
 }
 
