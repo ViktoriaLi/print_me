@@ -29,7 +29,7 @@ void	argument_analize(t_argc *params, va_list ap)
 	else if ((*params).specifier == 'x' || (*params).specifier == 'X'
 		|| (*params).specifier == 'p')
 		x_analizator(params, ap);
-	else if ((*params).specifier == 'c' || (*params).specifier == 'C')
+	else if ((*params).specifier == 'c' && (*params).length[0] != 'l')
 		c_analizator(params, ap);
 	else if ((*params).specifier == 'C' || ((*params).specifier == 'c'
 		&& (*params).length[0] == 'l'))
