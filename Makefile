@@ -28,13 +28,13 @@ all: $(NAME)
 $(NAME): $(OFILES)
 	ar rc $(NAME) $(OFILES)
 
-clean:
-	rm -f $(OFILES)
-
-fclean: clean
-	rm -f $(NAME)
-
-re: fclean all
-
 $(OFILES): %.o:%.c
 	gcc -c -Wall -Wextra -Werror $(SFILES)
+
+clean:
+	rm -rf $(OFILES)
+
+fclean: clean
+	rm -rf $(NAME)
+
+re: fclean all
