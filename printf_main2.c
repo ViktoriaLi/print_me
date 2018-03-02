@@ -43,7 +43,7 @@
 #define STR			//aka strings
 #define WSTR		//aka wide strings
 #define	LENGTH		//aka hh, h, l ,ll , z, j
-
+sdfgdsfg
 int	main(void)
 {
 	setlocale(LC_CTYPE, "");
