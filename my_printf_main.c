@@ -21,8 +21,20 @@ int		main(void)
 	ошибка на %-5.1s
 	проверить что на  выводит printf("NUMBER %d\n", printf("@moulitest: %c", 0));
 	*/
-  printf("NUMBER %d\n", printf("hjgjg%d %C\n", 20, L'С'));
-  printf("NUMBER %d\n", ft_printf("hjgjg%d %C\n", 20, L'С'));
+  /*printf("NUMBER %d\n", printf("|%-5.3s|", "LYDI"));
+  printf("NUMBER %d\n", ft_printf("|%-5.3s|", "LYDI"));
+  printf("NUMBER %d\n", printf("% 4.5i", 42));
+  printf("NUMBER %d\n", ft_printf("% 4.5i", 42));
+  printf("NUMBER %d\n", printf("%04.5i", 42));
+  printf("NUMBER %d\n", ft_printf("%04.5i", 42));
+  printf("NUMBER %d\n", printf("%04.3i", 42));
+  printf("NUMBER %d\n", ft_printf("%04.3i", 42));*/
+  printf("NUMBER %d\n", printf("%04.2i", 42));
+  printf("NUMBER %d\n", ft_printf("%04.2i", 42));
+  printf("NUMBER %d\n", printf("|%#6"CNV"|\t|%#-12"CNV"|\t|%#"CNV"|\t\t|%#09"CNV"|\t|%#02"CNV"|", 8400,8400,0,8400,8400));
+  printf("NUMBER %d\n", ft_printf("|%#6"CNV"|\t|%#-12"CNV"|\t|%#"CNV"|\t\t|%#09"CNV"|\t|%#02"CNV"|", 8400,8400,0,8400,8400));
+  printf("NUMBER %d\n", printf("|%-11-0"CNV"|\t|%-0+11"CNV"|\t|%11+"CNV"|\t|%-11+"CNV"|\t|%0 "CNV"|\t",nmb,nmb,nmb,nmb,nmb));
+  printf("NUMBER %d\n", ft_printf("|%-11-0"CNV"|\t|%-0+11"CNV"|\t|%11+"CNV"|\t|%-11+"CNV"|\t|%0 "CNV"|\t",nmb,nmb,nmb,nmb,nmb));
 
     /*printf("NUMBER %d\n", printf("%d%d", 10));
     printf("NUMBER %d\n", ft_printf("%d%d", 10));

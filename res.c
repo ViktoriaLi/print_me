@@ -170,3 +170,7 @@ void	specifier_finder(t_argc *params, char *argv, int *i, va_list ap)
 		c_analizator(params, ap);
 	}
 }
+
+if ((((*elems).zeros < 0 && (*params).precision <= 0) || ((*elems).zeros
+== 0 && (*params).precision != 0) /*((*params).precision < 0 || (*params).precision > (*elems).len)*/) && if_flag((*params).flag, '0',
+FLAG_LIMIT) && !if_flag((*params).flag, '-', FLAG_LIMIT))
