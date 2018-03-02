@@ -15,7 +15,8 @@
 void	argument_analize(t_argc *params, va_list ap)
 {
 	if (((*params).specifier == 's' && (*params).length[0] != 'l')
-	|| MB_CUR_MAX == 1)
+	|| ((*params).specifier == 'S'
+	&& MB_CUR_MAX <= 1))
 		s_analizator(params, ap);
 	else if ((*params).specifier == 'S' || ((*params).specifier == 's'
 		&& (*params).length[0] == 'l'))
@@ -31,7 +32,8 @@ void	argument_analize(t_argc *params, va_list ap)
 		|| (*params).specifier == 'p')
 		x_analizator(params, ap);
 	else if (((*params).specifier == 'c' && (*params).length[0] != 'l')
-	|| MB_CUR_MAX == 1)
+	|| ((*params).specifier == 'C'
+	&& MB_CUR_MAX <= 1))
 		c_analizator(params, ap);
 	else if ((*params).specifier == 'C' || ((*params).specifier == 'c'
 		&& (*params).length[0] == 'l'))
