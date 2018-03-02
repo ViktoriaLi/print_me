@@ -10,7 +10,7 @@ int		main(void)
 {
   int nmb = 4235;
 
-	setlocale (LC_ALL, "");
+	//setlocale (LC_ALL, "");
   const wchar_t B[] = L"ድመቶች ሰዎች አልወደውም.";
 	/*разный вывод
 
@@ -21,8 +21,8 @@ int		main(void)
 	ошибка на %-5.1s
 	проверить что на  выводит printf("NUMBER %d\n", printf("@moulitest: %c", 0));
 	*/
-  printf("NUMBER %d\n", printf(NULL));
-  printf("NUMBER %d\n", ft_printf(NULL));
+  printf("NUMBER %d\n", printf("hjgjg%d %C\n", 20, L'С'));
+  printf("NUMBER %d\n", ft_printf("hjgjg%d %C\n", 20, L'С'));
 
     /*printf("NUMBER %d\n", printf("%d%d", 10));
     printf("NUMBER %d\n", ft_printf("%d%d", 10));
