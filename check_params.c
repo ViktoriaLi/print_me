@@ -6,13 +6,13 @@
 /*   By: vlikhotk <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/02/22 16:37:44 by vlikhotk          #+#    #+#             */
-/*   Updated: 2018/02/22 16:37:48 by vlikhotk         ###   ########.fr       */
+/*   Updated: 2018/03/01 17:38:22 by vlikhotk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_printf.h"
 
-int	precision_finder(char *argv, int *i, t_argc *params)
+int		precision_finder(char *argv, int *i, t_argc *params)
 {
 	int j;
 
@@ -29,20 +29,9 @@ int	precision_finder(char *argv, int *i, t_argc *params)
 			else if ((*params).width != '*')
 				(*params).width = ft_atoi(&argv[*i]);
 		}
-		if (argv[*i] == '-')
-			{
-				(*i)++;
-				if (!if_flag((*params).flag, '-', FLAG_LIMIT))
-				{
-					while ((*params).flag[j] != 0)
-						j++;
-					(*params).flag[j] = '-';
-				}
-				if (argv[*i] >= '0' && argv[*i] <= '9')
-				{
-					(*params).width = ft_atoi(&argv[*i]);
-				}
-			}
+		if (medium_flags(argv[*i], i, params))
+			if (argv[*i] >= '0' && argv[*i] <= '9')
+				(*params).width = ft_atoi(&argv[*i]);
 		while (((argv[*i] >= '0' && argv[*i] <= '9')))
 			(*i)++;
 		return (1);
@@ -50,15 +39,16 @@ int	precision_finder(char *argv, int *i, t_argc *params)
 	return (0);
 }
 
-int		check_specifier(char type)
+int		check_specifier(char type, t_argc *params, int *i)
 {
 	if (type == 's' || type == 'S' || type == 'p' || type == 'd' || type == 'D'
 	|| type == 'i' || type == 'o' || type == 'O' || type == 'u' || type == 'U'
-	|| type == 'x' || type == 'X' || type == 'c' || type == 'C' || type == 'f'
-	|| type == 'F' || type == 'n'/* || type == 'e'
-	|| type == 'E'  || type == 'g' || type == 'G'
-	|| type == 'a' || type == 'A' */)
+	|| type == 'x' || type == 'X' || type == 'c' || type == 'C' || type == 'n')
+	{
+		(*params).specifier = type;
+		(*i)++;
 		return (type);
+	}
 	else
 		return (0);
 }
@@ -70,10 +60,8 @@ void	specifier_finder(t_argc *params, char *argv, int *i, va_list ap)
 
 	j = 0;
 	len = 0;
-
-	if (check_specifier(argv[*i]))
+	if (check_specifier(argv[*i], params, i))
 	{
-		(*params).specifier = argv[(*i)++];
 		len = *i;
 		while (argv[*i])
 			(*i)++;
@@ -83,21 +71,35 @@ void	specifier_finder(t_argc *params, char *argv, int *i, va_list ap)
 		argument_analize(params, ap);
 		(*i)++;
 	}
-	else if ((!argv[*i] && (*params).specifier == '%') || (*params).length[0] != 0 || (argv[*i] >= 65
-		&& argv[*i] <= 90) || (argv[*i] >= 97 && argv[*i] <= 122))
+	else if ((!argv[*i] && (*params).specifier == '%') ||
+	(*params).length[0] != 0 || (argv[*i] >= 65 && argv[*i] <= 90) ||
+	(argv[*i] >= 97 && argv[*i] <= 122))
 	{
 		if (((argv[*i] >= 65 && argv[*i] <= 90) || (argv[*i] >= 97
-			&& argv[*i] <= 122)))
-					(*params).specifier = argv[(*i)++];
+		&& argv[*i] <= 122)))
+			(*params).specifier = argv[(*i)++];
 		c_analizator(params, ap);
+	}
+}
+
+void	count_spec_symbs(const char *format, int *i, int *spec_symb)
+{
+	while (format[*i] && format[(*i)] != '%')
+	{
+		if (format[*i] == '\r' || format[*i] == '\n' || format[*i] == '\v' ||
+		format[*i] == '\t' || format[*i] == '"' || format[*i] == '\'' ||
+		format[*i] == '\\' || format[*i] == '\0' || format[*i] == '?' ||
+		format[*i] == '\a')
+			spec_symb++;
+		(*i)++;
 	}
 }
 
 int		if_percent_found(const char *format, t_argc *params, int *i)
 {
-	int j;
-	int len;
-	char spec_symb;
+	int		j;
+	int		len;
+	int		spec_symb;
 
 	j = 0;
 	len = 0;
@@ -110,15 +112,7 @@ int		if_percent_found(const char *format, t_argc *params, int *i)
 		return (0);
 	}
 	j = (*i);
-	while (format[*i] && format[(*i)] != '%')
-	{
-		if (format[*i] == '\r' || format[*i] == '\n' || format[*i] == '\v' ||
-		format[*i] == '\t' || format[*i] == '"' || format[*i] == '\'' ||
-		format[*i] == '\\' || format[*i] == '\0' || format[*i] == '?' ||
-		format[*i] == '\a')
-			spec_symb++;
-		(*i)++;
-	}
+	count_spec_symbs(format, i, &spec_symb);
 	j = (*i) - j;
 	if (format[*i] == '%' && spec_symb == 0)
 		(*params).specifier = '%';

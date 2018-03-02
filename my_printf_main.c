@@ -21,7 +21,17 @@ int		main(void)
 	ошибка на %-5.1s
 	проверить что на  выводит printf("NUMBER %d\n", printf("@moulitest: %c", 0));
 	*/
+  printf("NUMBER %d\n", printf(NULL));
+  printf("NUMBER %d\n", ft_printf(NULL));
 
+    /*printf("NUMBER %d\n", printf("%d%d", 10));
+    printf("NUMBER %d\n", ft_printf("%d%d", 10));
+    printf("NUMBER %d\n", printf("%3.2d", -1));
+    printf("NUMBER %d\n", ft_printf("%3.2d", -1));
+    printf("NUMBER %d\n", printf("|%2.lc|", 129));
+    printf("NUMBER %d\n", ft_printf("|%2.lc|", 129));
+    printf("NUMBER %d\n", printf("% -20d", 0));
+    printf("NUMBER %d\n", ft_printf("% -20d", 0));
     printf("NUMBER %d\n", printf("@moulitest: %c", 0));
     printf("NUMBER %d\n", ft_printf("@moulitest: %c", 0));
     printf("NUMBER %d\n", printf("% -20d", 0));
@@ -50,11 +60,11 @@ int		main(void)
   	ft_printf ("custom %U eretr\n", 123);
   	printf ("real   %10x eretr\n", 1422);
   	ft_printf ("custom %10x eretr\n", 1422);
+*/
 
 
-
-  /* unitforum checker
-  printf("1NUMBER %d\n", printf("|%-3w|(%3w)\t|%3Z|(%3Z)\t|%Q|(%3Q)"));
+  // unitforum checker
+  /*printf("1NUMBER %d\n", printf("|%-3w|(%3w)\t|%3Z|(%3Z)\t|%Q|(%3Q)"));
   printf("2NUMBER %d\n", ft_printf("|%-3w|(%3w)\t|%3Z|(%3Z)\t|%Q|(%3Q)"));
   printf("3NUMBER %d\n", printf("|%3h|\t|%3l|\t|%3hhll|\t|%3llhhllQ|\t|%3z|\t|%3j|\t|%3J|"));
   printf("4NUMBER %d\n", ft_printf("|%3h|\t|%3l|\t|%3hhll|\t|%3llhhllQ|\t|%3z|\t|%3j|\t|%3J|"));

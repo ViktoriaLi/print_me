@@ -132,3 +132,41 @@ void	check_stars(t_argc *params, va_list ap)
 	if ((*params).precision == '*')
 		(*params).precision = va_arg(ap, int);
 }
+
+void		check_specifier(char *argv, t_argc *params, int *i, va_list ap)
+{
+	int len;
+	int j;
+
+	j = 0;
+	len = 0;
+	if (argv[*i] == 's' || argv[*i] == 'S' || argv[*i] == 'p' || argv[*i] == 'd'
+	|| argv[*i] == 'D' || argv[*i] == 'i' || argv[*i] == 'o' || argv[*i] == 'O'
+	|| argv[*i] == 'u' || argv[*i] == 'U' || argv[*i] == 'x' || argv[*i] == 'X'
+	|| argv[*i] == 'c' || argv[*i] == 'C' || argv[*i] == 'n')
+	{
+		(*params).specifier = argv[(*i)++];
+		len = *i;
+		while (argv[*i])
+			(*i)++;
+		j = *i - len;
+		params->left = ft_strsub(argv, len, j);
+		(*params).left_len = j;
+		argument_analize(params, ap);
+		(*i)++;
+	}
+}
+
+void	specifier_finder(t_argc *params, char *argv, int *i, va_list ap)
+{
+	check_specifier(argv, params, i, ap);
+	if ((!argv[*i] && (*params).specifier == '%') || (*params).specifier == 0 ||
+	(*params).length[0] != 0 || (argv[*i] >= 65 && argv[*i] <= 90) ||
+	(argv[*i] >= 97 && argv[*i] <= 122))
+	{
+		if (((argv[*i] >= 65 && argv[*i] <= 90) || (argv[*i] >= 97
+			&& argv[*i] <= 122)))
+				(*params).specifier = argv[(*i)++];
+		c_analizator(params, ap);
+	}
+}

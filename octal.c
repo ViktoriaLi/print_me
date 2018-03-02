@@ -84,7 +84,6 @@ void	o_analizator(t_argc *params, va_list ap)
 	t_forprint	elems;
 
 	elems_init(&elems);
-	elems.len = 1;
 	check_stars(params, ap);
 	d = va_arg(ap, intmax_t);
 	ox_depend_length(&d, (*params).length, params);

@@ -6,7 +6,7 @@
 /*   By: vlikhotk <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/02/22 16:15:35 by vlikhotk          #+#    #+#             */
-/*   Updated: 2018/02/24 16:39:50 by vlikhotk         ###   ########.fr       */
+/*   Updated: 2018/03/01 18:24:09 by vlikhotk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,33 +55,44 @@ void	check_length_hlzj(int *j, int len, char *length, char **dest)
 	ft_strdel(&length);
 }
 
-void	check_length(char *length, int *i, char *dest)
+char	*normalize_len_str(char *length, int *i, int *j)
 {
-	int j;
-	int len;
-	char *tmp;
-	int k;
+	int		m;
+	char	*tmp;
 
-	j = 0;
-	len = 0;
-	k = 0;
-	while (length[j] == 'h' || length[j] == 'l' || length[j] == 'j'
-		|| length[j] == 'z' || length[j] == 'L' || length[j] == 't' || length[j] == ' ')
-		j++;
-	tmp = (char *)malloc(j + 1);
-	j = 0;
-	while (length[len] == 'h' || length[len] == 'l' || length[len] == 'j'
-		|| length[len] == 'z' || length[len] == 'L' || length[len] == 't' || length[len] == ' ')
+	m = 0;
+	while (length[*j] == 'h' || length[*j] == 'l' || length[*j] == 'j'
+		|| length[*j] == 'z' || length[*j] == 'L' || length[*j] == 't'
+		|| length[*j] == ' ')
+		(*j)++;
+	if (!(tmp = (char *)malloc(*j + 1)))
+		return (NULL);
+	*j = 0;
+	while (length[m] == 'h' || length[m] == 'l' || length[m] == 'j'
+		|| length[m] == 'z' || length[m] == 'L' || length[m] == 't'
+		|| length[m] == ' ')
 	{
-		if (length[len] != ' ')
+		if (length[m] != ' ')
 		{
-			tmp[j] = length[len];
-			j++;
+			tmp[*j] = length[m];
+			(*j)++;
 		}
-		len++;
+		m++;
 		(*i)++;
 	}
-	tmp[j] = 0;
+	tmp[*j] = 0;
+	return (tmp);
+}
+
+void	check_length(char *length, int *i, char *dest)
+{
+	int		j;
+	char	*tmp;
+	int		k;
+
+	j = 0;
+	k = 0;
+	tmp = normalize_len_str(length, i, &j);
 	if ((ft_len_strnstr(tmp, "ll", j)) && dest[0] != 'z' && dest[0] != 'j')
 	{
 		dest[0] = 'l';
@@ -118,26 +129,5 @@ void	u_depend_length(uintmax_t *d, char *length, t_argc *params)
 			*d = (unsigned long)*d;
 		else
 			*d = (unsigned int)*d;
-	}
-}
-
-void	n_analizator(t_argc *params, va_list ap)
-{
-	int			*n_value;
-	intmax_t	*i_value;
-
-	n_value = NULL;
-	i_value = NULL;
-	if ((*params).specifier == 't')
-	{
-		i_value = va_arg(ap, intmax_t *);
-		if (i_value)
-			*i_value = (*params).res;
-	}
-	else
-	{
-		n_value = va_arg(ap, int *);
-		if (n_value)
-			*n_value = (*params).res;
 	}
 }

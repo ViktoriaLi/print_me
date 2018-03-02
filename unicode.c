@@ -17,16 +17,12 @@ void	print_unicode2(int bytes_count, wchar_t s, int *count, int len)
 	int				j;
 	int				shift;
 	char			res[4];
-	unsigned int	first[4];
 
 	j = 0;
 	shift = 6;
 	while (j < bytes_count)
-		first[j++] = s;
-	j = 0;
-	while (j < bytes_count)
 	{
-		res[j] = first[j] >> shift;
+		res[j] = s >> shift;
 		if (j == 0)
 			res[j] = (res[j] & 31) + 192;
 		else
@@ -46,16 +42,12 @@ void	print_unicode3(int bytes_count, wchar_t s, int *count, int len)
 	int				j;
 	int				shift;
 	char			res[4];
-	unsigned int	first[4];
 
 	j = 0;
 	shift = 12;
 	while (j < bytes_count)
-		first[j++] = s;
-	j = 0;
-	while (j < bytes_count)
 	{
-		res[j] = first[j] >> shift;
+		res[j] = s >> shift;
 		if (j == 0)
 			res[j] = (res[j] & 15) + 224;
 		else
@@ -75,16 +67,12 @@ void	print_unicode4(int bytes_count, wchar_t s, int *count, int len)
 	int				j;
 	int				shift;
 	char			res[4];
-	unsigned int	first[4];
 
 	j = 0;
 	shift = 18;
 	while (j < bytes_count)
-		first[j++] = s;
-	j = 0;
-	while (j < bytes_count)
 	{
-		res[j] = first[j] >> shift;
+		res[j] = s >> shift;
 		if (j == 0)
 			res[j] = (res[j] & 7) + 240;
 		else

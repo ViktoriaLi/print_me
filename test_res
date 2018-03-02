@@ -4,62 +4,15 @@
 //minimum field-width
 //the precision
 // flags hh, h, l, ll, j, et z.
-//flag ' ' is ignored when flag '+' is present
-//flag '0' is ignored when flag '-' is present
 //z > j > ll > l > h > hh
-//для интов учитывать длину изначальную или после модификаторов?
-//types Must contain at least one type. Example: "diouxX"
-//length, you must mark it as "-|other_flags", otherwise it will be ignored. Example: "-|hh|ll"
-//flag '0' results in undefined behavior with 'S' conversion specifier
+
 
 //More detailed conversions management: eE, fF, gG, aA, n.
 //More detailed flags management: *, $, L, ’.
 //Non-existing flags management: %b to print in binary, %r to print a string of nonprintable
 //characters, %k to print a date in any ordinary ISO format etc.
 //Management of alter tools for colors, fd or other fun stuff like that :)
-//перевести все в итоа, для ансайнд - сайз т, для сайнд - интмакс, но внутри привести к сайз т без минуса, а минус сохранить
-//не указана тип, но есть буква - выводится она, если есть только число - это считается шириной - проверить остельные флаги без типа
-// Большас С - нужно ли приводить к винт_т?
 //проверить, если спецификаторов больше чем аргументов, не вылетает ли мой принтф, сделать проверку
 // %n проверить на нулл
 //в большой С нужна проверка на 0, может и в маленькой тоже
-// Main results: [ 30044//////////// 30812] Bonus results: [  5975////// 28734] 24671
-printf("NUMBER %d\n", printf("%3.2d", -1));
-printf("NUMBER %d\n", ft_printf("%3.2d", -1));
-// проверить чтоб не было запрещенных функций
-printf("NUMBER %d\n", printf("|%2.lc|", 129));
-printf("NUMBER %d\n", ft_printf("|%2.lc|", 129));
-//заналить строку для юникода
-
-1, 42 = 1 * 10**0 + 4 * 10 ** -1 + 2 * 10 ** -2
-
-elems.len = 1;
-if ((*params).specifier == 'c')
-  c = va_arg(ap, int);
-else
-{
-  c = (*params).specifier;
-  if (c == 0)
-    elems.len = 0;
-}
-(*params).res += elems.len;
-if ((*params).width > elems.len)
-{
-  elems.spaces = (*params).width - 1;
-  (*params).res += elems.spaces;
-}
-
-
-else if ((*params).specifier == '%' || ((argv[*i] >= 65
-  && argv[*i] <= 90) || (argv[*i] >= 97 && argv[*i] <= 122)))
-{
-  if (((argv[*i] >= 65 && argv[*i] <= 90) || (argv[*i] >= 97
-    && argv[*i] <= 122)) && argv[*i] != 'h' && argv[*i] != 'l'
-   && argv[*i] != 'j' && argv[*i] != 'z' && argv[*i] != 'L'
-  && argv[*i] != 't'  && argv[*i] != 'h')
-    (*params).specifier = argv[(*i)++];
-  else
-    (*params).specifier = 0;
-  //printf("1%c\n", (*params).specifier);
-  c_analizator(params, ap);
-}
+// Main results: [ 30044//////////// 30812] Bonus results: [  5543/////// 28734] 24671

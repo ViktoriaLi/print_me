@@ -42,8 +42,6 @@ void	c_analizator(t_argc *params, va_list ap)
 	c = 0;
 	elems_init(&elems);
 	check_stars(params, ap);
-	elems.len = 1;
-
 	if ((*params).specifier == 'c')
 		c = va_arg(ap, int);
 	else
@@ -91,6 +89,7 @@ void	uc_analizator(t_argc *params, va_list ap)
 	wchar_t		uc;
 
 	elems_init(&elems);
+	elems.len = 0;
 	check_stars(params, ap);
 	uc = va_arg(ap, wchar_t);
 	if (uc <= 127)

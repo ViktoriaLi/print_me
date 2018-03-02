@@ -26,7 +26,8 @@ void	print_hex(char **res, uintmax_t nbr, t_argc params, unsigned int base)
 		d = d / base;
 		len++;
 	}
-	(*res) = (char *)malloc((len + 1));
+	if (!((*res) = (char *)malloc((len + 1))))
+		return ;
 	(*res)[len--] = 0;
 	while (len >= 0)
 	{
@@ -119,6 +120,7 @@ void	x_analizator(t_argc *params, va_list ap)
 	t_forprint	elems;
 
 	elems_init(&elems);
+	elems.len = 0;
 	check_stars(params, ap);
 	d = va_arg(ap, intmax_t);
 	ox_depend_length(&d, (*params).length, params);

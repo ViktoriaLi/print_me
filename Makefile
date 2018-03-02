@@ -12,14 +12,16 @@
 
 NAME = libftprintf.a
 
-SFILES = libft_funcs.c ft_printf.c types_analize.c hex.c \
+
+SFILES = ft_printf.c libft_funcs.c int_and_u.c hex.c \
  		check_params.c length_analize.c unicode.c octal.c \
 		atoi_and_itoa.c chars_handle.c flags_and_stars.c \
-		print_ints.c strings_handle.c float.c
+		print_ints.c strings_handle.c additional_funcs.c
 
-OFILES = libft_funcs.o ft_printf.o types_analize.o hex.o \
+OFILES = ft_printf.o libft_funcs.o int_and_u.o hex.o \
 	check_params.o length_analize.o unicode.o octal.o atoi_and_itoa.o \
-	chars_handle.o flags_and_stars.o print_ints.o strings_handle.o float.o
+	chars_handle.o flags_and_stars.o print_ints.o strings_handle.o \
+	additional_funcs.o
 
 all: $(NAME)
 
@@ -34,5 +36,5 @@ fclean: clean
 
 re: fclean all
 
-%.o : %.c
-	gcc -Wall -Wextra -Werror -c $<
+$(OFILES): %.o:%.c
+	gcc -c -Wall -Wextra -Werror $(SFILES)

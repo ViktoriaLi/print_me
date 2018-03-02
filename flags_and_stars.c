@@ -12,15 +12,27 @@
 
 #include "ft_printf.h"
 
-void	elems_init(t_forprint *elems)
+int		medium_flags(char argv, int *i, t_argc *params)
 {
-	(*elems).len = 0;
-	(*elems).lenf = 0;
-	(*elems).spaces = 0;
-	(*elems).zeros = 0;
-	(*elems).s = NULL;
-	(*elems).sf = NULL;
-	(*elems).us = NULL;
+	char	tmp;
+	int		j;
+
+	tmp = 0;
+	j = 0;
+	if (argv == '+' || argv == '#' || argv == '0' ||
+		argv == '-' || argv == ' ' || argv == '\'')
+	{
+		tmp = argv;
+		if (!if_flag((*params).flag, argv, FLAG_LIMIT))
+		{
+			while ((*params).flag[j] != 0)
+				j++;
+			(*params).flag[j] = argv;
+		}
+		(*i)++;
+		return (1);
+	}
+	return (0);
 }
 
 void	save_flags(int *tmp, int **flag, int j)
@@ -40,6 +52,10 @@ void	save_flags(int *tmp, int **flag, int j)
 		(*flag)[k++] = ' ';
 	if (if_flag(tmp, '\'', j))
 		(*flag)[k++] = '\'';
+	if (if_flag(tmp, 'L', j))
+		(*flag)[k++] = 'L';
+	if (if_flag(tmp, '$', j))
+		(*flag)[k++] = '$';
 }
 
 void	check_flags(char *str, int *i, int *flag)
@@ -52,12 +68,14 @@ void	check_flags(char *str, int *i, int *flag)
 	k = 0;
 	tmp = NULL;
 	while (str[*i] == '+' || str[*i] == '#' || str[*i] == '0' ||
-		str[*i] == '-' || str[*i] == ' ' || str[*i] == '\'')
+		str[*i] == '-' || str[*i] == ' ' || str[*i] == '\'' ||
+		str[*i] == '$' || str[*i] == 'L')
 	{
 		j++;
 		(*i)++;
 	}
-	tmp = (int *)malloc(sizeof(int) * (j + 1));
+	if (!(tmp = (int *)malloc(sizeof(int) * (j + 1))))
+		return ;
 	tmp[j] = 0;
 	*i = 0;
 	while (k < j)

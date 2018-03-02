@@ -43,6 +43,7 @@ void	s_analizator(t_argc *params, va_list ap)
 	t_forprint elems;
 
 	elems_init(&elems);
+	elems.len = 0;
 	check_stars(params, ap);
 	if ((*params).specifier == 's' || (*params).specifier == 'S')
 		elems.s = va_arg(ap, char *);
@@ -95,6 +96,7 @@ void	us_analizator(t_argc *params, va_list ap)
 	t_forprint elems;
 
 	elems_init(&elems);
+	elems.len = 0;
 	check_stars(params, ap);
 	elems.us = va_arg(ap, wchar_t *);
 	if (elems.us == NULL)
