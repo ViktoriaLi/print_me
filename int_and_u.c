@@ -46,8 +46,9 @@ void	int_elems_count(t_argc *params, t_forprint *elems)
 			(*elems).zeros++;
 	}
 	if ((((*elems).zeros < 0 && (*params).precision <= 0) || ((*elems).zeros
-	== 0 && ((*params).precision < 0 || (*params).precision > (*elems).len))) && if_flag((*params).flag, '0',
-	FLAG_LIMIT) && !if_flag((*params).flag, '-', FLAG_LIMIT))
+	== 0 && ((*params).precision < 0 || (*params).precision > (*elems).len)))
+	&& if_flag((*params).flag, '0', FLAG_LIMIT)
+	&& !if_flag((*params).flag, '-', FLAG_LIMIT))
 		(*elems).zeros = (*params).width - (*elems).len;
 	if ((*elems).zeros > 0 && (*params).width > 1)
 		(*elems).spaces = (*params).width - (*elems).len - (*elems).zeros;

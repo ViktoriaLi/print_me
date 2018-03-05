@@ -11,7 +11,7 @@
 /* ************************************************************************** */
 
 #include "ft_printf.h"
-#include <stdio.h>
+
 void	c_printing(t_argc *params, t_forprint *elems, char c)
 {
 	if (if_flag((*params).flag, '-', FLAG_LIMIT))
