@@ -104,6 +104,8 @@ void	uc_analizator(t_argc *params, va_list ap)
 	}
 	if (MB_CUR_MAX > 1)
 		uc_printing(params, &elems, uc);
+	else
+		write(1, &uc, 1);
 	print_left(params);
 }
 
