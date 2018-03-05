@@ -29,7 +29,7 @@ int		precision_finder(char *argv, int *i, t_argc *params)
 			else if ((*params).width != '*')
 				(*params).width = ft_atoi(&argv[*i]);
 		}
-		if (medium_flags(argv[*i], i, params))
+		else if (medium_flags(argv[*i], i, params))
 			if (argv[*i] >= '0' && argv[*i] <= '9')
 				(*params).width = ft_atoi(&argv[*i]);
 		while (((argv[*i] >= '0' && argv[*i] <= '9')))

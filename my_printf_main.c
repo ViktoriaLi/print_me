@@ -259,6 +259,10 @@ int		main(void)
   printf("NUMBER %d\n", ft_printf("%4.2d", 0));
   printf("NUMBER %d\n", printf("%4.2d", -42));
   printf("NUMBER %d\n", ft_printf("%4.2d", -42));*/
-  printf("NUMBER %d\n", printf("%C", L'С'));
-  printf("NUMBER %d\n", ft_printf("%C", L'С'));
+  //printf("NUMBER %d\n", printf("%C", L'С'));
+  //printf("NUMBER %d\n", ft_printf("%C", L'С'));
+  printf("NUMBER %d\n", printf("|%2.0%|"));
+  printf("NUMBER %d\n", ft_printf("|%2.0%|"));
+  printf("NUMBER %d\n", printf("{%05.%}", 0));
+  printf("NUMBER %d\n", ft_printf("{%05.%}", 0));
 }
